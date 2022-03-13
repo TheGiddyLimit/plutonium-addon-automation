@@ -14,6 +14,12 @@ const _PROP_PRECEDENCE = [
 	"raceSource",
 	"raceName",
 
+	"backgroundSource",
+	"backgroundName",
+
+	"psionicSource",
+	"psionicName",
+
 	"source",
 	"name",
 ];

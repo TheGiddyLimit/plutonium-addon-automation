@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "data.json",
-	"version": "0.1.0",
+	"version": "0.1.1",
 
 	"type": "object",
 
@@ -30,7 +30,8 @@
 						},
 						"required": ["key", "mode", "value"],
 						"additionalProperties": false
-					}
+					},
+					"uniqueItems": true
 				},
 
 				"disabled": {"type": "boolean"}
@@ -47,7 +48,9 @@
 
 				"data": {"type": "object"},
 
-				"effects": {"type": "array", "items": {"$ref": "#/definitions/foundryEffectObject"}},
+				"effects": {"type": "array", "items": {"$ref": "#/definitions/foundryEffectObject"}, "uniqueItems": true},
+
+				"flags": {"type": "object"},
 
 				"img": {"type": "string"},
 
@@ -64,6 +67,16 @@
 						"feat",
 						"backpack"
 					]
+				},
+
+				"merge": {
+					"type": "object",
+					"description": "If our \"X\" (e.g. \"data\") should be merged with any base \"X\", rather than overwriting.",
+					"properties": {
+						"data": {"const": true},
+						"effects": {"const": true},
+						"flags": {"const": true}
+					}
 				}
 			},
 			"required": [
@@ -102,6 +115,7 @@
 		"cult": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 		"boon": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 		"psionic": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"psionicDisciplineFocus": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 		"race": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 		"subrace": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 		"vehicle": {"$ref": "#/definitions/foundrySideDataGenericArray"},
@@ -127,6 +141,29 @@
 							"source",
 							"raceName",
 							"raceSource"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		},
+
+		"backgroundFeature": {
+			"type": "array",
+			"items": {
+				"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"backgroundName": {"type": "string"},
+							"backgroundSource": {"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"backgroundName",
+							"backgroundSource"
 						]
 					}
 				]
@@ -181,6 +218,29 @@
 							"level",
 							"subclassShortName",
 							"subclassSource"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		},
+
+		"psionicDisciplineActive": {
+			"type": "array",
+			"items": {
+				"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"psionicName": {"type": "string"},
+							"psionicSource": {"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"psionicName",
+							"psionicSource"
 						]
 					}
 				]
