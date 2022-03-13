@@ -1,0 +1,193 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "data.json",
+	"version": "0.1.0",
+
+	"type": "object",
+
+	"definitions": {
+		"foundryEffectObject": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string"},
+
+				"requires": {
+					"type": "object",
+					"description": "Each key should correspond to a Foundry module's \"name\" field, which can be found in that module's \"module.json\" (or at the end of the Foundry module page URL, e.g. \"https://foundryvtt.com/packages/dae\")",
+					"patternProperties": {
+						"^.*$": {"const": true}
+					}
+				},
+
+				"changes": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"key": {"type": "string"},
+							"mode": {"type": ["string", "integer"]},
+							"value": true
+						},
+						"required": ["key", "mode", "value"],
+						"additionalProperties": false
+					}
+				},
+
+				"disabled": {"type": "boolean"}
+			},
+			"required": ["changes"],
+			"additionalProperties": false
+		},
+
+		"foundrySideDataGeneric": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string"},
+				"source": {"type": "string"},
+
+				"data": {"type": "object"},
+
+				"effects": {"type": "array", "items": {"$ref": "#/definitions/foundryEffectObject"}},
+
+				"img": {"type": "string"},
+
+				"type": {
+					"type": "string",
+					"enum": [
+						"weapon",
+						"equipment",
+						"consumable",
+						"tool",
+						"loot",
+						"class",
+						"spell",
+						"feat",
+						"backpack"
+					]
+				}
+			},
+			"required": [
+				"name",
+				"source"
+			]
+		},
+
+		"foundrySideDataGenericArray": {
+			"type": "array",
+			"uniqueItems": true,
+			"items": {"$ref": "#/definitions/foundrySideDataGeneric"}
+		}
+	},
+
+	"properties": {
+		"$schema": {
+			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
+			"type": "string"
+		},
+
+		"monster": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"class": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"subclass": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"spell": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"action": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"item": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"itemGroup": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"baseitem": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"variant": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"background": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"charoption": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"condition": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"disease": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"status": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"cult": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"boon": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"psionic": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"race": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"subrace": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"vehicle": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+
+		"feat": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"optionalfeature": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"reward": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+		"vehicleUpgrade": {"$ref": "#/definitions/foundrySideDataGenericArray"},
+
+		"raceFeature": {
+			"type": "array",
+				"items": {
+					"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"raceName": {"type": "string"},
+							"raceSource": {"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"raceName",
+							"raceSource"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		},
+
+		"classFeature": {
+			"type": "array",
+				"items": {
+					"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"className":  {"type": "string"},
+							"classSource": {"type": "string"},
+							"level":  {"type": "integer"}
+						},
+						"required": [
+							"name",
+							"source",
+							"className",
+							"classSource",
+							"level"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		},
+
+		"subclassFeature": {
+			"type": "array",
+				"items": {
+					"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"className":  {"type": "string"},
+							"classSource": {"type": "string"},
+							"level":  {"type": "integer"},
+							"subclassShortName": {"type": "string"},
+							"subclassSource":{"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"className",
+							"classSource",
+							"level",
+							"subclassShortName",
+							"subclassSource"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		}
+	},
+
+	"additionalProperties": false
+}

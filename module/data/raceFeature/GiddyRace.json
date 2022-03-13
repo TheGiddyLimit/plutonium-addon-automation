@@ -1,0 +1,11 @@
+{
+	"raceFeature": [
+		{
+			"name": "Skeletal",
+			"source": "GiddyRace",
+			"raceName": "Awakened Skeleton",
+			"raceSource": "GiddyRace",
+			"img": "icons/commodities/bones/skull-hollow-brown-red.webp"
+		}
+	]
+}
