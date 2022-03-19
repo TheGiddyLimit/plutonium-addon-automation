@@ -1,0 +1,49 @@
+{
+	"optionalfeature": [
+		{
+			"name": "Fire Rune",
+			"source": "TCE",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "StatusEffect",
+							"mode": "CUSTOM",
+							"value": "Convenient Effect: Restrained",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.OverTime",
+							"mode": "OVERRIDE",
+							"value": "turn=start,damageRoll=2d6,damageType=fire,label=Fire Rune",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.OverTime",
+							"mode": "OVERRIDE",
+							"value": "turn=end,removeCondition=true,saveAbility=str,saveDC=8+@prof+@abilities.con.mod,saveMagic=true,label=Fire Rune",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 60
+					},
+					"flags": {
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dnd5e-helpers": true
+					}
+				}
+			],
+			"flags": {
+				"midiProperties": {
+					"fulldam": true
+				}
+			}
+		}
+	]
+}

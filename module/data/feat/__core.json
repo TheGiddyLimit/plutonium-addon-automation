@@ -1,0 +1,54 @@
+{
+	"feat": [
+		{
+			"name": "Heavy Armor Master",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.DR.non-physical",
+							"mode": "CUSTOM",
+							"value": "3",
+							"priority": "20"
+						}
+					],
+					"flags": {
+						"dae": {
+							"transfer": true
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dae": true
+					}
+				}
+			]
+		},
+		{
+			"name": "War Caster",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.advantage.concentration",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"flags": {
+						"dae": {
+							"transfer": true
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dae": true
+					}
+				}
+			]
+		}
+	]
+}

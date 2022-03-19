@@ -3,6 +3,207 @@
 		{
 			"name": "Fireball",
 			"source": "PHB"
+		},
+		{
+			"name": "Blade Ward",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "data.traits.dr.value",
+							"mode": "CUSTOM",
+							"value": "physical",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 7
+					},
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnEndSource"
+							]
+						},
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"dae": true,
+						"dnd5e-helpers": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Heroism",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "data.traits.ci.value",
+							"mode": "SELECTED",
+							"value": "frightened",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.OverTime",
+							"mode": "OVERRIDE",
+							"value": "turn=start,damageRoll=@mod,damageType=temphp,label=Heroism",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 60
+					},
+					"flags": {
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dnd5e-helpers": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Mind Sliver",
+			"source": "TCE",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "data.abilities.str.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						},
+						{
+							"key": "data.abilities.dex.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						},
+						{
+							"key": "data.abilities.con.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						},
+						{
+							"key": "data.abilities.int.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						},
+						{
+							"key": "data.abilities.wis.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						},
+						{
+							"key": "data.abilities.cha.bonuses.save",
+							"mode": "SELECTED",
+							"value": "-1d4",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"rounds": 1,
+						"seconds": 7
+					},
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"isSave",
+								"turnEndSource"
+							]
+						},
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"dae": true,
+						"dnd5e-helpers": true
+					}
+				}
+			],
+			"flags": {
+				"midiProperties": {
+					"nodam": true
+				}
+			}
+		},
+		{
+			"name": "Silvery Barbs",
+			"source": "SCC",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.advantage.all",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 60
+					},
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"isSave",
+								"isCheck",
+								"isSkill",
+								"1Attack"
+							]
+						},
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dae": true,
+						"dnd5e-helpers": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Tongues",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "data.traits.languages.all",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 3600
+					},
+					"flags": {
+						"dnd5e-helpers": {
+							"rest-effect": "Short Rest"
+						}
+					},
+					"requires": {
+						"dnd5e-helpers": true
+					}
+				}
+			]
 		}
 	]
 }
