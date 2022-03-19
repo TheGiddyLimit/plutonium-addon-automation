@@ -5,14 +5,15 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"test:js": "eslint script module/js module/shared",
-		"lint:js": "eslint script module/js module/shared --fix",
+		"test:js": "eslint script module/js module/shared tool",
+		"lint:js": "eslint script module/js module/shared tool --fix",
 		"test:data": "node test/test-json.js",
 		"test": "npm run test:data  && npm run test:js",
 		"build:index": "node script/generate-index.js",
 		"build:module": "node script/build.js",
 		"build": "npm run build:index && npm run build:module",
-		"package": "node script/package.js"
+		"package": "node script/package.js",
+		"tools": "node tool/server.js"
 	},
 	"devDependencies": {
 		"@league-of-foundry-developers/foundry-vtt-types": "^9.249.4",
@@ -20,6 +21,7 @@
 		"ajv": "^8.10.0",
 		"commander": "^9.0.0",
 		"eslint": "^8.11.0",
+		"express": "^4.17.3",
 		"json-source-map": "^0.6.1"
 	}
 }
