@@ -8,3 +8,5 @@
 [ ] Automated testing
 	[ ] GitHub action
 
+[ ] Plutonium implementation
+	[ ] Implement "requires" checks
