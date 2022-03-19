@@ -24,7 +24,7 @@ const MODULE_JSON =
 		"readme": "README.md",
 		"license": "MIT",
 		"minimumCoreVersion": "0.8.4",
-		"compatibleCoreVersion": "0.8.9",
+		"compatibleCoreVersion": "9",
 		"url": "https://www.patreon.com/Giddy5e",
 		"bugs": "https://discord.gg/nGvRCDs",
 		"dependencies": [
