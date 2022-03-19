@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "data.json",
-	"version": "0.1.1",
+	"version": "0.1.2",
 
 	"type": "object",
 
@@ -241,6 +241,29 @@
 							"source",
 							"psionicName",
 							"psionicSource"
+						]
+					}
+				]
+			},
+			"uniqueItems": true
+		},
+
+		"vehicleWeapon": {
+			"type": "array",
+			"items": {
+				"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"vehicleName": {"type": "string"},
+							"vehicleSource": {"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"vehicleName",
+							"vehicleSource"
 						]
 					}
 				]
