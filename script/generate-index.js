@@ -9,7 +9,8 @@ const _PROP_PRECEDENCE = [
 	"classSource",
 	"className",
 	"subclassSource",
-	"subclassName",
+	"subclassShortName",
+	"level",
 
 	"raceSource",
 	"raceName",
@@ -40,7 +41,7 @@ kludge.lsRecursiveSync("./module/data")
 						if (i === propPathParts.length - 1) {
 							const filePathExt = filePath.replace(/\\/g, "/").replace(/^module\/data\//, "");
 
-							tgt[pt] = (outFileInverse[filePathExt] = outFileInverse[filePathExt] || ixFile++);
+							tgt[pt] = (outFileInverse[filePathExt] = outFileInverse[filePathExt] ?? ixFile++);
 							return;
 						}
 
