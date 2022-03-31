@@ -1,0 +1,31 @@
+{
+	"spell": [
+		{
+			"name": "Hold Helm",
+			"source": "WJMAiS",
+			"effects": [
+				{
+          "changes": [
+            {
+              "key": "flags.midi-qol.OverTime",
+              "mode": 5,
+              "value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Helm",
+              "priority": "20"
+            },
+            {
+              "key": "StatusEffect",
+              "mode": 0,
+              "value": "Convenient Effect: Paralyzed",
+              "priority": "20"
+            }
+          ],
+					"requires": {
+            "midi-qol": true,
+						"dae": true,
+            "dfreds-convenient-effects": true
+					}
+				}
+			]
+		}
+  ]
+}
