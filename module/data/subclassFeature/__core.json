@@ -40,13 +40,15 @@
 						"seconds": 60
 					},
 					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
+						"dae": {
+							"specialDuration": [
+                "shortRest"
+							]
 						}
 					},
 					"requires": {
 						"midi-qol": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]

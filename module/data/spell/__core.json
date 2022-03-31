@@ -23,16 +23,13 @@
 					"flags": {
 						"dae": {
 							"specialDuration": [
-								"turnEndSource"
+								"turnEndSource",
+                "shortRest"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]
@@ -60,13 +57,15 @@
 						"seconds": 60
 					},
 					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
+						"dae": {
+							"specialDuration": [
+                "shortRest"
+							]
 						}
 					},
 					"requires": {
 						"midi-qol": true,
-						"dnd5e-helpers": true
+            "dae": true
 					}
 				}
 			]
@@ -122,16 +121,13 @@
 						"dae": {
 							"specialDuration": [
 								"isSave",
-								"turnEndSource"
+								"turnEndSource",
+                "shortRest"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			],
@@ -163,17 +159,14 @@
 								"isSave",
 								"isCheck",
 								"isSkill",
-								"1Attack"
+								"1Attack",
+                "shortRest"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
 						"midi-qol": true,
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]
@@ -195,12 +188,14 @@
 						"seconds": 3600
 					},
 					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
-						}
+            "dae": {
+              "specialDuration": [
+                "shortRest"
+              ]
+            }
 					},
 					"requires": {
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]
