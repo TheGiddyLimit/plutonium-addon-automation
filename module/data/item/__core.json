@@ -1,0 +1,30 @@
+{
+	"item": [
+		{
+			"name": "Sentinel Shield",
+			"source": "DMG",
+			"effects": [
+				{
+          "changes": [
+            {
+              "key": "flags.dnd5e.initiativeAdv",
+              "mode": 0,
+              "value": "1",
+              "priority": "20"
+            },
+            {
+              "key": "flags.midi-qol.advantage.skill.prc",
+              "mode": 0,
+              "value": "1",
+              "priority": "20"
+            }
+          ],
+          "requires": {
+            "midi-qol": true,
+            "dae": true
+          }
+        }
+      ]
+    }
+	]
+}
