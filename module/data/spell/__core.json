@@ -71,6 +71,33 @@
 			]
 		},
 		{
+			"name": "Hold Person",
+			"source": "PHB",
+			"effects": [
+				{
+          "changes": [
+            {
+              "key": "flags.midi-qol.OverTime",
+              "mode": 5,
+              "value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Person",
+              "priority": "20"
+            },
+            {
+              "key": "StatusEffect",
+              "mode": 0,
+              "value": "Convenient Effect: Paralyzed",
+              "priority": "20"
+            }
+          ],
+					"requires": {
+            "midi-qol": true,
+						"dae": true,
+            "dfreds-convenient-effects": true
+					}
+				}
+			]
+		},
+		{
 			"name": "Mind Sliver",
 			"source": "TCE",
 			"effects": [
@@ -199,6 +226,34 @@
 					}
 				}
 			]
-		}
-	]
+		},
+		{
+			"name": "True Strike",
+			"source": "PHB",
+			"effects": [
+        {
+          "changes": [
+            {
+              "key": "flags.midi-qol.advantage.attack.all",
+              "value": "1",
+              "mode": 5,
+              "priority": 20
+            }
+          ],
+          "flags": {
+            "dae": {
+              "specialDuration": [
+                "1Attack",
+                "shortRest"
+              ]
+            }
+          },
+					"requires": {
+            "midi-qol": true,
+            "dae": true
+					}
+        }
+      ]
+    }
+  ]
 }
