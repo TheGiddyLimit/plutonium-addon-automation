@@ -1,0 +1,82 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "homebrew.json",
+	"version": "0.1.0",
+
+	"$comment": "Note: for homebrew files (i.e., those *not* names \"__core.json\"), the file should be named `<brewSourceJson>.json`, where <brewSourceJson> matches the `\"json\": \"MySourceName\"` value for the corresponding source in the homebrew repository.",
+
+	"definitions": {
+		"_meta": {
+			"type": "object",
+			"description": "For homebrew files (i.e., those *not* names \"__core.json\") only.",
+			"properties": {
+				"version": {
+					"type": "string",
+					"description": "The source version, e.g. \"1.2.3\". This should match the source version of the corresponding source in the homebrew repository."
+				},
+				"convertedBy": {
+					"type": "array",
+					"description": "An optional list of people who contributed to creating the data in the file.",
+					"items": {
+						"type": "string",
+						"description": "Contributor name, Discord handle, etc."
+					}
+				},
+				"dateAdded": {
+					"type": "integer",
+					"description": "The epoch timestamp (in seconds) when the file was added to the repository. Not guaranteed to be anywhere near accurate."
+				},
+				"dateLastModified": {
+					"type": "integer",
+					"description": "The epoch timestamp (in seconds) when the file was last modified. Not guaranteed to be anywhere near accurate."
+				}
+			},
+			"required": ["version", "convertedBy", "dateAdded", "dateLastModified"],
+			"additionalProperties": false
+		}
+	},
+
+	"type": "object",
+
+	"properties": {
+		"$schema": {"$ref": "shared.json#/definitions/schema"},
+
+		"_meta": {"$ref": "#/definitions/_meta"},
+
+		"monster": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"class": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"subclass": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"spell": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"action": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"item": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"itemGroup": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"baseitem": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"variant": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"background": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"charoption": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"condition": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"disease": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"status": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"cult": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"boon": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"psionic": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"psionicDisciplineFocus": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"race": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"subrace": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"vehicle": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+
+		"feat": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"optionalfeature": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"reward": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+		"vehicleUpgrade": {"$ref": "shared.json#/definitions/foundrySideDataGenericArray"},
+
+		"raceFeature": {"$ref": "shared.json#/definitions/raceFeature"},
+		"backgroundFeature": {"$ref": "shared.json#/definitions/backgroundFeature"},
+		"classFeature": {"$ref": "shared.json#/definitions/classFeature"},
+		"subclassFeature": {"$ref": "shared.json#/definitions/subclassFeature"},
+		"psionicDisciplineActive": {"$ref": "shared.json#/definitions/psionicDisciplineActive"},
+		"vehicleWeapon": {"$ref": "shared.json#/definitions/vehicleWeapon"}
+	},
+
+	"additionalProperties": false
+}

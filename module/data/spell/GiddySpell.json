@@ -1,4 +1,12 @@
 {
+	"_meta": {
+		"version": "1.0.0",
+		"convertedBy": [
+			"Giddy#0001"
+		],
+		"dateAdded": 1649024400,
+		"dateLastModified": 1649024400
+	},
 	"spell": [
 		{
 			"name": "Collapse Astronomical Body",
