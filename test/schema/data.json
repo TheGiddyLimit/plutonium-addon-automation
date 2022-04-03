@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "data.json",
-	"version": "0.1.2",
+	"version": "0.1.3",
 
 	"type": "object",
 
@@ -26,6 +26,7 @@
 						"properties": {
 							"key": {"type": "string"},
 							"mode": {"type": ["string", "integer"]},
+							"priority": {"type": ["string", "integer"]},
 							"value": true
 						},
 						"required": ["key", "mode", "value"],
@@ -33,6 +34,10 @@
 					},
 					"uniqueItems": true
 				},
+
+				"flags": {"type": "object"},
+
+				"duration": {"type": "object"},
 
 				"disabled": {"type": "boolean"}
 			},
