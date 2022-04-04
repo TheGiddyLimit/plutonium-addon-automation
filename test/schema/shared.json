@@ -1,11 +1,14 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "data.json",
-	"version": "0.1.3",
-
-	"type": "object",
+	"$id": "shared.json",
+	"version": "0.1.0",
 
 	"definitions": {
+		"schema": {
+			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
+			"type": "string"
+		},
+
 		"foundryEffectObject": {
 			"type": "object",
 			"properties": {
@@ -94,46 +97,12 @@
 			"type": "array",
 			"uniqueItems": true,
 			"items": {"$ref": "#/definitions/foundrySideDataGeneric"}
-		}
-	},
-
-	"properties": {
-		"$schema": {
-			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
-			"type": "string"
 		},
-
-		"monster": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"class": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"subclass": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"spell": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"action": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"item": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"itemGroup": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"baseitem": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"variant": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"background": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"charoption": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"condition": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"disease": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"status": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"cult": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"boon": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"psionic": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"psionicDisciplineFocus": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"race": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"subrace": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"vehicle": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-
-		"feat": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"optionalfeature": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"reward": {"$ref": "#/definitions/foundrySideDataGenericArray"},
-		"vehicleUpgrade": {"$ref": "#/definitions/foundrySideDataGenericArray"},
 
 		"raceFeature": {
 			"type": "array",
-				"items": {
-					"allOf": [
+			"items": {
+				"allOf": [
 					{"$ref": "#/definitions/foundrySideDataGeneric"},
 					{
 						"type": "object",
@@ -178,8 +147,8 @@
 
 		"classFeature": {
 			"type": "array",
-				"items": {
-					"allOf": [
+			"items": {
+				"allOf": [
 					{"$ref": "#/definitions/foundrySideDataGeneric"},
 					{
 						"type": "object",
@@ -203,8 +172,8 @@
 
 		"subclassFeature": {
 			"type": "array",
-				"items": {
-					"allOf": [
+			"items": {
+				"allOf": [
 					{"$ref": "#/definitions/foundrySideDataGeneric"},
 					{
 						"type": "object",
@@ -213,7 +182,7 @@
 							"classSource": {"type": "string"},
 							"level":  {"type": "integer"},
 							"subclassShortName": {"type": "string"},
-							"subclassSource":{"type": "string"}
+							"subclassSource": {"type": "string"}
 						},
 						"required": [
 							"name",
@@ -275,7 +244,5 @@
 			},
 			"uniqueItems": true
 		}
-	},
-
-	"additionalProperties": false
+	}
 }
