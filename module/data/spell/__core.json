@@ -25,14 +25,10 @@
 							"specialDuration": [
 								"turnEndSource"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]
@@ -59,14 +55,8 @@
 					"duration": {
 						"seconds": 60
 					},
-					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
-						}
-					},
 					"requires": {
-						"midi-qol": true,
-						"dnd5e-helpers": true
+						"midi-qol": true
 					}
 				}
 			]
@@ -124,14 +114,10 @@
 								"isSave",
 								"turnEndSource"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			],
@@ -165,15 +151,11 @@
 								"isSkill",
 								"1Attack"
 							]
-						},
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
 						}
 					},
 					"requires": {
 						"midi-qol": true,
-						"dae": true,
-						"dnd5e-helpers": true
+						"dae": true
 					}
 				}
 			]
@@ -193,14 +175,6 @@
 					],
 					"duration": {
 						"seconds": 3600
-					},
-					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
-						}
-					},
-					"requires": {
-						"dnd5e-helpers": true
 					}
 				}
 			]

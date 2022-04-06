@@ -28,14 +28,8 @@
 					"duration": {
 						"seconds": 60
 					},
-					"flags": {
-						"dnd5e-helpers": {
-							"rest-effect": "Short Rest"
-						}
-					},
 					"requires": {
-						"midi-qol": true,
-						"dnd5e-helpers": true
+						"midi-qol": true
 					}
 				}
 			],
