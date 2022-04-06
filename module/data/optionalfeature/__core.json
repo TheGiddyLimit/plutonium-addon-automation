@@ -29,7 +29,9 @@
 						"seconds": 60
 					},
 					"requires": {
-						"midi-qol": true
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true
 					}
 				}
 			],
