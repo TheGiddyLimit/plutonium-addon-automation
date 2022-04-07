@@ -1,40 +1,40 @@
 {
-  "_meta": {
-    "version": "0.97",
-    "convertedBy": [
-      "Surge#5715"
-    ],
-    "dateAdded": 1649082007,
-    "dateLastModified": 1649082007
-  },
-  "spell": [
-    {
-      "name": "Hold Helm",
-      "source": "WJMAiS",
-      "effects": [
-        {
-          "changes": [
-            {
-              "key": "flags.midi-qol.OverTime",
-              "mode": 5,
-              "value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Helm",
-              "priority": "20"
-            },
-            {
-              "key": "StatusEffect",
-              "mode": 0,
-              "value": "Convenient Effect: Paralyzed",
-              "priority": "20"
-            }
-          ],
-          "requires": {
-            "midi-qol": true,
-            "dae": true,
-            "times-up": true,
-            "dfreds-convenient-effects": true
-          }
-        }
-      ]
-    }
-  ]
+	"_meta": {
+		"version": "0.97",
+		"convertedBy": [
+			"Surge#5715"
+		],
+		"dateAdded": 1649082007,
+		"dateLastModified": 1649082007
+	},
+	"spell": [
+		{
+			"name": "Hold Helm",
+			"source": "WJMAiS",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.OverTime",
+							"mode": 5,
+							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Helm",
+							"priority": "20"
+						},
+						{
+							"key": "StatusEffect",
+							"mode": 0,
+							"value": "Convenient Effect: Paralyzed",
+							"priority": "20"
+						}
+					],
+					"requires": {
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true,
+						"dfreds-convenient-effects": true
+					}
+				}
+			]
+		}
+	]
 }
