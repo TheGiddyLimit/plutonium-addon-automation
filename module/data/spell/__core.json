@@ -28,7 +28,8 @@
 						}
 					},
 					"requires": {
-						"dae": true
+						"dae": true,
+						"times-up": true
 					}
 				}
 			]
@@ -56,7 +57,37 @@
 						"seconds": 60
 					},
 					"requires": {
-						"midi-qol": true
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Hold Person",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.OverTime",
+							"mode": 5,
+							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Person",
+							"priority": "20"
+						},
+						{
+							"key": "StatusEffect",
+							"mode": 0,
+							"value": "Convenient Effect: Paralyzed",
+							"priority": "20"
+						}
+					],
+					"requires": {
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true,
+						"dfreds-convenient-effects": true
 					}
 				}
 			]
@@ -117,7 +148,8 @@
 						}
 					},
 					"requires": {
-						"dae": true
+						"dae": true,
+						"times-up": true
 					}
 				}
 			],
@@ -155,7 +187,8 @@
 					},
 					"requires": {
 						"midi-qol": true,
-						"dae": true
+						"dae": true,
+						"times-up": true
 					}
 				}
 			]
@@ -175,6 +208,35 @@
 					],
 					"duration": {
 						"seconds": 3600
+					}
+				}
+			]
+		},
+		{
+			"name": "True Strike",
+			"source": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.advantage.attack.all",
+							"value": "1",
+							"mode": 5,
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"1Attack",
+								"shortRest"
+							]
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true
 					}
 				}
 			]

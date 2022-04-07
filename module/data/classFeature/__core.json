@@ -1,0 +1,36 @@
+{
+	"classFeature": [
+		{
+			"name": "Steady Aim",
+			"source": "TCE",
+			"className": "Rogue",
+			"classSource": "PHB",
+			"level": 3,
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.advantage.attack.all",
+							"mode": 0,
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"1Attack",
+								"turnEndSource"
+							]
+						}
+					},
+					"requires": {
+						"midi-qol": true,
+						"dae": true,
+						"times-up": true
+					}
+				}
+			]
+		}
+	]
+}
