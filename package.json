@@ -5,8 +5,8 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"test:js": "eslint script module/js module/shared tool",
-		"lint:js": "eslint script module/js module/shared tool --fix",
+		"test:js": "eslint script module/js module/shared tool test",
+		"lint:js": "eslint script module/js module/shared tool test --fix",
 		"test:data": "node test/test-json.js",
 		"test": "npm run test:data  && npm run test:js",
 		"build:index": "node script/generate-index.js",
