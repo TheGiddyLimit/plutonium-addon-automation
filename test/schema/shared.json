@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.2.0",
+	"version": "0.2.1",
 
 	"definitions": {
 		"schema": {
@@ -16,9 +16,23 @@
 
 				"requires": {
 					"type": "object",
-					"description": "Each key should correspond to a Foundry module's \"name\" field, which can be found in that module's \"module.json\" (or at the end of the Foundry module page URL, e.g. \"https://foundryvtt.com/packages/dae\")",
+					"description": "Each key should correspond to a Foundry module's \"name\" field, which can be found in that module's \"module.json\" (or at the end of the Foundry module page URL, e.g. the \"JB2A_DnD5e\" in \"https://foundryvtt.com/packages/JB2A_DnD5e\")",
+
 					"patternProperties": {
 						"^.*$": {"const": true}
+					},
+
+					"propertyNames": {
+						"not": {
+							"$comment": "The modules listed here are module dependencies, so are implicitly required.",
+							"enum": [
+								"plutonium",
+								"midi-qol",
+								"dae",
+								"times-up",
+								"dfreds-convenient-effects"
+							]
+						}
 					}
 				},
 

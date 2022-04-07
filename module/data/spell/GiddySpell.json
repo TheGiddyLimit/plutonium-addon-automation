@@ -24,10 +24,6 @@
 			"effects": [
 				{
 					"name": "Crushed",
-					"requires": {
-						"dae": true,
-						"midi-qol": true
-					},
 					"changes": [
 						{
 							"key": "data.traits.size",

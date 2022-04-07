@@ -33,6 +33,26 @@ const MODULE_JSON =
 				"type": "module",
 				"manifest": "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-next/master/module.json",
 			},
+			{
+				"name": "midi-qol",
+				"type": "module",
+				"manifest": "https://gitlab.com/tposney/midi-qol/raw/master/package/module.json",
+			},
+			{
+				"name": "dae",
+				"type": "module",
+				"manifest": "https://gitlab.com/tposney/dae/raw/master/package/module.json",
+			},
+			{
+				"name": "times-up",
+				"type": "module",
+				"manifest": "https://gitlab.com/tposney/times-up/raw/master/package/module.json",
+			},
+			{
+				"name": "dfreds-convenient-effects",
+				"type": "module",
+				"manifest": "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
+			},
 		],
 		"esmodules": [
 			"./js/Main.js",

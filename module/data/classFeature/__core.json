@@ -23,11 +23,6 @@
 								"turnEndSource"
 							]
 						}
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true
 					}
 				}
 			]

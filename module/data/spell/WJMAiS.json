@@ -26,13 +26,7 @@
 							"value": "Convenient Effect: Paralyzed",
 							"priority": "20"
 						}
-					],
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true,
-						"dfreds-convenient-effects": true
-					}
+					]
 				}
 			]
 		}
