@@ -17,6 +17,7 @@
 	},
 	"devDependencies": {
 		"@league-of-foundry-developers/foundry-vtt-types": "^9.249.4",
+		"5etools-utils": "^0.1.8",
 		"adm-zip-giddy": "^0.4.12",
 		"ajv": "^8.10.0",
 		"commander": "^9.0.0",
