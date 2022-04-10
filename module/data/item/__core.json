@@ -7,12 +7,6 @@
 				{
 					"changes": [
 						{
-							"key": "flags.dnd5e.initiativeAdv",
-							"mode": 0,
-							"value": "1",
-							"priority": "20"
-						},
-						{
 							"key": "flags.midi-qol.advantage.skill.prc",
 							"mode": 0,
 							"value": "1",
@@ -29,7 +23,10 @@
 						"dae": true
 					}
 				}
-			]
+			],
+			"_merge": {
+				"effects": true
+			}
 		}
 	]
 }

@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.1.0",
+	"version": "0.2.0",
 
 	"definitions": {
 		"schema": {
@@ -77,7 +77,7 @@
 					]
 				},
 
-				"merge": {
+				"_merge": {
 					"type": "object",
 					"description": "If our \"X\" (e.g. \"data\") should be merged with any base \"X\", rather than overwriting.",
 					"properties": {
