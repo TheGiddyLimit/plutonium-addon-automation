@@ -26,10 +26,6 @@
 								"turnEndSource"
 							]
 						}
-					},
-					"requires": {
-						"dae": true,
-						"times-up": true
 					}
 				}
 			]
@@ -55,11 +51,6 @@
 					],
 					"duration": {
 						"seconds": 60
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true
 					}
 				}
 			]
@@ -82,13 +73,7 @@
 							"value": "Convenient Effect: Paralyzed",
 							"priority": "20"
 						}
-					],
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true,
-						"dfreds-convenient-effects": true
-					}
+					]
 				}
 			]
 		},
@@ -146,10 +131,6 @@
 								"turnEndSource"
 							]
 						}
-					},
-					"requires": {
-						"dae": true,
-						"times-up": true
 					}
 				}
 			],
@@ -184,11 +165,6 @@
 								"1Attack"
 							]
 						}
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true
 					}
 				}
 			]
@@ -232,11 +208,6 @@
 								"shortRest"
 							]
 						}
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true,
-						"times-up": true
 					}
 				}
 			]

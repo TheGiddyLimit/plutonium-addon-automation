@@ -38,10 +38,6 @@
 					],
 					"duration": {
 						"seconds": 60
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true
 					}
 				}
 			]

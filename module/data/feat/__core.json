@@ -17,10 +17,6 @@
 						"dae": {
 							"transfer": true
 						}
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true
 					}
 				}
 			]
@@ -42,10 +38,6 @@
 						"dae": {
 							"transfer": true
 						}
-					},
-					"requires": {
-						"midi-qol": true,
-						"dae": true
 					}
 				}
 			]
