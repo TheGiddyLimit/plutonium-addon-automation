@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.2.1",
+	"version": "0.2.2",
 
 	"definitions": {
 		"schema": {
@@ -104,7 +104,8 @@
 			"required": [
 				"name",
 				"source"
-			]
+			],
+			"minProperties": 3
 		},
 
 		"foundrySideDataGenericArray": {
@@ -129,7 +130,8 @@
 							"source",
 							"raceName",
 							"raceSource"
-						]
+						],
+						"minProperties": 5
 					}
 				]
 			},
@@ -152,7 +154,8 @@
 							"source",
 							"backgroundName",
 							"backgroundSource"
-						]
+						],
+						"minProperties": 5
 					}
 				]
 			},
@@ -177,7 +180,8 @@
 							"className",
 							"classSource",
 							"level"
-						]
+						],
+						"minProperties": 6
 					}
 				]
 			},
@@ -206,7 +210,8 @@
 							"level",
 							"subclassShortName",
 							"subclassSource"
-						]
+						],
+						"minProperties": 8
 					}
 				]
 			},
@@ -229,7 +234,8 @@
 							"source",
 							"psionicName",
 							"psionicSource"
-						]
+						],
+						"minProperties": 5
 					}
 				]
 			},
@@ -252,7 +258,8 @@
 							"source",
 							"vehicleName",
 							"vehicleSource"
-						]
+						],
+						"minProperties": 5
 					}
 				]
 			},
