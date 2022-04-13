@@ -151,7 +151,7 @@ class Converter {
 		switch (modeRaw) {
 			case 0: return "CUSTOM";
 			case 1: return "MULTIPLY";
-			case 2: return "SELECTED";
+			case 2: return "ADD";
 			case 3: return "DOWNGRADE";
 			case 4: return "UPGRADE";
 			case 5: return "OVERRIDE";

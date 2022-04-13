@@ -13,13 +13,13 @@
 					"changes": [
 						{
 							"key": "data.attributes.ac.bonus",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "max(1,@abilities.int.mod)",
 							"priority": "20"
 						},
 						{
 							"key": "data.attributes.movement.walk",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "10",
 							"priority": "20"
 						},
@@ -31,7 +31,7 @@
 						},
 						{
 							"key": "flags.midi-qol.concentrationSaveBonus",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "max(1,@abilities.int.mod)",
 							"priority": "20"
 						}
