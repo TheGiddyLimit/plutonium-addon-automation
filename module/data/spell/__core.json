@@ -1,10 +1,6 @@
 {
 	"spell": [
 		{
-			"name": "Fireball",
-			"source": "PHB"
-		},
-		{
 			"name": "Blade Ward",
 			"source": "PHB",
 			"effects": [
