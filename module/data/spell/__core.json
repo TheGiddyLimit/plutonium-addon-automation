@@ -34,7 +34,7 @@
 					"changes": [
 						{
 							"key": "data.traits.ci.value",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "frightened",
 							"priority": "20"
 						},
@@ -81,37 +81,37 @@
 					"changes": [
 						{
 							"key": "data.abilities.str.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						},
 						{
 							"key": "data.abilities.dex.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						},
 						{
 							"key": "data.abilities.con.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						},
 						{
 							"key": "data.abilities.int.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						},
 						{
 							"key": "data.abilities.wis.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						},
 						{
 							"key": "data.abilities.cha.bonuses.save",
-							"mode": "SELECTED",
+							"mode": "ADD",
 							"value": "-1d4",
 							"priority": "20"
 						}

@@ -1,12 +1,18 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.2.2",
+	"version": "0.2.3",
 
 	"definitions": {
 		"schema": {
 			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
-			"type": "string"
+			"type": "string",
+			"examples": [
+				"../../../test/schema/homebrew.json",
+				"../../../test/schema/core.json",
+				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-data/master/test/schema/homebrew.json",
+				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-data/master/test/schema/core.json"
+			]
 		},
 
 		"foundryEffectObject": {
@@ -42,14 +48,15 @@
 						"type": "object",
 						"properties": {
 							"key": {"type": "string"},
-							"mode": {"type": ["string", "integer"]},
+							"mode": {"type": ["string", "integer"], "enum": ["CUSTOM", 0, "MULTIPLY", 1, "ADD", 2, "DOWNGRADE", 3, "UPGRADE", 4, "OVERRIDE", 5]},
 							"priority": {"type": ["string", "integer"]},
-							"value": true
+							"value": {"type": "string"}
 						},
 						"required": ["key", "mode", "value"],
 						"additionalProperties": false
 					},
-					"uniqueItems": true
+					"uniqueItems": true,
+					"minItems": 1
 				},
 
 				"flags": {"type": "object"},
@@ -70,7 +77,12 @@
 
 				"data": {"type": "object"},
 
-				"effects": {"type": "array", "items": {"$ref": "#/definitions/foundryEffectObject"}, "uniqueItems": true},
+				"effects": {
+					"type": "array",
+					"items": {"$ref": "#/definitions/foundryEffectObject"},
+					"uniqueItems": true,
+					"minItems": 1
+				},
 
 				"flags": {"type": "object"},
 
@@ -111,7 +123,8 @@
 		"foundrySideDataGenericArray": {
 			"type": "array",
 			"uniqueItems": true,
-			"items": {"$ref": "#/definitions/foundrySideDataGeneric"}
+			"items": {"$ref": "#/definitions/foundrySideDataGeneric"},
+			"minItems": 1
 		},
 
 		"raceFeature": {
@@ -135,7 +148,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		},
 
 		"backgroundFeature": {
@@ -159,7 +173,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		},
 
 		"classFeature": {
@@ -185,7 +200,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		},
 
 		"subclassFeature": {
@@ -215,7 +231,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		},
 
 		"psionicDisciplineActive": {
@@ -239,7 +256,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		},
 
 		"vehicleWeapon": {
@@ -263,7 +281,8 @@
 					}
 				]
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"minItems": 1
 		}
 	}
 }

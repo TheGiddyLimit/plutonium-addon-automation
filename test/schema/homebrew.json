@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "homebrew.json",
-	"version": "0.1.0",
+	"version": "0.1.1",
 
 	"$comment": "Note: for homebrew files (i.e., those *not* names \"__core.json\"), the file should be named `<brewSourceJson>.json`, where <brewSourceJson> matches the `\"json\": \"MySourceName\"` value for the corresponding source in the homebrew repository.",
 
@@ -78,5 +78,9 @@
 		"vehicleWeapon": {"$ref": "shared.json#/definitions/vehicleWeapon"}
 	},
 
-	"additionalProperties": false
+	"additionalProperties": false,
+	"minProperties": 2,
+	"required": [
+		"_meta"
+	]
 }
