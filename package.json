@@ -19,12 +19,13 @@
 	},
 	"devDependencies": {
 		"@league-of-foundry-developers/foundry-vtt-types": "^9.249.4",
-		"5etools-utils": "^0.1.9",
+		"5etools-utils": "^0.1.14",
 		"adm-zip-giddy": "^0.4.12",
 		"ajv": "^8.10.0",
 		"commander": "^9.1.0",
 		"eslint": "^8.11.0",
 		"express": "^4.17.3",
-		"json-source-map": "^0.6.1"
+		"json-source-map": "^0.6.1",
+		"plutonium-utils": "^0.1.4"
 	}
 }
