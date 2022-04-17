@@ -62,13 +62,14 @@ function cleanFolder (folder) {
 }
 
 function main () {
-	Uf.runOnDirs(
-		(dir) => {
+	const dataDir = "module/data";
+	fs.readdirSync(dataDir)
+		.filter(it => it !== "_generated")
+		.map(dir => ({dirPath: `${dataDir}/${dir}`, dir: dir}))
+		.forEach(({dirPath, dir}) => {
 			Um.info(`DATA`, `${params.fix ? "Fixing" : "Testing"} dir "${dir}"...`);
-			cleanFolder(dir);
-		},
-		"module/data",
-	);
+			cleanFolder(dirPath);
+		});
 
 	Um.info(`DATA`, `${params.fix ? "Fixing" : "Testing"} complete.`);
 }

@@ -1,3 +1,3 @@
-import doBuild from "./build-task.js";
+import {buildTask} from "./build-task.js";
 
-doBuild();
+buildTask().then(null);

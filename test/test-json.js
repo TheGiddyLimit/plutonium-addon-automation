@@ -6,10 +6,9 @@ function main () {
 	const {errors, errorsFull} = new JsonTester(
 		{
 			dirSchema: "test/schema",
-			dir: "module/data",
 			fnGetSchemaId: path => path.includes("__core.json") ? "core.json" : "homebrew.json",
 		},
-	).getErrors();
+	).getErrors("module/data", {dirBlacklist: new Set(["module/data/_generated"])});
 
 	if (errors.length) {
 		if (!process.env.CI) fs.writeFileSync(`test/test-json.error.log`, errorsFull.join("\n\n=====\n\n"));

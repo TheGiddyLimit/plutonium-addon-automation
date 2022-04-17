@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import * as kludge from "../script/kludge.js";
+import {Kludge} from "plutonium-utils";
 
 const out = {};
 let ixFile = 0;
@@ -25,10 +25,10 @@ const _PROP_PRECEDENCE = [
 	"name",
 ];
 
-kludge.lsRecursiveSync("./module/data")
+Kludge.lsRecursiveSync("./module/data")
 	.filter(it => !it.includes("_generated") && it.endsWith(".json"))
 	.forEach(filePath => {
-		const json = kludge.readJsonSync(filePath);
+		const json = Kludge.readJsonSync(filePath);
 		Object.entries(json)
 			.forEach(([prop, arr]) => {
 				if (!(arr instanceof Array)) return;
