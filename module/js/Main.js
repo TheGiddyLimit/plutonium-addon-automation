@@ -6,27 +6,36 @@ class Util {
 		`color: #5494cc; font-weight: bold;`,
 		`|`,
 	];
+
+	static get plutoniumApi () { return game.modules.get(SharedConsts.MODULE_NAME_PARENT).api; }
+}
+
+class DataManager {
+	static _P_LOADING_INDEX = null;
+	static _INDEX = null;
+
+	static async _pLoadIndex () {
+		this._P_LOADING_INDEX = this._P_LOADING_INDEX || (async () => {
+			this._INDEX = await Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`);
+		})();
+
+		await this._P_LOADING_INDEX;
+	}
+
+	static async api_pGetSideJson (prop, ...path) {
+		await this._pLoadIndex();
+
+		const ixFile = MiscUtil.get(this._INDEX, prop, ...path);
+		if (ixFile == null) return null;
+
+		return Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
+	}
 }
 
 class Api {
 	static init () { game.modules.get(SharedConsts.MODULE_NAME).api = this; }
 
-	static _P_LOADING_INDEX = null;
-	static _INDEX = null;
-
-	static async pGetSideJson (prop, ...path) {
-		this._P_LOADING_INDEX = this._P_LOADING_INDEX || (async () => {
-			this._INDEX = await game.modules.get(SharedConsts.MODULE_NAME_PARENT)
-				.api.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`);
-		})();
-
-		await this._P_LOADING_INDEX;
-		const ixFile = MiscUtil.get(this._INDEX, prop, ...path);
-		if (ixFile == null) return null;
-
-		return game.modules.get(SharedConsts.MODULE_NAME_PARENT)
-			.api.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
-	}
+	static pGetSideJson (prop, ...path) { return DataManager.api_pGetSideJson(prop, ...path); }
 }
 
 Hooks.on("ready", () => {
