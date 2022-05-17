@@ -10,8 +10,8 @@
 			"examples": [
 				"../../../test/schema/homebrew.json",
 				"../../../test/schema/core.json",
-				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-data/master/test/schema/homebrew.json",
-				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-data/master/test/schema/core.json"
+				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/test/schema/homebrew.json",
+				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/test/schema/core.json"
 			]
 		},
 

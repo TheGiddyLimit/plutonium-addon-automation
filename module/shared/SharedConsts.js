@@ -1,6 +1,6 @@
 class SharedConsts {
-	static MODULE_NAME = `plutonium-addon-data`;
-	static MODULE_TITLE = "Plutonium Addon Data";
+	static MODULE_NAME = `plutonium-addon-automation`;
+	static MODULE_TITLE = "Plutonium Addon: Automation";
 
 	static MODULE_DIR = `./dist/${SharedConsts.MODULE_NAME}`;
 
