@@ -10,11 +10,11 @@ if [[ $# -eq 0 ]]; then
 fi
 
 echo "Removing existing module..."
-rm -rf "${1}/modules/plutonium-addon-data"
+rm -rf "${1}/modules/plutonium-addon-automation"
 
 echo "Building..."
 npm run build
 
 echo "Transferring..."
-cp -rf dist/plutonium-addon-data "${1}/modules/"
+cp -rf dist/plutonium-addon-automation "${1}/modules/"
 echo "Done!"
