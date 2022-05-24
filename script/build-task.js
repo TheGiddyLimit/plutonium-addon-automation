@@ -15,7 +15,7 @@ export const buildTask = () => {
 
 		name: SharedConsts.MODULE_NAME,
 		title: SharedConsts.MODULE_TITLE,
-		description: "Plutonium data integration for DAE, Midi-QOL, etc.",
+		description: "Plutonium automations for use with Midi-QOL, DAE, and friends.",
 		authors: [
 			{
 				name: "Giddy",
@@ -63,5 +63,33 @@ export const buildTask = () => {
 		esmodules: [
 			"./js/Main.js",
 		],
+		flags: {
+			// See:
+			// https://foundryvtt.wiki/en/development/manifest-plus
+			// https://github.com/mouse0270/module-credits
+			"manifestPlusVersion": "1.2.0",
+			"conflicts": [
+				{
+					"name": "combat-utility-belt",
+					"type": "module",
+					"description": `Redundant when used with ${SharedConsts.MODULE_TITLE} module dependencies, and often conflicts with them.`,
+				},
+				{
+					"name": "betterrolls5e",
+					"type": "module",
+					"description": "May cause issues with features which require rolls; use with caution.",
+				},
+				{
+					"name": "mars-5e",
+					"type": "module",
+					"description": "May cause issues with features which require rolls; use with caution.",
+				},
+				{
+					"name": "mre-dnd5e",
+					"type": "module",
+					"description": "May cause issues with features which require rolls; use with caution.",
+				},
+			],
+		},
 	});
 };
