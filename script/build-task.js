@@ -8,7 +8,7 @@ export const buildTask = () => {
 		additionalFiles: [
 			{
 				name: "README",
-				pathIn: `./MODULE_README.md`,
+				pathIn: `./README.md`,
 				pathOut: `README.md`,
 			},
 		],
