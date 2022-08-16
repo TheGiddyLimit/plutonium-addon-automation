@@ -1,43 +1,94 @@
-# Contribution Guide
+# Contribution guide
+There is a lot of 5e content to automate, so all contribution is welcomed and appreciated. Read the below carefully to get started.
 
-## Development
+- [Things you can do to help](#things-you-can-do-to-help)
+  - [Coordination](#coordination)
+- [Setting up](#setting-up)
+  - [Building locally](#building-locally)
+  - [Testing](#testing)
+- [Development guide](#development-guide)
+  - [Data layout](#data-layout)
+  - [Macros](#macros)
+  - [Bulk conversion from Foundry](#bulk-conversion-from-foundry)
+- [Automation philosophy](#automation-philosophy)
 
-### Building/Running Locally
+---
 
-Run these precursory steps once:
+## Things you can do to help
+ - Fill out effects in Foundry (see [Automation philosophy](#automation-philosophy)).
+ - Convert automated items from Foundry to here (see [Development-guide](#development-guide)).
+ - Review and test newly submitted items before an update (see [Setting up](#setting-up)).
+ - Learn how the module works and support users with troubleshooting (see [Coordination](#coordination)).
+ - Simply use the module and let us know when there's a problem! 😊
 
-1) Install [Node.js](https://nodejs.org/en/)
-2) `npm i`
+### Coordination
+We organise on the [5eTools Discord server](https://discord.gg/5etools).
 
-Then:
+Although we will respond to issues and pull requests here, the easiest way to get a quick response or report minor typos/bugs is to message the **#plutonium-addon-automation** channel. Come join us if you'd like to help out! (*Especially* join us if you plan to fill out a lot of data at once—helps avoid wasted effort.)
 
-1) `npm run build`
-2) Copy the output from `dist/` to your Foundry modules directory
+---
+
+## Setting up
+Run these precursory steps when you first set up:
+1) Install [Node.js](https://nodejs.org/en/).
+2) Clone this repo locally.
+3) Run `npm i` within the your local repo.
+
+### Building locally
+To build the module based on the current data files, run `npm run build`. The module will be outputted to `dist/`, from which you can copy to your Foundry `modules` directory.
 
 ### Testing
+Use `npm t` to verify the data files against the schema.
 
-- `npm t`
+---
 
-### Data Layout
+## Development guide
+There isn't yet a tutorial to explain the data format. However, you can likely work most of it out by looking at examples. Familiarity with [5eTools' homebrew](https://github.com/TheGiddyLimit/homebrew) format and Foundry's data structure (including for [dnd5e](https://github.com/foundryvtt/dnd5e/wiki/Roll-Formulas), [DAE](https://gitlab.com/tposney/dae/-/blob/master/Readme.md#supported-fields-for-dnd5e), etc.) is very helpful.
 
-The `module/data/` directory should be laid out as follows:
+### Data layout
+The `module/data/` directory is laid out as follows:
+- Each 'datatype' (the array names in 5eTools' JSON format—`"monster"`, `"spell"`, `"classFeature"`, etc.) is given its own directory.
+- Within that directory, a `__core.json` file contains data for all entities which are natively available on 5eTools (i.e. without loading homebrew).
+- Within the same directory, each homebrew source has its own file named `<brewSourceJson>.json` (e.g. `WJMAiS.json` for *Wildjammer: More Adventures in Space*). If a homebrew source has multiple datatypes, one file per datatype is required (excluding datatypes without automation).
 
-Each 5etools data array "key" (aka "property", "prop"), e.g. `"monster"`, `"spell"`, `"classFeature"` is given its own directory.
+### Macros
+Many facets of automation must be handled with macros. These are attached using [Item Macro](https://foundryvtt.com/packages/itemacro/), which appear as an escaped string in data. To add some human-readability, macros are handled separately and merged during the module build.
 
-Within that directory, a `__core.json` file should contain effects/etc. data for all entities which are natively available on 5etools (i.e., without loading homebrew).
+In the [`macro-item/`](./macro-item) directory is a directory for each datatype. Save your (well-formatted, commented) macro code as a Javascript file in one of these directories, structured as an async function named `macro`, with filename `<sourceJson>_<item-name-lowercase-hyphenated>.js` (e.g. `XGE_toll-the-dead.js`). **Note that the first and last lines of the file**—the ones that turn the macro into an async function—**are stripped on compilation into the module's data**.
 
-Also within that directory, homebrew sources should each be given their own file, named `<brewSourceJson>.json`.
-
-### Item Macros
-
-Item macros are stored as JavaScript files, and built into the data when the module is packaged. The source for these macros can be found in the [macro-item](./macro-item) directory. **Note that the first and last lines of the macro are stripped when the macro is compiled into the module's data.**
-
-A new macro can be created using the following command:
-
+You can create a new macro file using the `npm run mt --` command. The directory (`-d`) should match that of the JSON file into which the macro will be built.
 ```bash
-# ex:
-# npm run mt -- -d spell -s PHB -n "Fireball"
-npm run mt -- -d <directory> -s <jsonSource> -n <entityName>
+npm run mt -- -d <directory> -s <jsonSource> -n <entity name>
+# example: npm run mt -- -d spell -s PHB -n "toll the dead"
+# example: npm run mt -- -d feat -s PHB -n "war caster"
 ```
 
-The directory (`-d`) should match that of the JSON file into which the macro will be built. The macro can then be referenced from within a JSON file by using: `"itemMacro": "<filename>"` (`"itemMacro": "PHB_fireball.js"` in the example given above)
+To reference this human-readable macro in the main data files, use `"itemMacro": "<filename>"` (`"itemMacro": "XGE_toll-the-dead.js"` in the example given above—see [`module/data/spell/__core.json`](https://github.com/TheGiddyLimit/plutonium-addon-automation/blob/master/module/data/spell/__core.json#L224)).
+
+### Bulk conversion from Foundry
+In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium: Addon Automation*-compatible data (plus anything not recognised—sort through that yourself).
+
+You can also upload entire `items.db` files, but be aware that the webpage doesn't split the items out by (game-mechanical) datatype, and some modules might be hiding some clutter in that file (e.g. DFCE custom CEs).
+
+---
+
+## Automation philosophy
+In the interests of consistency and user experience, there are some guidelines to follow when adding content.
+
+1) **We play D&D 5e.**
+   - Always assume the default ruleset.
+   - If you can do some fancy (invisible) macro work to support variant rules, go ahead, but never compromise core function.
+2) **Maximum eficiency; minimum effort.**
+   - If something can be automated reliably, it should.
+   - If something can't be automated reliably, it shouldn't.
+   - Avoid only automating half of an item's effects without somehow informing the end-user of this.
+   - Avoid automating anything that isn't technically required, even if it feels obvious. For example, don't set the effects of the *hold person* spell to expire on a short rest, even though 1 hour is more than 1 minute. (If the user wants time-based AE-expiry, they can use another module like [about-time](https://gitlab.com/tposney/about-time).)
+3) **Don't reinvent the wheel.**
+	- Use the required modules wherever possible; don't use a macro unless you need to.
+	- Only introduce a new module if it's compatible, stable, and actively maintained. Finding replacements when a helper module goes kaput is a lot of effort.
+	- Use [DFred's Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects) for all conditions, activated via the `statusEffect CUSTOM <condition>` effect change.
+	- Remember [Midi QoL](https://gitlab.com/tposney/midi-qol/-/blob/master/README.md#flagsmidi-qolovertime-overtime-effects) `overTime` effects exist.
+4) **KISS: keep it simple, sweetie.**
+	- Avoid using macros except when absolutely necessary, in which case a stand-alone item macro should be included.
+	- Certainly avoid referencing anything outside the item that you can't guarantee will be present.
+	- Plutonium should only import one item per game-mechanic name. If a single class feature or spell has multiple, indepdendent functions (e.g. the paladin class' Lay on Hands feature), activating that item should prompt the user to choose the function (via a macro).
