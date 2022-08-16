@@ -129,6 +129,8 @@ export const buildTask = async () => {
 							.map(it => it.replace(/^\t/, ""))
 							.join("\n");
 
+						if (ent.flags?.itemacro) throw new Error(`Entity had both "itemMacro" and "itemacro" flags!`);
+
 						isMod = true;
 					});
 				});
