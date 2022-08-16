@@ -69,6 +69,9 @@ export const buildTask = async () => {
 				type: "module",
 				manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
 			},
+			// TODO(v10)
+			//   Item Macro (https://foundryvtt.com/packages/itemacro) is a soft dependency, but may need to be
+			//   transitioned to a hard dependency in v10, as flag-setting is constrained by the active module list.
 		],
 		esmodules: [
 			"./js/Main.js",
