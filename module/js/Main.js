@@ -22,20 +22,61 @@ class DataManager {
 		await this._P_LOADING_INDEX;
 	}
 
-	static async api_pGetSideJson (prop, ...path) {
+	static async api_pGetExpandedAddonData (
+		{
+			propJson,
+			path,
+			fnMatch,
+		},
+	) {
 		await this._pLoadIndex();
 
-		const ixFile = MiscUtil.get(this._INDEX, prop, ...path);
+		const ixFile = MiscUtil.get(this._INDEX, propJson, ...path);
 		if (ixFile == null) return null;
 
-		return Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
+		const json = await Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
+
+		const out = (json?.[propJson] || [])
+			.find(it => fnMatch(it));
+		if (!out) return null;
+
+		return this._getPostProcessed({out});
+	}
+
+	static _getPostProcessed ({out}) {
+		if (!out.itemMacro) return out;
+
+		out = MiscUtil.copy(out);
+
+		out.flags = out.flags || {};
+		out.flags.itemacro = {
+			"macro": {
+				"data": {
+					"_id": null,
+					"name": "-",
+					"type": "script",
+					"author": game.userId,
+					"img": "icons/svg/dice-target.svg",
+					"scope": "global",
+					"command": out.itemMacro,
+					"folder": null,
+					"sort": 0,
+					"permission": {"default": 0},
+					"flags": {},
+				},
+			},
+		};
+
+		delete out.itemMacro;
+
+		return out;
 	}
 }
 
 class Api {
 	static init () { game.modules.get(SharedConsts.MODULE_NAME).api = this; }
 
-	static pGetSideJson (prop, ...path) { return DataManager.api_pGetSideJson(prop, ...path); }
+	static pGetExpandedAddonData (opts) { return DataManager.api_pGetExpandedAddonData(opts); }
 }
 
 Hooks.on("ready", () => {
