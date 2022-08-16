@@ -207,6 +207,21 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Toll the Dead",
+			"source": "XGE",
+			"data": {
+				"damage.parts": [
+					[
+						"1d8",
+						"necrotic"
+					]
+				],
+				"damage.versatile": "",
+				"scaling.mode": "cantrip"
+			},
+			"itemMacro": "XGE_toll-the-dead.js"
 		}
 	]
 }

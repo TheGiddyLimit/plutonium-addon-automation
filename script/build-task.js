@@ -1,8 +1,12 @@
+import path from "path";
 import doBuild from "plutonium-utils/lib/BuildTask.js";
 import {SharedConsts} from "../module/shared/SharedConsts.js";
+import {Uf} from "5etools-utils";
+import fs from "fs";
+import {DIR_ITEM_MACROS} from "./consts.js";
 
-export const buildTask = () => {
-	return doBuild({
+export const buildTask = async () => {
+	await doBuild({
 		dir: SharedConsts.MODULE_DIR,
 
 		additionalFiles: [
@@ -92,4 +96,44 @@ export const buildTask = () => {
 			],
 		},
 	});
+
+	const itemMacroDirs = new Set(fs.readdirSync(DIR_ITEM_MACROS));
+	const noItemMacroDirs = fs.readdirSync("module/data")
+		.filter(name => !itemMacroDirs.has(name))
+		.map(name => path.join(SharedConsts.MODULE_DIR, "data", name));
+
+	const files = Uf.listJsonFiles(
+		path.join(SharedConsts.MODULE_DIR, "data"),
+		{
+			dirBlacklist: new Set(noItemMacroDirs),
+		},
+	);
+	files
+		.forEach(filePath => {
+			const json = Uf.readJSON(filePath);
+			const parentDir = path.basename(path.dirname(filePath));
+
+			let isMod = false;
+			Object.values(json)
+				.forEach(arr => {
+					if (!(arr instanceof Array)) return;
+
+					arr.forEach(ent => {
+						if (!ent.itemMacro) return;
+
+						const macroPath = path.join(DIR_ITEM_MACROS, parentDir, ent.itemMacro);
+						ent.itemMacro = fs.readFileSync(macroPath, "utf-8")
+							.trim()
+							.split("\n")
+							.slice(1, -1)
+							.map(it => it.replace(/^\t/, ""))
+							.join("\n");
+
+						isMod = true;
+					});
+				});
+			if (!isMod) return;
+
+			fs.writeFileSync(filePath, JSON.stringify(json, null, "\t"));
+		});
 };

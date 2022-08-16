@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.2.3",
+	"version": "0.2.4",
 
 	"definitions": {
 		"schema": {
@@ -102,6 +102,8 @@
 						"backpack"
 					]
 				},
+
+				"itemMacro": {"type": "string"},
 
 				"_merge": {
 					"type": "object",
