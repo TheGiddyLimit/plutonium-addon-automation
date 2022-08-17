@@ -14,7 +14,7 @@ class ConverterUi {
 				let text;
 
 				// Check whether filetype is legal
-				if (iptFile.value.match(/\.(json|txt)$/i) || iptFile.value.match(/$(?<!\.\w{3,})/)) { // .json, .txt, or no filetype
+				if (iptFile.value.match(/\.(json|txt)$/i) || iptFile.value.match(/$(?<!\.\w+)/)) { // .json, .txt, or no filetype
 					text = reader.result;
 				} else if (iptFile.value.match(/\.db$/i)) { // .db
 					text = `[\n\t${reader.result.replace(/\}\n\{/g, "},\n\t{")}]`; // Hastily converting to JSON
@@ -34,7 +34,6 @@ class ConverterUi {
 				outText.value = JSON.stringify(Converter.getConverted(JSON.parse(iptText.value)), null, "\t");
 			} catch (e) {
 				outText.value = `Failed to parse input text!\n\n${e}`;
-				console.error("Failed to parse input text!");
 				throw e;
 			}
 		};
