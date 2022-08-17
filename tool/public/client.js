@@ -17,7 +17,7 @@ class ConverterUi {
 				if (iptFile.value.match(/\.(json|txt)$/i) || iptFile.value.match(/$(?<!\.\w{3,})/)) { // .json, .txt, or no filetype
 					text = reader.result;
 				} else if (iptFile.value.match(/\.db$/i)) { // .db
-					text = "[\n\t" + reader.result.replace(/\}\n\{/g, "},\n\t{") + "]"; // Hastily converting to JSON
+					text = `[\n\t${reader.result.replace(/\}\n\{/g, "},\n\t{")}]`; // Hastily converting to JSON
 				} else {
 					outText.value = "Failed to parse input text!\n\n> Invalid filetype";
 					console.error(`Failed to load invalid filetype: ${iptFile.value.match(/(?<=\/|\\)[^\/\\]+$/)?.[0]}`); // This monstrosity just grabs the filename from the path
