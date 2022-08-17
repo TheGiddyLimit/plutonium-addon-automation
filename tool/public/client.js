@@ -11,17 +11,19 @@ class ConverterUi {
 			const reader = new FileReader();
 			reader.readAsText(iptFile.files[0]);
 			reader.onload = () => {
-				// Check whether filetype is legal
 				let text;
-				if (iptFile.value.match(/\.(json|txt)$/i)) { // .json or .txt
+
+				// Check whether filetype is legal
+				if (iptFile.value.match(/\.(json|txt)$/i) || iptFile.value.match(/$(?<!\.\w{3,})/)) { // .json, .txt, or no filetype
 					text = reader.result;
 				} else if (iptFile.value.match(/\.db$/i)) { // .db
 					text = "[\n\t" + reader.result.replace(/\}\n\{/g, "},\n\t{") + "]"; // Hastily converting to JSON
 				} else {
-					outText.value = 'Failed to parse input text!\n\n> Invalid filetype';
-					console.error('Failed to load invalid filetype: ' + iptFile.value.match(/(?<=\/|\\)[^\/\\]+$/)?.[0]); // This monstrosity just grabs the filename from the path
+					outText.value = "Failed to parse input text!\n\n> Invalid filetype";
+					console.error(`Failed to load invalid filetype: ${iptFile.value.match(/(?<=\/|\\)[^\/\\]+$/)?.[0]}`); // This monstrosity just grabs the filename from the path
 					return;
 				}
+
 				iptText.value = text;
 				doConvert();
 			};
@@ -31,22 +33,22 @@ class ConverterUi {
 			try {
 				outText.value = JSON.stringify(Converter.getConverted(JSON.parse(iptText.value)), null, "\t");
 			} catch (e) {
-				console.log("Failed to parse input text!");
-				outText.value = "Failed to parse input text!\n\n" + e;
+				outText.value = `Failed to parse input text!\n\n${e}`;
+				console.error("Failed to parse input text!");
 				throw e;
 			}
 		};
 
 		btnConvert.addEventListener("click", () => doConvert());
 
-		btnCopy.addEventListener("click", async () => {			
+		btnCopy.addEventListener("click", async () => {
 			await navigator.clipboard.writeText(outText.value);
-			btnCopy.innerHTML = 'Copy ✓';
+			btnCopy.innerHTML = "Copy ✓";
 			console.log("Copied!");
 			window.setTimeout(btnCopy.resetText, 480);
 		});
-		
-		btnCopy.resetText = () => btnCopy.innerHTML = 'Copy';
+
+		btnCopy.resetText = () => btnCopy.innerHTML = "Copy";
 	}
 }
 

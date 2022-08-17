@@ -35,7 +35,7 @@ Run these precursory steps when you first set up:
 3) Run `npm i` within the your local repo.
 
 ### Building locally
-To build the module based on the current data files, run `npm run build`. The module will be outputted to `dist/`, from which you can copy to your Foundry `modules` directory.
+To build the module based on the current data files, run `npm run build`. The module will be outputted to `dist/`, from which you can copy to your Foundry `modules` directory (for Unix users, see [`transfer.sh`](./transfer.sh)).
 
 ### Testing
 Use `npm t` to verify the data files against the schema.
@@ -66,14 +66,14 @@ npm run mt -- -d <directory> -s <jsonSource> -n <entity name>
 To reference this human-readable macro in the main data files, use `"itemMacro": "<filename>"` (`"itemMacro": "XGE_toll-the-dead.js"` in the example given above—see [`module/data/spell/__core.json`](https://github.com/TheGiddyLimit/plutonium-addon-automation/blob/master/module/data/spell/__core.json#L224)).
 
 ### Bulk conversion from Foundry
-In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium: Addon Automation*-compatible data (plus anything not recognised—sort through that yourself).
+In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium Add-on: Automation*-compatible data (plus anything not recognised—sort through that yourself).
 
 You can also upload entire `items.db` files, but be aware that the webpage doesn't split the items out by (game-mechanical) datatype, and some modules might be hiding some clutter in that file (e.g. DFCE custom CEs).
 
 ---
 
 ## Automation philosophy
-In the interests of consistency and user experience, there are some guidelines to follow when adding content.
+In the interests of consistency and user experience, we have some guidelines to follow when adding content.
 
 1) **We play D&D 5e.**
    - Always assume the default ruleset.
@@ -81,14 +81,15 @@ In the interests of consistency and user experience, there are some guidelines t
 2) **Maximum eficiency; minimum effort.**
    - If something can be automated reliably, it should.
    - If something can't be automated reliably, it shouldn't.
-   - Avoid only automating half of an item's effects without somehow informing the end-user of this.
+   - Avoid automating only half of an item's effects without somehow informing the user of this.
    - Avoid automating anything that isn't technically required, even if it feels obvious. For example, don't set the effects of the *hold person* spell to expire on a short rest, even though 1 hour is more than 1 minute. (If the user wants time-based AE-expiry, they can use another module like [about-time](https://gitlab.com/tposney/about-time).)
+   - A caveat to the above is when there is a false choice. For example, making the saving throw to end the *hold person* spell is technically optional, but since the target can literally do nothing *except* roll the saving throw (by virtue of paralysis), there is virtually no reason to not do so.
 3) **Don't reinvent the wheel.**
 	- Use the required modules wherever possible; don't use a macro unless you need to.
 	- Only introduce a new module if it's compatible, stable, and actively maintained. Finding replacements when a helper module goes kaput is a lot of effort.
 	- Use [DFred's Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects) for all conditions, activated via the `statusEffect CUSTOM <condition>` effect change.
 	- Remember [Midi QoL](https://gitlab.com/tposney/midi-qol/-/blob/master/README.md#flagsmidi-qolovertime-overtime-effects) `overTime` effects exist.
 4) **KISS: keep it simple, sweetie.**
-	- Avoid using macros except when absolutely necessary, in which case a stand-alone item macro should be included.
+	- Avoid using macros except when absolutely necessary, and make sure they're readable and maintainable.
 	- Certainly avoid referencing anything outside the item that you can't guarantee will be present.
-	- Plutonium should only import one item per game-mechanic name. If a single class feature or spell has multiple, indepdendent functions (e.g. the paladin class' Lay on Hands feature), activating that item should prompt the user to choose the function (via a macro).
+	- Plutonium should only import one item per game-mechanic name. If a single class feature or spell has multiple, indepdendent functions (e.g. the paladin class' Lay on Hands feature), activating that item should prompt the user to choose the function (via a [macro](https://github.com/TheGiddyLimit/plutonium-addon-automation/issues/26)).
