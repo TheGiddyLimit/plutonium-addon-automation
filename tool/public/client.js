@@ -9,27 +9,42 @@ class ConverterUi {
 
 		iptFile.addEventListener("change", () => {
 			const reader = new FileReader();
-			reader.onload = () => iptText.value = reader.result;
 			reader.readAsText(iptFile.files[0]);
-			doConvert();
+			reader.onload = () => {
+				let text;
+
+				// Check whether filetype is legal
+				if (iptFile.value.match(/\.(json|txt)$/i) || !iptFile.value.includes(".")) { // .json, .txt, or no filetype
+					text = reader.result;
+				} else if (iptFile.value.match(/\.db$/i)) { // .db
+					text = JSON.stringify(reader.result.split("\n").filter(it => it.length).map(it => JSON.parse(it)), null, "\t");
+				} else {
+					outText.value = "Failed to parse input text!\n\n> Invalid filetype";
+					console.error(`Failed to load invalid filetype: .${iptFile.value.split(".").slice(-1)[0]}`);
+					return;
+				}
+
+				iptText.value = text;
+				doConvert();
+			};
 		});
 
 		const doConvert = () => {
-			let json;
 			try {
-				json = JSON.parse(iptText.value);
+				outText.value = JSON.stringify(Converter.getConverted(JSON.parse(iptText.value)), null, "\t");
 			} catch (e) {
-				console.log("Failed to parse input text!");
+				outText.value = `Failed to parse input text!\n\n${e}`;
 				throw e;
 			}
-			outText.value = JSON.stringify(Converter.getConverted(json), null, "\t");
 		};
 
 		btnConvert.addEventListener("click", () => doConvert());
 
 		btnCopy.addEventListener("click", async () => {
 			await navigator.clipboard.writeText(outText.value);
+			btnCopy.innerHTML = "Copied ✓";
 			console.log("Copied!");
+			window.setTimeout(() => btnCopy.innerHTML = "Copy", 500);
 		});
 	}
 }
