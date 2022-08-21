@@ -14,13 +14,13 @@ class ConverterUi {
 				let text;
 
 				// Check whether filetype is legal
-				if (iptFile.value.match(/\.(json|txt)$/i) || iptFile.value.match(/$(?<!\.\w+)/)) { // .json, .txt, or no filetype
+				if (iptFile.value.match(/\.(json|txt)$/i) || !iptFile.value.includes(".")) { // .json, .txt, or no filetype
 					text = reader.result;
 				} else if (iptFile.value.match(/\.db$/i)) { // .db
-					text = `[\n\t${reader.result.replace(/\}\n\{/g, "},\n\t{")}]`; // Hastily converting to JSON
+					text = JSON.stringify(reader.result.split("\n").filter(it => it.length).map(it => JSON.parse(it)), null, "\t");
 				} else {
 					outText.value = "Failed to parse input text!\n\n> Invalid filetype";
-					console.error(`Failed to load invalid filetype: ${iptFile.value.match(/(?<=\/|\\)[^\/\\]+$/)?.[0]}`); // This monstrosity just grabs the filename from the path
+					console.error(`Failed to load invalid filetype: .${iptFile.value.split(".").slice(-1)[0]}`);
 					return;
 				}
 
@@ -42,12 +42,10 @@ class ConverterUi {
 
 		btnCopy.addEventListener("click", async () => {
 			await navigator.clipboard.writeText(outText.value);
-			btnCopy.innerHTML = "Copy ✓";
+			btnCopy.innerHTML = "Copied ✓";
 			console.log("Copied!");
-			window.setTimeout(btnCopy.resetText, 480);
+			window.setTimeout(() => btnCopy.innerHTML = "Copy", 500);
 		});
-
-		btnCopy.resetText = () => btnCopy.innerHTML = "Copy";
 	}
 }
 
