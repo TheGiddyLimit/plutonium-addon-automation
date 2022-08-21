@@ -1,4 +1,5 @@
 # Contribution guide
+
 There is a lot of 5e content to automate, so all contribution is welcomed and appreciated. Read the below carefully to get started.
 
 - [Things you can do to help](#things-you-can-do-to-help)
@@ -15,6 +16,7 @@ There is a lot of 5e content to automate, so all contribution is welcomed and ap
 ---
 
 ## Things you can do to help
+
  - Fill out effects in Foundry (see [Automation philosophy](#automation-philosophy)).
  - Convert automated items from Foundry to here (see [Development-guide](#development-guide)).
  - Review and test newly submitted items before an update (see [Setting up](#setting-up)).
@@ -22,6 +24,7 @@ There is a lot of 5e content to automate, so all contribution is welcomed and ap
  - Simply use the module and let us know when there's a problem! 😊
 
 ### Coordination
+
 We organise on the [5eTools Discord server](https://discord.gg/5etools).
 
 Although we will respond to issues and pull requests here, the easiest way to get a quick response or report minor typos/bugs is to message the **#plutonium-addon-automation** channel. Come join us if you'd like to help out! (*Especially* join us if you plan to fill out a lot of data at once—helps avoid wasted effort.)
@@ -29,29 +32,35 @@ Although we will respond to issues and pull requests here, the easiest way to ge
 ---
 
 ## Setting up
+
 Run these precursory steps when you first set up:
 1) Install [Node.js](https://nodejs.org/en/).
 2) Clone this repo locally.
 3) Run `npm i` within the your local repo.
 
 ### Building locally
+
 To build the module based on the current data files, run `npm run build`. The module will be outputted to `dist/`, from which you can copy to your Foundry `modules` directory (for Unix users, see [`transfer.sh`](./transfer.sh)).
 
 ### Testing
+
 Use `npm t` to verify the data files against the schema.
 
 ---
 
 ## Development guide
+
 There isn't yet a tutorial to explain the data format. However, you can likely work most of it out by looking at examples. Familiarity with [5eTools' homebrew](https://github.com/TheGiddyLimit/homebrew) format and Foundry's data structure (including for [dnd5e](https://github.com/foundryvtt/dnd5e/wiki/Roll-Formulas), [DAE](https://gitlab.com/tposney/dae/-/blob/master/Readme.md#supported-fields-for-dnd5e), etc.) is very helpful.
 
 ### Data layout
+
 The `module/data/` directory is laid out as follows:
-- Each 'datatype' (the array names in 5eTools' JSON format—`"monster"`, `"spell"`, `"classFeature"`, etc.) is given its own directory.
+- Each 'entity type' (the array names in 5eTools' JSON format—`"monster"`, `"spell"`, `"classFeature"`, etc.) is given its own directory.
 - Within that directory, a `__core.json` file contains data for all entities which are natively available on 5eTools (i.e. without loading homebrew).
 - Within the same directory, each homebrew source has its own file named `<brewSourceJson>.json` (e.g. `WJMAiS.json` for *Wildjammer: More Adventures in Space*). If a homebrew source has multiple datatypes, one file per datatype is required (excluding datatypes without automation).
 
 ### Macros
+
 Many facets of automation must be handled with macros. These are attached using [Item Macro](https://foundryvtt.com/packages/itemacro/), which appear as an escaped string in data. To add some human-readability, macros are handled separately and merged during the module build.
 
 In the [`macro-item/`](./macro-item) directory is a directory for each datatype. Save your (well-formatted, commented) macro code as a Javascript file in one of these directories, structured as an async function named `macro`, with filename `<sourceJson>_<item-name-lowercase-hyphenated>.js` (e.g. `XGE_toll-the-dead.js`). **Note that the first and last lines of the file**—the ones that turn the macro into an async function—**are stripped on compilation into the module's data**.
@@ -63,9 +72,10 @@ npm run mt -- -d <directory> -s <jsonSource> -n <entity name>
 # example: npm run mt -- -d feat -s PHB -n "war caster"
 ```
 
-To reference this human-readable macro in the main data files, use `"itemMacro": "<filename>"` (`"itemMacro": "XGE_toll-the-dead.js"` in the example given above—see [`module/data/spell/__core.json`](https://github.com/TheGiddyLimit/plutonium-addon-automation/blob/master/module/data/spell/__core.json#L224)).
+To reference this human-readable macro in the main data files, use `"itemMacro": "<filename>"` (e.g. `"itemMacro": "XGE_toll-the-dead.js"`).
 
 ### Bulk conversion from Foundry
+
 In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium Add-on: Automation*-compatible data (plus anything not recognised—sort through that yourself).
 
 You can also upload entire `items.db` files, but be aware that the webpage doesn't split the items out by (game-mechanical) datatype, and some modules might be hiding some clutter in that file (e.g. DFCE custom CEs).
@@ -73,6 +83,7 @@ You can also upload entire `items.db` files, but be aware that the webpage doesn
 ---
 
 ## Automation philosophy
+
 In the interests of consistency and user experience, we have some guidelines to follow when adding content.
 
 1) **We play D&D 5e.**
