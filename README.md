@@ -29,17 +29,18 @@ Besides Plutonium itself, *Plutonium Add-on: Automation* **requires**:
 
 Some specific items require other modules. You will only be prompted to install/activate these modules if you import an item that requires it.
 
-As above, *Plutonium Add-on: Automation* is designed for the extensive automation provided 'Midi ecosystem' and, as such, *isn't* designed for modules such as [MARS 5e](https://github.com/Moerill/fvtt-mars-5e), [MRE 5e](https://github.com/ElfFriend-DnD/FVTT-Minimal-Rolling-Enhancements-DND5E), and [Better Rolls](https://github.com/RedReign/FoundryVTT-BetterRolls5e/). Also, we don't recommend using this with [Combat Utility Belt](https://github.com/death-save/combat-utility-belt/).
+As above, *Plutonium Add-on: Automation* is designed for the extensive automation provided 'Midi ecosystem' and, as such, *isn't* designed for modules such as [MARS 5e](https://github.com/Moerill/fvtt-mars-5e), [MRE 5e](https://github.com/ElfFriend-DnD/FVTT-Minimal-Rolling-Enhancements-DND5E), and [Better Rolls](https://github.com/RedReign/FoundryVTT-BetterRolls5e/). Using them may cause problems. Also, we don't recommend using this with [Combat Utility Belt](https://github.com/death-save/combat-utility-belt/).
 
 ## Required set-up
 
 You **must** configure some modules in a specific way, or the automation won't work. Configure the following:
-- _**DFreds Convenient Effects** > Modify Status Effects:_ select either `Replace` (preferred) or `Add`.
-- _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects:_ select `Apply Item effects, if absent apply CE`.
+- _**DFreds Convenient Effects** > Modify Status Effects_ — select either `Replace` (preferred) or `Add`.
+- _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects_ — select `Apply Item effects, if absent apply CE`.
 
 If you have [Item Macro](https://github.com/Kekilla0/Item-Macro) active, you also need to configure it as follows:
-- _**Item Macro** > Override default macro execution:_ uncheck this.
-- _**Item Macro** > Character Sheet Hook:_ uncheck this.
+- _**Item Macro** > Override default macro execution_ — uncheck this.
+- _**Item Macro** > Character Sheet Hook_ — uncheck this.
+- (If installed) _**[Token Action HUD](https://github.com/Drental/fvtt-tokenactionhud)** > Item-Macro: item macro, original item, or both_ — select `Show the original item`. (Note this is a user setting, so ensure that each user does this or use a module such as [Force Client Settings](https://gitlab.com/kimitsu_desu/force-client-settings) to guarantee it.)
 
 ## Contributing
 
