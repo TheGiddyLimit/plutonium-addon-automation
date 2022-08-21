@@ -5,6 +5,7 @@
 			"source": "PHB",
 			"effects": [
 				{
+					"transfer": true,
 					"changes": [
 						{
 							"key": "flags.midi-qol.DR.non-physical",
@@ -12,12 +13,7 @@
 							"value": "3",
 							"priority": "20"
 						}
-					],
-					"flags": {
-						"dae": {
-							"transfer": true
-						}
-					}
+					]
 				}
 			]
 		},
@@ -26,6 +22,7 @@
 			"source": "PHB",
 			"effects": [
 				{
+					"transfer": true,
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.concentration",
@@ -33,12 +30,7 @@
 							"value": "1",
 							"priority": "20"
 						}
-					],
-					"flags": {
-						"dae": {
-							"transfer": true
-						}
-					}
+					]
 				}
 			]
 		}

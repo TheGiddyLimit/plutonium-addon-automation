@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.2.4",
+	"version": "0.3.0",
 
 	"definitions": {
 		"schema": {
@@ -63,7 +63,8 @@
 
 				"duration": {"type": "object"},
 
-				"disabled": {"type": "boolean"}
+				"disabled": {"const": true},
+				"transfer": {"const": true}
 			},
 			"required": ["changes"],
 			"additionalProperties": false
