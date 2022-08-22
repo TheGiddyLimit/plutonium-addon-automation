@@ -187,7 +187,10 @@ class EffectConverter {
 
 	static _mutPreClean (eff) {
 		// N.b. "selectedKey" is midi-qol UI QoL tracking data, and can be safely skipped
-		["_id", "icon", "label", "origin", "tint", "selectedKey", "disabled", "transfer"].forEach(prop => delete eff[prop]);
+		["_id", "icon", "label", "origin", "tint", "selectedKey"].forEach(prop => delete eff[prop]);
+
+		// Delete these only if falsy--we only store `"true"` disabled/transfer values
+		["disabled", "transfer"].filter(prop => !eff[prop]).forEach(prop => delete eff[prop]);
 	}
 
 	static _mutChanges (eff) {
@@ -218,11 +221,27 @@ class EffectConverter {
 			.forEach(([namespace, moduleFlags]) => {
 				const moduleFlagsNxt = {};
 				ConverterUtil.copyTruthy(moduleFlagsNxt, moduleFlags, {additionalFalsyValues: this._FLAGS_FALSY_VALUES});
+
+				// region Handle specific cases
+				switch (namespace) {
+					case "dae": this._mutFlags_dae({eff, moduleFlagsNxt}); break;
+				}
+				// endregion
+
 				if (Object.keys(moduleFlagsNxt).length) flagsNxt[namespace] = moduleFlagsNxt;
 			});
 
 		if (Object.keys(flagsNxt).length) eff.flags = flagsNxt;
 		else delete eff.flags;
+	}
+
+	static _mutFlags_dae ({eff, moduleFlagsNxt}) {
+		if (moduleFlagsNxt["transfer"] == null) return;
+
+		// Hoist DAE "transfer" flag
+		const val = moduleFlagsNxt["transfer"];
+		delete moduleFlagsNxt["transfer"];
+		if (val) eff.transfer = true;
 	}
 
 	static _mutDuration (eff) {
