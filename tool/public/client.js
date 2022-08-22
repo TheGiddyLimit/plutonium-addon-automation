@@ -125,6 +125,7 @@ class FlagConverter {
 					// region Discard these
 					case "srd5e":
 					case "core":
+					case "favtab": // https://github.com/syl3r86/favtab
 						break;
 						// endregion
 
