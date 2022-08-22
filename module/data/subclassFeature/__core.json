@@ -38,6 +38,11 @@
 					],
 					"duration": {
 						"seconds": 60
+					},
+					"flags": {
+						"dae": {
+							"selfTarget": true
+						}
 					}
 				}
 			]

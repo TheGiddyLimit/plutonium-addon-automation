@@ -5,6 +5,7 @@
 			"source": "DMG",
 			"effects": [
 				{
+					"transfer": true,
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.skill.prc",
@@ -12,12 +13,7 @@
 							"value": "1",
 							"priority": "20"
 						}
-					],
-					"flags": {
-						"dae": {
-							"transfer": true
-						}
-					}
+					]
 				}
 			],
 			"_merge": {
