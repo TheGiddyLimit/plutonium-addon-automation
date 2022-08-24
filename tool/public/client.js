@@ -290,10 +290,14 @@ class EffectConverter {
 		switch (flagKey) {
 			// If the key matches the module's ID
 			case "ActiveAuras":
-			case "dae":
 			case "dnd5e-helpers":
-			case "midi-qol":
 				return flagKey;
+
+			// region Implicit requires
+			case "dae":
+			case "midi-qol":
+				return null;
+				// endregion
 
 			default: return null;
 		}
