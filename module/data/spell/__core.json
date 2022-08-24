@@ -493,6 +493,10 @@
 		{
 			"name": "Sanctuary",
 			"source": "PHB",
+			"_TODO": [
+				"Expire effect when character casts a spell on an enemy",
+				"Automate effect--WIS save should be forced"
+			],
 			"data": {
 				"actionType": "other"
 			},
