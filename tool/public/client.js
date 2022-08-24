@@ -125,7 +125,9 @@ class FlagConverter {
 					// region Discard these
 					case "srd5e":
 					case "core":
-					case "favtab": // https://github.com/syl3r86/favtab
+					case "favtab": // https://foundryvtt.com/packages/favtab
+					case "magicitems": // https://foundryvtt.com/packages/magicitems
+					case "cf": // (unknown)
 						break;
 						// endregion
 
