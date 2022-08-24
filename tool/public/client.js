@@ -93,7 +93,13 @@ class ConverterUtil {
 
 class Converter {
 	static getConverted (json) {
-		if (json instanceof Array) return json.map(it => this.getConverted(it));
+		if (json instanceof Array) {
+			return json
+				.sort((a, b) => (a.flags?.srd5e?.page || "").localeCompare(b.flags?.srd5e?.page || "")
+					|| a.type.localeCompare(b.type)
+					|| a.name.localeCompare(b.name, {sensitivity: "base"}))
+				.map(it => this.getConverted(it));
+		}
 
 		const effects = EffectConverter.getEffects(json);
 		const flags = FlagConverter.getFlags(json);
