@@ -166,6 +166,26 @@
 			]
 		},
 		{
+			"name": "Toll the Dead",
+			"source": "XGE",
+			"data": {
+				"damage.parts": [
+					[
+						"1d8",
+						"necrotic"
+					]
+				],
+				"damage.versatile": "",
+				"scaling.mode": "cantrip"
+			},
+			"flags": {
+				"midi-qol": {
+					"onUseMacroName": "[preDamageRoll]ItemMacro"
+				}
+			},
+			"itemMacro": "XGE_toll-the-dead.js"
+		},
+		{
 			"name": "Tongues",
 			"source": "PHB",
 			"effects": [
@@ -207,26 +227,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Toll the Dead",
-			"source": "XGE",
-			"data": {
-				"damage.parts": [
-					[
-						"1d8",
-						"necrotic"
-					]
-				],
-				"damage.versatile": "",
-				"scaling.mode": "cantrip"
-			},
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preDamageRoll]ItemMacro"
-				}
-			},
-			"itemMacro": "XGE_toll-the-dead.js"
 		}
 	]
 }
