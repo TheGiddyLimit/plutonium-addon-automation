@@ -1,6 +1,205 @@
 {
 	"classFeature": [
 		{
+			"name": "Empty Body",
+			"source": "PHB",
+			"className": "Monk",
+			"classSource": "PHB",
+			"level": 18,
+			"effects": [
+				{
+					"flags": {
+						"core": {
+							"statusId": "Empty Body"
+						},
+						"dae": {
+							"specialDuration": [
+								"shortRest"
+							]
+						}
+					},
+					"changes": [
+						{
+							"key": "macro.CE",
+							"mode": "CUSTOM",
+							"value": "Invisible",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "acid",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "bludgeoning",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "cold",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "fire",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "lightning",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "necrotic",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "piercing",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "poison",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "psychic",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "radiant",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "slashing",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "thunder",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 60
+					}
+				}
+			]
+		},
+		{
+			"name": "Patient Defense",
+			"source": "PHB",
+			"className": "Monk",
+			"classSource": "PHB",
+			"level": 2,
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.grants.disadvantage.attack.all",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.advantage.ability.save.dex",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 7
+					},
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnStartSource",
+								"shortRest"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Rage",
+			"source": "PHB",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"level": 1,
+			"effects": [
+				{
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"shortRest"
+							]
+						}
+					},
+					"changes": [
+						{
+							"key": "data.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "floor(0.132 * @classes.barbarian.levels + 1.93)",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "slashing",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "piercing",
+							"priority": "20"
+						},
+						{
+							"key": "data.traits.dr.value",
+							"mode": "ADD",
+							"value": "bludgeoning",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.advantage.ability.save.str",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						},
+						{
+							"key": "flags.midi-qol.advantage.ability.check.str",
+							"mode": "OVERRIDE",
+							"value": "1",
+							"priority": "20"
+						}
+					],
+					"duration": {
+						"seconds": 60
+					}
+				}
+			]
+		},
+		{
 			"name": "Steady Aim",
 			"source": "TCE",
 			"className": "Rogue",
