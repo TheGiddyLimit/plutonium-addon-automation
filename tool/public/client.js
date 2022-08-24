@@ -109,7 +109,10 @@ class Converter {
 	static _getSource (json) {
 		const sourceRaw = json.data?.source;
 		if (!sourceRaw) return null;
-		return sourceRaw.split(/[,;.]/g)[0].trim();
+		return sourceRaw
+			.split(/[,;.]/g)[0]
+			.trim()
+			.replace(/ pg.*$/, "");
 	}
 }
 
