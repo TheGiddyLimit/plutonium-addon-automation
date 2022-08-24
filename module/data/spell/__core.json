@@ -491,6 +491,28 @@
 			}
 		},
 		{
+			"name": "Sanctuary",
+			"source": "PHB",
+			"data": {
+				"actionType": "other"
+			},
+			"effects": [
+				{
+					"flags": {
+						"core": {
+							"statusId": "Sanctuary"
+						},
+						"dae": {
+							"specialDuration": [
+								"1Attack",
+								"DamageDealt"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Silvery Barbs",
 			"source": "SCC",
 			"effects": [
