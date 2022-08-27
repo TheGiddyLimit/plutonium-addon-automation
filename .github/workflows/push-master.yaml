@@ -28,6 +28,6 @@ jobs:
 
          -  name: Upload Release
             run: |
-               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "Version ${{ env.RELEASE_VERSION }}" ${{ env.RELEASE_VERSION }}
+               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "${{ env.RELEASE_VERSION }}"$'\n\n'"Version ${{ env.RELEASE_VERSION }}" ${{ env.RELEASE_VERSION }}
             env:
                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
