@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on:
+   push:
+      branches:
+         - master
+
+jobs:
+   build-and-deploy:
+      runs-on: ubuntu-latest
+      steps:
+         -  uses: actions/checkout@master
+
+         # See: https://stackoverflow.com/a/58178121
+         -  name: Set Env
+            run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+         -  name: Build
+            run: |
+               node --version
+               npm --version
+               npm i
+               npm run build
+
+         -  name: Archive Release
+            run: |
+               zip -r plutonium-addon-automation.zip dist/plutonium-addon-automation
+
+         -  name: Upload Release
+            run: |
+               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "Version ${{ env.RELEASE_VERSION }}" ${{ env.RELEASE_VERSION }}
+            env:
+               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
