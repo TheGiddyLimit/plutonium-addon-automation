@@ -5,6 +5,8 @@ import {Uf} from "5etools-utils";
 import fs from "fs";
 import {DIR_ITEM_MACROS} from "./consts.js";
 
+const packageJson = Uf.readJSON(`./package.json`);
+
 export const buildTask = async () => {
 	await doBuild({
 		dir: SharedConsts.MODULE_DIR,
@@ -33,6 +35,8 @@ export const buildTask = async () => {
 		],
 		readme: "README.md",
 		license: "MIT",
+		manifest: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/module.json`,
+		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/plutonium-addon-automation.zip`,
 		minimumCoreVersion: "9",
 		compatibleCoreVersion: "9",
 		url: "https://www.patreon.com/Giddy5e",
