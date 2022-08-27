@@ -2,8 +2,8 @@ name: Build and Deploy
 
 on:
    push:
-      branches:
-         - master
+      tags:
+         - 'v**'
 
 jobs:
    build-and-deploy:
