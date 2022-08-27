@@ -24,7 +24,9 @@ jobs:
 
          -  name: Archive Release
             run: |
-               zip -r plutonium-addon-automation.zip dist/plutonium-addon-automation
+               pushd dist/plutonium-addon-automation
+               zip -r plutonium-addon-automation.zip .
+               popd
 
          -  name: Upload Release
             run: |
