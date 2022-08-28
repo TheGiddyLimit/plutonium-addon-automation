@@ -136,7 +136,7 @@ class FlagConverter {
 					case "core":
 					case "favtab": // https://foundryvtt.com/packages/favtab
 					case "magicitems": // https://foundryvtt.com/packages/magicitems
-					case "cf": // (unknown)
+					case "cf": // https://foundryvtt.com/packages/compendium-folders (?)
 						break;
 						// endregion
 
