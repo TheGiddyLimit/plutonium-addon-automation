@@ -123,6 +123,8 @@ export const buildTask = async () => {
 					if (!(arr instanceof Array)) return;
 
 					arr.forEach(ent => {
+						if (ent._TODO) delete ent._TODO;
+
 						if (!ent.itemMacro) return;
 
 						const macroPath = path.join(DIR_ITEM_MACROS, parentDir, ent.itemMacro);

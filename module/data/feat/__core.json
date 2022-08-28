@@ -18,6 +18,21 @@
 			]
 		},
 		{
+			"name": "Inspiring Leader",
+			"source": "PHB",
+			"effects": [
+				{
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"shortRest"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "War Caster",
 			"source": "PHB",
 			"effects": [

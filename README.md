@@ -34,10 +34,12 @@ As above, *Plutonium Add-on: Automation* is designed for the extensive automatio
 ## Required set-up
 
 You **must** configure some modules in a specific way, or the automation won't work. Configure the following:
+
 - _**DFreds Convenient Effects** > Modify Status Effects_ — select either `Replace` (preferred) or `Add`.
 - _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects_ — select `Apply Item effects, if absent apply CE`.
 
 If you have [Item Macro](https://github.com/Kekilla0/Item-Macro) active, you also need to configure it as follows:
+
 - _**Item Macro** > Override default macro execution_ — uncheck this.
 - _**Item Macro** > Character Sheet Hook_ — uncheck this.
 - (If installed) _**[Token Action HUD](https://github.com/Drental/fvtt-tokenactionhud)** > Item-Macro: item macro, original item, or both_ — select `Show the original item`. (Note this is a user setting, so ensure that each user does this or use a module such as [Force Client Settings](https://gitlab.com/kimitsu_desu/force-client-settings) to guarantee it.)

@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.3.0",
+	"version": "0.4.1",
 
 	"definitions": {
 		"schema": {
@@ -66,7 +66,6 @@
 				"disabled": {"const": true},
 				"transfer": {"const": true}
 			},
-			"required": ["changes"],
 			"additionalProperties": false
 		},
 
@@ -75,6 +74,12 @@
 			"properties": {
 				"name": {"type": "string"},
 				"source": {"type": "string"},
+
+				"_TODO": {
+					"description": "A free-text dev-only list of issues with the entity. This is useful for keeping track of as-yet-unsupported functionality.",
+					"type": "array",
+					"items": {"type": "string"}
+				},
 
 				"data": {"type": "object"},
 

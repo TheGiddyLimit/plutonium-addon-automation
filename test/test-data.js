@@ -49,6 +49,13 @@ function cleanFolder (folder) {
 				// endregion
 			}
 
+			// region Basic alphabetization
+			// FIXME(Future) factor this out of 5etools
+			Object.values(json)
+				.filter(it => (it instanceof Array) && it.every(it => it.name))
+				.forEach(arr => arr.sort((a, b) => a.name.localeCompare(b.name, {sensitivity: "base"})));
+			// endregion
+
 			const out = `${JSON.stringify(json, null, "\t")}\n`;
 
 			if (params.fix) return fs.writeFileSync(filePath, out);

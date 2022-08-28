@@ -1,0 +1,23 @@
+{
+	"raceFeature": [
+		{
+			"name": "Fey Ancestry",
+			"source": "PHB",
+			"raceName": "Elf",
+			"raceSource": "PHB",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "data.traits.ci.value",
+							"mode": "ADD",
+							"value": "unconscious",
+							"priority": "20"
+						}
+					],
+					"transfer": true
+				}
+			]
+		}
+	]
+}

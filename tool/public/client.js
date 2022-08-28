@@ -93,7 +93,13 @@ class ConverterUtil {
 
 class Converter {
 	static getConverted (json) {
-		if (json instanceof Array) return json.map(it => this.getConverted(it));
+		if (json instanceof Array) {
+			return json
+				.sort((a, b) => (a.flags?.srd5e?.page || "").localeCompare(b.flags?.srd5e?.page || "")
+					|| a.type.localeCompare(b.type)
+					|| a.name.localeCompare(b.name, {sensitivity: "base"}))
+				.map(it => this.getConverted(it));
+		}
 
 		const effects = EffectConverter.getEffects(json);
 		const flags = FlagConverter.getFlags(json);
@@ -109,7 +115,10 @@ class Converter {
 	static _getSource (json) {
 		const sourceRaw = json.data?.source;
 		if (!sourceRaw) return null;
-		return sourceRaw.split(/[,;.]/g)[0].trim();
+		return sourceRaw
+			.split(/[,;.]/g)[0]
+			.trim()
+			.replace(/ pg.*$/, "");
 	}
 }
 
@@ -125,7 +134,9 @@ class FlagConverter {
 					// region Discard these
 					case "srd5e":
 					case "core":
-					case "favtab": // https://github.com/syl3r86/favtab
+					case "favtab": // https://foundryvtt.com/packages/favtab
+					case "magicitems": // https://foundryvtt.com/packages/magicitems
+					case "cf": // https://foundryvtt.com/packages/compendium-folders (?)
 						break;
 						// endregion
 
@@ -279,10 +290,14 @@ class EffectConverter {
 		switch (flagKey) {
 			// If the key matches the module's ID
 			case "ActiveAuras":
-			case "dae":
 			case "dnd5e-helpers":
-			case "midi-qol":
 				return flagKey;
+
+			// region Implicit requires
+			case "dae":
+			case "midi-qol":
+				return null;
+				// endregion
 
 			default: return null;
 		}
