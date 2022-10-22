@@ -27,9 +27,9 @@ function _zip (dirPart, zipRoot) {
 async function doPackage () {
 	await buildTask();
 
-	const zip = _zip(SharedConsts.MODULE_DIR, SharedConsts.MODULE_NAME);
+	const zip = _zip(SharedConsts.MODULE_DIR, SharedConsts.MODULE_ID);
 
-	const outPath = `./dist/${SharedConsts.MODULE_NAME}.zip`;
+	const outPath = `./dist/${SharedConsts.MODULE_ID}.zip`;
 	zip.writeZip(outPath);
 	console.log(`Wrote zip to: ${outPath}`);
 }

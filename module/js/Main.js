@@ -46,24 +46,22 @@ class DataManager {
 	static _getPostProcessed ({out}) {
 		if (!out.itemMacro) return out;
 
-		out = MiscUtil.copy(out);
+		out = foundry.utils.deepClone(out);
 
 		out.flags = out.flags || {};
 		out.flags.itemacro = {
 			"macro": {
-				"data": {
-					"_id": null,
-					"name": "-",
-					"type": "script",
-					"author": game.userId,
-					"img": "icons/svg/dice-target.svg",
-					"scope": "global",
-					"command": out.itemMacro,
-					"folder": null,
-					"sort": 0,
-					"permission": {"default": 0},
-					"flags": {},
-				},
+				"_id": null,
+				"name": "-",
+				"type": "script",
+				"author": game.userId,
+				"img": "icons/svg/dice-target.svg",
+				"scope": "global",
+				"command": out.itemMacro,
+				"folder": null,
+				"sort": 0,
+				"ownership": {"default": 0},
+				"flags": {},
 			},
 		};
 
@@ -74,7 +72,7 @@ class DataManager {
 }
 
 class Api {
-	static init () { game.modules.get(SharedConsts.MODULE_NAME).api = this; }
+	static init () { game.modules.get(SharedConsts.MODULE_ID).api = this; }
 
 	static pGetExpandedAddonData (opts) { return DataManager.api_pGetExpandedAddonData(opts); }
 }
