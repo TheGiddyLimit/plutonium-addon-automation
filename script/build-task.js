@@ -19,7 +19,7 @@ export const buildTask = async () => {
 			},
 		],
 
-		name: SharedConsts.MODULE_NAME,
+		id: SharedConsts.MODULE_ID,
 		title: SharedConsts.MODULE_TITLE,
 		description: "Plutonium automations for use with Midi-QOL, DAE, and friends.",
 		authors: [
@@ -39,71 +39,72 @@ export const buildTask = async () => {
 		manifest: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/latest/download/module.json`,
 		// Set "download" to this specific version, so that users manually entering the link will receive the version they expect
 		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/plutonium-addon-automation.zip`,
-		minimumCoreVersion: "9",
-		compatibleCoreVersion: "9",
+		compatibility: {
+			minimum: "10",
+			verified: "10.288",
+		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
-		dependencies: [
-			{
-				name: "plutonium",
-				type: "module",
-				manifest: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-next/master/module.json",
-			},
-			{
-				name: "midi-qol",
-				type: "module",
-				manifest: "https://gitlab.com/tposney/midi-qol/raw/master/package/module.json",
-			},
-			{
-				name: "dae",
-				type: "module",
-				manifest: "https://gitlab.com/tposney/dae/raw/master/package/module.json",
-			},
-			{
-				name: "times-up",
-				type: "module",
-				manifest: "https://gitlab.com/tposney/times-up/raw/master/package/module.json",
-			},
-			{
-				name: "dfreds-convenient-effects",
-				type: "module",
-				manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
-			},
-			// TODO(v10)
-			//   Item Macro (https://foundryvtt.com/packages/itemacro) is a soft dependency, but may need to be
-			//   transitioned to a hard dependency in v10, as flag-setting is constrained by the active module list.
-		],
-		esmodules: [
-			"./js/Main.js",
-		],
-		flags: {
-			// See:
-			// https://foundryvtt.wiki/en/development/manifest-plus
-			// https://github.com/mouse0270/module-credits
-			"manifestPlusVersion": "1.2.0",
-			"conflicts": [
+
+		relationships: {
+			requires: [
 				{
-					"name": "combat-utility-belt",
-					"type": "module",
-					"description": `Redundant when used with ${SharedConsts.MODULE_TITLE} module dependencies, and often conflicts with them.`,
+					id: "plutonium",
+					type: "module",
+					manifest: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-next/master/module.json",
 				},
 				{
-					"name": "betterrolls5e",
-					"type": "module",
-					"description": "May cause issues with features which require rolls; use with caution.",
+					id: "midi-qol",
+					type: "module",
+					manifest: "https://gitlab.com/tposney/midi-qol/raw/master/package/module.json",
 				},
 				{
-					"name": "mars-5e",
-					"type": "module",
-					"description": "May cause issues with features which require rolls; use with caution.",
+					id: "dae",
+					type: "module",
+					manifest: "https://gitlab.com/tposney/dae/raw/master/package/module.json",
 				},
 				{
-					"name": "mre-dnd5e",
-					"type": "module",
-					"description": "May cause issues with features which require rolls; use with caution.",
+					id: "times-up",
+					type: "module",
+					manifest: "https://gitlab.com/tposney/times-up/raw/master/package/module.json",
+				},
+				{
+					id: "dfreds-convenient-effects",
+					type: "module",
+					manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
+				},
+				{
+					id: "itemacro",
+					type: "module",
+					manifest: "https://github.com/Kekilla0/Item-Macro/releases/latest/download/module.json",
+				},
+			],
+			conflicts: [
+				{
+					id: "combat-utility-belt",
+					type: "module",
+					reason: `Redundant when used with ${SharedConsts.MODULE_TITLE} module dependencies, and often conflicts with them.`,
+				},
+				{
+					id: "betterrolls5e",
+					type: "module",
+					reason: "May cause issues with features which require rolls; use with caution.",
+				},
+				{
+					id: "mars-5e",
+					type: "module",
+					reason: "May cause issues with features which require rolls; use with caution.",
+				},
+				{
+					id: "mre-dnd5e",
+					type: "module",
+					reason: "May cause issues with features which require rolls; use with caution.",
 				},
 			],
 		},
+		esmodules: [
+			"./js/Main.js",
+		],
 	});
 
 	const itemMacroDirs = new Set(fs.readdirSync(DIR_ITEM_MACROS));
@@ -114,7 +115,7 @@ export const buildTask = async () => {
 	const files = Uf.listJsonFiles(
 		path.join(SharedConsts.MODULE_DIR, "data"),
 		{
-			dirBlacklist: new Set(noItemMacroDirs),
+			dirBlocklist: new Set(noItemMacroDirs),
 		},
 	);
 	files
