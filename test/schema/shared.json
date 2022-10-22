@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.4.1",
+	"version": "0.5.0",
 
 	"definitions": {
 		"schema": {
@@ -81,7 +81,7 @@
 					"items": {"type": "string"}
 				},
 
-				"data": {"type": "object"},
+				"system": {"type": "object"},
 
 				"effects": {
 					"type": "array",
@@ -115,7 +115,7 @@
 					"type": "object",
 					"description": "If our \"X\" (e.g. \"data\") should be merged with any base \"X\", rather than overwriting.",
 					"properties": {
-						"data": {"const": true},
+						"system": {"const": true},
 						"effects": {"const": true},
 						"flags": {"const": true}
 					}

@@ -8,7 +8,7 @@ function main () {
 			dirSchema: "test/schema",
 			fnGetSchemaId: path => path.includes("__core.json") ? "core.json" : "homebrew.json",
 		},
-	).getErrors("module/data", {dirBlacklist: new Set(["module/data/_generated"])});
+	).getErrors("module/data", {dirBlocklist: new Set(["module/data/_generated"])});
 
 	if (errors.length) {
 		if (!process.env.CI) fs.writeFileSync(`test/test-json.error.log`, errorsFull.join("\n\n=====\n\n"));

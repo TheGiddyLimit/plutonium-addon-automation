@@ -12,7 +12,7 @@
 			"name": "Collapse Astronomical Body",
 			"source": "GiddySpell",
 			"img": "icons/magic/earth/orb-ringed-lava-black-orange.webp",
-			"data": {
+			"system": {
 				"actionType": "other",
 				"damage.parts": [
 					[

@@ -497,7 +497,7 @@
 				"Expire effect when character casts a spell on an enemy",
 				"Automate effect--WIS save should be forced"
 			],
-			"data": {
+			"system": {
 				"actionType": "other"
 			},
 			"effects": [
@@ -567,7 +567,7 @@
 		{
 			"name": "Toll the Dead",
 			"source": "XGE",
-			"data": {
+			"system": {
 				"damage.parts": [
 					[
 						"1d8",
