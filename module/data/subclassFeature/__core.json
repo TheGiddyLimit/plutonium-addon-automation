@@ -46,6 +46,67 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Divine Fury",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"subclassShortName": "Path of the Zealot",
+			"subclassSource": "XGE",
+			"level": 3,
+			"effects": [
+				{
+					"duration": {
+						"turns": 1
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[radiant]",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"1Hit:mwak"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Fanatical Focus",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"subclassShortName": "Path of the Zealot",
+			"subclassSource": "XGE",
+			"level": 6,
+			"effects": [
+				{
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "flags.midi-qol.optional.fanatical-focus.count",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						},
+						{
+							"key": "flags.midi-qol.optional.fanatical-focus.save.fail",
+							"mode": "CUSTOM",
+							"value": "reroll",
+							"priority": 20
+						}
+					]
+				}
+			]
 		}
 	]
 }

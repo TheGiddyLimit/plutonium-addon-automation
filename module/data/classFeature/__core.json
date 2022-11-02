@@ -148,56 +148,61 @@
 			"level": 1,
 			"effects": [
 				{
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
+					"duration": {
+						"seconds": 60
 					},
 					"changes": [
 						{
-							"key": "data.bonuses.mwak.damage",
-							"mode": "ADD",
-							"value": "floor(0.132 * @classes.barbarian.levels + 1.93)",
-							"priority": "20"
+							"key": "macro.itemMacro",
+							"mode": "CUSTOM",
+							"value": "",
+							"priority": 20
 						},
 						{
-							"key": "data.traits.dr.value",
-							"mode": "ADD",
-							"value": "slashing",
-							"priority": "20"
-						},
-						{
-							"key": "data.traits.dr.value",
-							"mode": "ADD",
-							"value": "piercing",
-							"priority": "20"
-						},
-						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "bludgeoning",
-							"priority": "20"
+							"priority": 20
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "piercing",
+							"priority": 20
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "slashing",
+							"priority": 20
+						},
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "+ @scale.barbarian.rage-damage",
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.advantage.ability.save.str",
-							"mode": "OVERRIDE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.advantage.ability.check.str",
-							"mode": "OVERRIDE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						}
 					],
-					"duration": {
-						"seconds": 60
+					"flags": {
+						"dae": {
+							"macroRepeat": "startEveryTurn"
+						}
 					}
 				}
-			]
+			],
+			"itemMacro": "PHB_rage.js"
 		},
 		{
 			"name": "Steady Aim",
