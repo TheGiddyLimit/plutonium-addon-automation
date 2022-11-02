@@ -52,7 +52,7 @@
 			"source": "XGE",
 			"className": "Barbarian",
 			"classSource": "PHB",
-			"subclassShortName": "Path of the Zealot",
+			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 3,
 			"effects": [
@@ -83,7 +83,7 @@
 			"source": "XGE",
 			"className": "Barbarian",
 			"classSource": "PHB",
-			"subclassShortName": "Path of the Zealot",
+			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 6,
 			"effects": [
