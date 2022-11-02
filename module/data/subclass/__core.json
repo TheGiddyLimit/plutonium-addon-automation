@@ -1,13 +1,13 @@
 {
-  "subclass": [
-    {
-      "name": "Path of the Zealot",
-      "source": "XGE",
-      "className": "Barbarian",
-      "classSource": "PHB",
-      "subclassShortName": "Path of the Zealot",
-      "subclassSource": "XGE",
-      "itemMacro": "XGE_path-of-the-zealot.js"
-    }
-  ]
+	"subclass": [
+		{
+			"name": "Path of the Zealot",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"subclassShortName": "Path of the Zealot",
+			"subclassSource": "XGE",
+			"itemMacro": "XGE_path-of-the-zealot.js"
+		}
+	]
 }
