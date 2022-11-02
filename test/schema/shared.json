@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.5.0",
+	"version": "0.5.1",
 
 	"definitions": {
 		"schema": {
@@ -132,6 +132,31 @@
 			"type": "array",
 			"uniqueItems": true,
 			"items": {"$ref": "#/definitions/foundrySideDataGeneric"},
+			"minItems": 1
+		},
+
+		"subclass": {
+			"type": "array",
+			"items": {
+				"allOf": [
+					{"$ref": "#/definitions/foundrySideDataGeneric"},
+					{
+						"type": "object",
+						"properties": {
+							"className": {"type": "string"},
+							"classSource": {"type": "string"}
+						},
+						"required": [
+							"name",
+							"source",
+							"className",
+							"classSource"
+						],
+						"minProperties": 5
+					}
+				]
+			},
+			"uniqueItems": true,
 			"minItems": 1
 		},
 
