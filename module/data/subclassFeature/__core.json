@@ -55,6 +55,11 @@
 			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 3,
+			"data": {
+				"activation.type": null,
+				"target.type": "self",
+				"damage.parts": []
+			},
 			"effects": [
 				{
 					"duration": {
@@ -86,6 +91,9 @@
 			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 6,
+			"data": {
+				"target.type": "self"
+			},
 			"effects": [
 				{
 					"duration": {
