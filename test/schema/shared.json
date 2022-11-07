@@ -19,6 +19,7 @@
 			"type": "object",
 			"properties": {
 				"name": {"type": "string"},
+				"img": {"type": "string"},
 
 				"requires": {
 					"type": "object",

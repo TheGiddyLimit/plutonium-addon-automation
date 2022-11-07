@@ -200,6 +200,43 @@
 			]
 		},
 		{
+			"name": "Reckless Attack",
+			"source": "PHB",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"level": 2,
+			"effects": [
+				{
+					"duration": {
+						"turns": 1
+					},
+					"changes": [
+						{
+							"key": "flags.midi-qol.advantage.attack.str",
+							"mode": "CUSTOM",
+							"value": "item.system.actionType === \"mwak\"",
+							"priority": 20
+						}
+					]
+				},
+				{
+					"name": "Reckless Defense",
+					"img": "icons/skills/melee/shield-damaged-broken-orange.webp",
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "flags.midi-qol.grants.advantage.attack.all",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Steady Aim",
 			"source": "TCE",
 			"className": "Rogue",
