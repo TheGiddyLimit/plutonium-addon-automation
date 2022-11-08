@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.5.1",
+	"version": "0.5.2",
 
 	"definitions": {
 		"schema": {
@@ -13,6 +13,14 @@
 				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/test/schema/homebrew.json",
 				"https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/test/schema/core.json"
 			]
+		},
+
+		"foundrySystemObject": {
+			"type": "object"
+		},
+
+		"foundryFlagsObject": {
+			"type": "object"
 		},
 
 		"foundryEffectObject": {
@@ -81,7 +89,21 @@
 					"items": {"type": "string"}
 				},
 
-				"system": {"type": "object"},
+				"system": {"$ref": "#/definitions/foundrySystemObject"},
+
+				"chooseSystem": {
+					"oneOf": [
+						{
+							"type": "array",
+							"uniqueItems": true,
+							"items": {"$ref": "#/definitions/foundrySystemObject"},
+							"minItems": 1
+						},
+						{"const": null}
+					]
+				},
+
+				"isChooseSystemRenderEntries": {"type": "boolean"},
 
 				"effects": {
 					"type": "array",
@@ -90,7 +112,21 @@
 					"minItems": 1
 				},
 
-				"flags": {"type": "object"},
+				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
+
+				"chooseFlags": {
+					"oneOf": [
+						{
+							"type": "array",
+							"uniqueItems": true,
+							"items": {"$ref": "#/definitions/foundryFlagsObject"},
+							"minItems": 1
+						},
+						{"const": null}
+					]
+				},
+
+				"isChooseFlagsRenderEntries": {"type": "boolean"},
 
 				"img": {"type": "string"},
 
@@ -116,8 +152,10 @@
 					"description": "If our \"X\" (e.g. \"data\") should be merged with any base \"X\", rather than overwriting.",
 					"properties": {
 						"system": {"const": true},
+						"chooseSystem": {"const": true},
 						"effects": {"const": true},
-						"flags": {"const": true}
+						"flags": {"const": true},
+						"chooseFlags": {"const": true}
 					}
 				}
 			},
