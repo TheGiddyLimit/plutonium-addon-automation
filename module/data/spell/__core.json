@@ -1,6 +1,35 @@
 {
 	"spell": [
 		{
+			"name": "Aid",
+			"source": "PHB",
+			"data": {
+				"damage.parts": []
+			},
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "system.attributes.hp.max",
+							"mode": "ADD",
+							"value": "(@item.level - 1) * 5",
+							"priority": 20
+						},
+						{
+							"key": "macro.itemMacro",
+							"mode": "CUSTOM",
+							"value": "",
+							"priority": 20
+						}
+					],
+					"duration": {
+						"seconds": 28800
+					}
+				}
+			],
+			"itemMacro": "PHB_aid.js"
+		},
+		{
 			"name": "Aura of Purity",
 			"source": "PHB",
 			"effects": [
