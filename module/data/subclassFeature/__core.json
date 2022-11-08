@@ -69,7 +69,7 @@
 						{
 							"key": "system.bonuses.mwak.damage",
 							"mode": "ADD",
-							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[radiant]",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[@items.divine-fury.flags.plutonium-addon-automation.chosenDamageType]",
 							"priority": 20
 						}
 					],
@@ -81,7 +81,28 @@
 						}
 					}
 				}
-			]
+			],
+			"chooseSystem": null,
+			"isChooseSystemRenderEntries": false,
+			"chooseFlags": [
+				{
+					"name": "Necrotic Damage",
+					"flags": {
+						"plutonium-addon-automation": {
+							"chosenDamageType": "necrotic"
+						}
+					}
+				},
+				{
+					"name": "Radiant Damage",
+					"flags": {
+						"plutonium-addon-automation": {
+							"chosenDamageType": "radiant"
+						}
+					}
+				}
+			],
+			"isChooseFlagsRenderEntries": true
 		},
 		{
 			"name": "Fanatical Focus",
