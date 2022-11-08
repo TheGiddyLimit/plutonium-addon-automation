@@ -233,6 +233,53 @@
 			]
 		},
 		{
+			"name": "Chill Touch",
+			"source": "PHB",
+			"system": {
+				"duration.units": null,
+				"duration.value": null
+			},
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.disadvantage.attack.all",
+							"mode": "CUSTOM",
+							"value": "targetId === \"@token\" && details.type.value === \"undead\"",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnEndSource"
+							]
+						}
+					}
+				},
+				{
+					"changes": [
+						{
+							"key": "system.traits.di.value",
+							"mode": "CUSTOM",
+							"value": "healing",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"core": {
+							"statusId": "Chill Touch"
+						},
+						"dae": {
+							"specialDuration": [
+								"turnStartSource"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Darkvision",
 			"source": "PHB",
 			"effects": [
