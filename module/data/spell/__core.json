@@ -67,6 +67,33 @@
 			]
 		},
 		{
+			"name": "Aura of Vitality",
+			"source": "PHB",
+			"system": {
+				"damage.parts": [],
+				"target.type": "self"
+			},
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "macro.itemMacro",
+							"mode": "CUSTOM",
+							"value": "",
+							"priority": 20
+						}
+					],
+					"duration": {
+						"seconds": 60
+					},
+					"requires": {
+						"warpgate": true
+					}
+				}
+			],
+			"itemMacro": "PHB_aura-of-vitality.js"
+		},
+		{
 			"name": "Bane",
 			"source": "PHB",
 			"effects": [
