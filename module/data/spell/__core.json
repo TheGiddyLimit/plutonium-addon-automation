@@ -69,6 +69,25 @@
 			]
 		},
 		{
+			"name": "Arms of Hadar",
+			"source": "PHB",
+			"system": {
+				"duration.units": null,
+				"target.type": "creature",
+				"range.units": "spec"
+			},
+			"flags": {
+				"midiProperties": {
+					"halfdam": true
+				}
+			},
+			"effects": [
+				{
+					"convenientEffect": "Reaction"
+				}
+			]
+		},
+		{
 			"name": "Aura of Purity",
 			"source": "PHB",
 			"effects": [
