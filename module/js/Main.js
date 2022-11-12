@@ -44,6 +44,43 @@ class DataManager {
 	}
 
 	static _getPostProcessed ({out}) {
+		out = this._getPostProcessed_effects({out});
+		out = this._getPostProcessed_itemMacro({out});
+		return out;
+	}
+
+	static _getPostProcessed_effects ({out}) {
+		if (!out.effects?.some(({convenientEffect}) => !!convenientEffect)) return out;
+
+		out = foundry.utils.deepClone(out);
+
+		out.effects = out.effects.map(eff => {
+			if (!eff.convenientEffect) return eff;
+
+			const convEffect = game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
+			if (!convEffect) return eff;
+
+			const convEffectData = convEffect.convertToActiveEffectData();
+
+			delete eff.convenientEffect;
+
+			return foundry.utils.mergeObject(
+				convEffectData,
+				{
+					// region Convert to our alternate field names, which are prioritized. This ensures the CE name/image
+					//   will be used over a name/image generated from the parent document.
+					name: convEffectData.label,
+					img: convEffectData.icon,
+					// endregion
+					...eff,
+				},
+			);
+		});
+
+		return out;
+	}
+
+	static _getPostProcessed_itemMacro ({out}) {
 		if (!out.itemMacro) return out;
 
 		out = foundry.utils.deepClone(out);
