@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "shared.json",
-	"version": "0.5.2",
+	"version": "0.5.3",
 
 	"definitions": {
 		"schema": {
@@ -20,6 +20,10 @@
 		},
 
 		"foundryFlagsObject": {
+			"type": "object"
+		},
+
+		"foundryEffectDurationObject": {
 			"type": "object"
 		},
 
@@ -68,14 +72,61 @@
 					"minItems": 1
 				},
 
-				"flags": {"type": "object"},
+				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
 
-				"duration": {"type": "object"},
+				"duration": {"$ref": "#/definitions/foundryEffectDurationObject"},
 
 				"disabled": {"const": true},
 				"transfer": {"const": true}
 			},
 			"additionalProperties": false
+		},
+
+		"convenientEffectObject": {
+			"type": "object",
+			"properties": {
+				"convenientEffect": {
+					"description": "Generally taken from names in `game.dfreds.effects.conditions`.",
+					"type": "string",
+					"examples": [
+						"Blinded",
+						"Charmed",
+						"Concentrating",
+						"Deafened",
+						"Exhaustion 1",
+						"Exhaustion 2",
+						"Exhaustion 3",
+						"Exhaustion 4",
+						"Exhaustion 5",
+						"Frightened",
+						"Grappled",
+						"Incapacitated",
+						"Invisible",
+						"Paralyzed",
+						"Petrified",
+						"Poisoned",
+						"Prone",
+						"Restrained",
+						"Stunned",
+						"Unconscious"
+					]
+				},
+
+				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
+
+				"duration": {"$ref": "#/definitions/foundryEffectDurationObject"}
+			},
+			"required": [
+				"convenientEffect"
+			],
+			"additionalProperties": false
+		},
+
+		"effectObject": {
+			"oneOf": [
+				{"$ref": "#/definitions/foundryEffectObject"},
+				{"$ref": "#/definitions/convenientEffectObject"}
+			]
 		},
 
 		"foundrySideDataGeneric": {
@@ -108,7 +159,7 @@
 
 				"effects": {
 					"type": "array",
-					"items": {"$ref": "#/definitions/foundryEffectObject"},
+					"items": {"$ref": "#/definitions/effectObject"},
 					"uniqueItems": true,
 					"minItems": 1
 				},
