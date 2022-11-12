@@ -46,6 +46,96 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Divine Fury",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"subclassShortName": "Zealot",
+			"subclassSource": "XGE",
+			"level": 3,
+			"system": {
+				"activation.type": null,
+				"target.type": "self",
+				"damage.parts": []
+			},
+			"effects": [
+				{
+					"duration": {
+						"turns": 1
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[@items.divine-fury.flags.plutonium-addon-automation.chosenDamageType]",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"1Hit:mwak"
+							]
+						}
+					}
+				}
+			],
+			"chooseSystem": null,
+			"isChooseSystemRenderEntries": false,
+			"chooseFlags": [
+				{
+					"name": "Necrotic Damage",
+					"flags": {
+						"plutonium-addon-automation": {
+							"chosenDamageType": "necrotic"
+						}
+					}
+				},
+				{
+					"name": "Radiant Damage",
+					"flags": {
+						"plutonium-addon-automation": {
+							"chosenDamageType": "radiant"
+						}
+					}
+				}
+			],
+			"isChooseFlagsRenderEntries": true
+		},
+		{
+			"name": "Fanatical Focus",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"subclassShortName": "Zealot",
+			"subclassSource": "XGE",
+			"level": 6,
+			"system": {
+				"target.type": "self"
+			},
+			"effects": [
+				{
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "flags.midi-qol.optional.fanatical-focus.count",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						},
+						{
+							"key": "flags.midi-qol.optional.fanatical-focus.save.fail",
+							"mode": "CUSTOM",
+							"value": "reroll",
+							"priority": 20
+						}
+					]
+				}
+			]
 		}
 	]
 }

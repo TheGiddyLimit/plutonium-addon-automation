@@ -1,0 +1,11 @@
+{
+	"subclass": [
+		{
+			"name": "Path of the Zealot",
+			"source": "XGE",
+			"className": "Barbarian",
+			"classSource": "PHB",
+			"itemMacro": "XGE_path-of-the-zealot.js"
+		}
+	]
+}
