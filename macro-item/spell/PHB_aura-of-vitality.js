@@ -32,18 +32,22 @@ async function macro (args) {
 	);
 
 	if (args[0] === "on") {
-		await warpgate.mutate(token, {
-			embedded: {
-				Item: {
-					"Invoke Vitality": {
-						type: "spell",
-						img: base.img,
-						system: system,
+		await warpgate.mutate(token,
+			{
+				embedded: {
+					Item: {
+						"Invoke Vitality": {
+							type: "spell",
+							img: base.img,
+							system: system,
+						},
 					},
 				},
 			},
-		});
+			{},
+			{ name: "plutonium-addon-automation-aura-of-vitality" },
+		);
 	} else if (args[0] === "off") {
-		await warpgate.revert(token);
+		await warpgate.revert(token, "plutonium-addon-automation-aura-of-vitality");
 	}
 }
