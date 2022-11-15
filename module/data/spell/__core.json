@@ -30,6 +30,45 @@
 			"itemMacro": "PHB_aid.js"
 		},
 		{
+			"name": "Antimagic Field",
+			"source": "PHB",
+			"_TODO": [
+				"Provides damage immunity to magical damage, no other effects",
+				"Attacks from magic items are *not* made mundane, damage is removed entirely",
+				"Does not prevent application of magical effects"
+			],
+			"system": {
+				"target.type": "self"
+			},
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "system.traits.di.custom",
+							"mode": "CUSTOM",
+							"value": "Magical Damage",
+							"priority": 20
+						}
+					],
+					"duration": {
+						"seconds": 3600
+					},
+					"flags": {
+						"ActiveAuras": {
+							"isAura": true,
+							"aura": "All",
+							"radius": 10,
+							"height": true,
+							"displayTemp": true
+						}
+					},
+					"requires": {
+						"ActiveAuras": true
+					}
+				}
+			]
+		},
+		{
 			"name": "Aura of Purity",
 			"source": "PHB",
 			"effects": [
