@@ -90,26 +90,23 @@
 		{
 			"name": "Aura of Purity",
 			"source": "PHB",
+			"_TODO": [
+				"Does not grant advantage for saving throws against conditions"
+			],
 			"effects": [
 				{
 					"changes": [
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "poison",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
 						"seconds": 600
 					},
-					"transfer": true,
 					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						},
 						"ActiveAuras": {
 							"isAura": true,
 							"aura": "Allies",
@@ -152,144 +149,25 @@
 			"itemMacro": "PHB_aura-of-vitality.js"
 		},
 		{
-			"name": "Bane",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "data.bonuses.All-Attacks",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": "20"
-						},
-						{
-							"key": "data.bonuses.abilities.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 60
-					}
-				}
-			]
-		},
-		{
-			"name": "Barkskin",
-			"source": "PHB",
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
-					},
-					"changes": [
-						{
-							"key": "data.attributes.ac.value",
-							"mode": "UPGRADE",
-							"value": "16",
-							"priority": "80"
-						}
-					],
-					"duration": {
-						"seconds": 3600
-					}
-				}
-			]
-		},
-		{
 			"name": "Beacon of Hope",
 			"source": "PHB",
+			"_TODO": [
+				"Does not grant max healing damage, which requires new midi support"
+			],
 			"effects": [
 				{
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.ability.save.wis",
-							"mode": "OVERRIDE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.advantage.deathSave",
-							"mode": "OVERRIDE",
-							"value": "1",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.max.damage.heal",
-							"mode": "OVERRIDE",
-							"value": "1",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 60
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Blade Ward",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "data.traits.dr.value",
 							"mode": "CUSTOM",
-							"value": "physical",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 7
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"turnEndSource"
-							]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Bless",
-			"source": "PHB",
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
-					},
-					"changes": [
-						{
-							"key": "data.bonuses.abilities.save",
-							"mode": "ADD",
-							"value": "+1d4",
-							"priority": "20"
-						},
-						{
-							"key": "data.bonuses.All-Attacks",
-							"mode": "ADD",
-							"value": "+1d4",
-							"priority": "20"
+							"value": "1",
+							"priority": 20
 						}
 					],
 					"duration": {
@@ -301,14 +179,17 @@
 		{
 			"name": "Blur",
 			"source": "PHB",
+			"_TODO": [
+				"Need to use an activation condition to check attacker sight type"
+			],
 			"effects": [
 				{
 					"changes": [
 						{
 							"key": "flags.midi-qol.grants.disadvantage.attack.all",
-							"mode": "UPGRADE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
@@ -345,7 +226,7 @@
 				{
 					"changes": [
 						{
-							"key": "system.traits.di.value",
+							"key": "system.traits.di.custom",
 							"mode": "CUSTOM",
 							"value": "healing",
 							"priority": 20
@@ -371,27 +252,20 @@
 				{
 					"changes": [
 						{
-							"key": "data.attributes.senses.darkvision",
+							"key": "system.attributes.senses.darkvision",
 							"mode": "UPGRADE",
 							"value": "60",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "ATL.dimSight",
 							"mode": "UPGRADE",
 							"value": "60",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
 						"seconds": 28800
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"longRest"
-							]
-						}
 					}
 				}
 			]
@@ -403,21 +277,14 @@
 				{
 					"changes": [
 						{
-							"key": "data.attributes.movement.fly",
+							"key": "system.attributes.movement.fly",
 							"mode": "UPGRADE",
 							"value": "60",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
 						"seconds": 600
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
 					}
 				}
 			]
@@ -430,15 +297,15 @@
 					"changes": [
 						{
 							"key": "flags.midi-qol.disadvantage.attack.mwak",
-							"mode": "OVERRIDE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.disadvantage.attack.rwak",
-							"mode": "OVERRIDE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"flags": {
@@ -461,24 +328,7 @@
 			"source": "PHB",
 			"effects": [
 				{
-					"changes": [
-						{
-							"key": "StatusEffect",
-							"mode": "CUSTOM",
-							"value": "Convenient Effect: Invisible",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 60
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
-					}
+					"convenientEffect": "Invisible"
 				}
 			]
 		},
@@ -489,22 +339,22 @@
 				{
 					"changes": [
 						{
-							"key": "data.attributes.ac.bonus",
+							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
 							"value": "+2",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.attributes.movement.all",
+							"key": "system.attributes.movement.all",
 							"mode": "CUSTOM",
 							"value": "*2",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.advantage.ability.save.dex",
-							"mode": "UPGRADE",
+							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
@@ -516,20 +366,26 @@
 		{
 			"name": "Heroism",
 			"source": "PHB",
+			"_TODO": [
+				"Does not clear temphp on spell expiration"
+			],
+			"system": {
+				"damage.parts": []
+			},
 			"effects": [
 				{
 					"changes": [
 						{
-							"key": "data.traits.ci.value",
+							"key": "system.traits.ci.value",
 							"mode": "ADD",
 							"value": "frightened",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "flags.midi-qol.OverTime",
 							"mode": "OVERRIDE",
 							"value": "turn=start,damageRoll=@mod,damageType=temphp,label=Heroism",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
@@ -548,13 +404,13 @@
 							"key": "flags.midi-qol.OverTime",
 							"mode": 5,
 							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Person",
-							"priority": "20"
+							"priority": 20
 						},
 						{
 							"key": "StatusEffect",
 							"mode": 0,
 							"value": "Convenient Effect: Paralyzed",
-							"priority": "20"
+							"priority": 20
 						}
 					]
 				}
@@ -563,16 +419,12 @@
 		{
 			"name": "Invisibility",
 			"source": "PHB",
+			"_TODO": [
+				"Special expiration doesn't clear concentration, need midi support"
+			],
 			"effects": [
 				{
-					"changes": [
-						{
-							"key": "StatusEffect",
-							"mode": "CUSTOM",
-							"value": "Convenient Effect: Invisible",
-							"priority": "20"
-						}
-					],
+					"convenientEffect": "Invisible",
 					"duration": {
 						"seconds": 3600
 					},
@@ -580,8 +432,7 @@
 						"dae": {
 							"specialDuration": [
 								"1Attack",
-								"1Spell",
-								"shortRest"
+								"1Spell"
 							]
 						}
 					}
@@ -595,46 +446,42 @@
 				{
 					"changes": [
 						{
-							"key": "data.abilities.str.bonuses.save",
+							"key": "system.abilities.str.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.abilities.dex.bonuses.save",
+							"key": "system.abilities.dex.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.abilities.con.bonuses.save",
+							"key": "system.abilities.con.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.abilities.int.bonuses.save",
+							"key": "system.abilities.int.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.abilities.wis.bonuses.save",
+							"key": "system.abilities.wis.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						},
 						{
-							"key": "data.abilities.cha.bonuses.save",
+							"key": "system.abilities.cha.bonuses.save",
 							"mode": "ADD",
 							"value": "-1d4",
-							"priority": "20"
+							"priority": 20
 						}
 					],
-					"duration": {
-						"rounds": 1,
-						"seconds": 7
-					},
 					"flags": {
 						"dae": {
 							"specialDuration": [
@@ -752,10 +599,10 @@
 				{
 					"changes": [
 						{
-							"key": "data.traits.languages.all",
+							"key": "system.traits.languages.all",
 							"mode": "CUSTOM",
 							"value": "1",
-							"priority": "20"
+							"priority": 20
 						}
 					],
 					"duration": {
