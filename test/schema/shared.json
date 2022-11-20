@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.5.3",
+	"version": "0.6.0",
 
 	"$defs": {
 		"schema": {
@@ -129,7 +129,7 @@
 			]
 		},
 
-		"foundrySideDataGeneric": {
+		"foundrySideDataGenericBase": {
 			"type": "object",
 			"properties": {
 				"name": {"type": "string"},
@@ -218,6 +218,14 @@
 			"minProperties": 3
 		},
 
+		"foundrySideDataGeneric": {
+			"type": "object",
+			"allOf": [
+				{"$ref": "#/$defs/foundrySideDataGenericBase"}
+			],
+			"unevaluatedProperties": false
+		},
+
 		"foundrySideDataGenericArray": {
 			"type": "array",
 			"uniqueItems": true,
@@ -228,23 +236,22 @@
 		"subclass": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className": {"type": "string"},
-							"classSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className": {"type": "string"},
+					"classSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -253,23 +260,22 @@
 		"raceFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"raceName": {"type": "string"},
-							"raceSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"raceName",
-							"raceSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"raceName": {"type": "string"},
+					"raceSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"raceName",
+					"raceSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -278,23 +284,22 @@
 		"backgroundFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"backgroundName": {"type": "string"},
-							"backgroundSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"backgroundName",
-							"backgroundSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"backgroundName": {"type": "string"},
+					"backgroundSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"backgroundName",
+					"backgroundSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -303,25 +308,24 @@
 		"classFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className":  {"type": "string"},
-							"classSource": {"type": "string"},
-							"level":  {"type": "integer"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource",
-							"level"
-						],
-						"minProperties": 6
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className":  {"type": "string"},
+					"classSource": {"type": "string"},
+					"level":  {"type": "integer"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource",
+					"level"
+				],
+				"minProperties": 6,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -330,29 +334,28 @@
 		"subclassFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className":  {"type": "string"},
-							"classSource": {"type": "string"},
-							"level":  {"type": "integer"},
-							"subclassShortName": {"type": "string"},
-							"subclassSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource",
-							"level",
-							"subclassShortName",
-							"subclassSource"
-						],
-						"minProperties": 8
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className":  {"type": "string"},
+					"classSource": {"type": "string"},
+					"level":  {"type": "integer"},
+					"subclassShortName": {"type": "string"},
+					"subclassSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource",
+					"level",
+					"subclassShortName",
+					"subclassSource"
+				],
+				"minProperties": 8,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -361,23 +364,22 @@
 		"psionicDisciplineActive": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"psionicName": {"type": "string"},
-							"psionicSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"psionicName",
-							"psionicSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"psionicName": {"type": "string"},
+					"psionicSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"psionicName",
+					"psionicSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -386,23 +388,22 @@
 		"vehicleWeapon": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/$defs/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"vehicleName": {"type": "string"},
-							"vehicleSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"vehicleName",
-							"vehicleSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"vehicleName": {"type": "string"},
+					"vehicleSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"vehicleName",
+					"vehicleSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
