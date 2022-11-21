@@ -1,9 +1,9 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.5.3",
+	"version": "0.6.0",
 
-	"definitions": {
+	"$defs": {
 		"schema": {
 			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
 			"type": "string",
@@ -72,9 +72,9 @@
 					"minItems": 1
 				},
 
-				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
+				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
 
-				"duration": {"$ref": "#/definitions/foundryEffectDurationObject"},
+				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"},
 
 				"disabled": {"const": true},
 				"transfer": {"const": true}
@@ -112,9 +112,9 @@
 					]
 				},
 
-				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
+				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
 
-				"duration": {"$ref": "#/definitions/foundryEffectDurationObject"}
+				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"}
 			},
 			"required": [
 				"convenientEffect"
@@ -124,12 +124,12 @@
 
 		"effectObject": {
 			"oneOf": [
-				{"$ref": "#/definitions/foundryEffectObject"},
-				{"$ref": "#/definitions/convenientEffectObject"}
+				{"$ref": "#/$defs/foundryEffectObject"},
+				{"$ref": "#/$defs/convenientEffectObject"}
 			]
 		},
 
-		"foundrySideDataGeneric": {
+		"foundrySideDataGenericBase": {
 			"type": "object",
 			"properties": {
 				"name": {"type": "string"},
@@ -141,14 +141,14 @@
 					"items": {"type": "string"}
 				},
 
-				"system": {"$ref": "#/definitions/foundrySystemObject"},
+				"system": {"$ref": "#/$defs/foundrySystemObject"},
 
 				"chooseSystem": {
 					"oneOf": [
 						{
 							"type": "array",
 							"uniqueItems": true,
-							"items": {"$ref": "#/definitions/foundrySystemObject"},
+							"items": {"$ref": "#/$defs/foundrySystemObject"},
 							"minItems": 1
 						},
 						{"const": null}
@@ -159,19 +159,19 @@
 
 				"effects": {
 					"type": "array",
-					"items": {"$ref": "#/definitions/effectObject"},
+					"items": {"$ref": "#/$defs/effectObject"},
 					"uniqueItems": true,
 					"minItems": 1
 				},
 
-				"flags": {"$ref": "#/definitions/foundryFlagsObject"},
+				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
 
 				"chooseFlags": {
 					"oneOf": [
 						{
 							"type": "array",
 							"uniqueItems": true,
-							"items": {"$ref": "#/definitions/foundryFlagsObject"},
+							"items": {"$ref": "#/$defs/foundryFlagsObject"},
 							"minItems": 1
 						},
 						{"const": null}
@@ -218,33 +218,40 @@
 			"minProperties": 3
 		},
 
+		"foundrySideDataGeneric": {
+			"type": "object",
+			"allOf": [
+				{"$ref": "#/$defs/foundrySideDataGenericBase"}
+			],
+			"unevaluatedProperties": false
+		},
+
 		"foundrySideDataGenericArray": {
 			"type": "array",
 			"uniqueItems": true,
-			"items": {"$ref": "#/definitions/foundrySideDataGeneric"},
+			"items": {"$ref": "#/$defs/foundrySideDataGeneric"},
 			"minItems": 1
 		},
 
 		"subclass": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className": {"type": "string"},
-							"classSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className": {"type": "string"},
+					"classSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -253,23 +260,22 @@
 		"raceFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"raceName": {"type": "string"},
-							"raceSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"raceName",
-							"raceSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"raceName": {"type": "string"},
+					"raceSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"raceName",
+					"raceSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -278,23 +284,22 @@
 		"backgroundFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"backgroundName": {"type": "string"},
-							"backgroundSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"backgroundName",
-							"backgroundSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"backgroundName": {"type": "string"},
+					"backgroundSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"backgroundName",
+					"backgroundSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -303,25 +308,24 @@
 		"classFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className":  {"type": "string"},
-							"classSource": {"type": "string"},
-							"level":  {"type": "integer"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource",
-							"level"
-						],
-						"minProperties": 6
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className":  {"type": "string"},
+					"classSource": {"type": "string"},
+					"level":  {"type": "integer"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource",
+					"level"
+				],
+				"minProperties": 6,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -330,29 +334,28 @@
 		"subclassFeature": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"className":  {"type": "string"},
-							"classSource": {"type": "string"},
-							"level":  {"type": "integer"},
-							"subclassShortName": {"type": "string"},
-							"subclassSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"className",
-							"classSource",
-							"level",
-							"subclassShortName",
-							"subclassSource"
-						],
-						"minProperties": 8
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"className":  {"type": "string"},
+					"classSource": {"type": "string"},
+					"level":  {"type": "integer"},
+					"subclassShortName": {"type": "string"},
+					"subclassSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"className",
+					"classSource",
+					"level",
+					"subclassShortName",
+					"subclassSource"
+				],
+				"minProperties": 8,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -361,23 +364,22 @@
 		"psionicDisciplineActive": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"psionicName": {"type": "string"},
-							"psionicSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"psionicName",
-							"psionicSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"psionicName": {"type": "string"},
+					"psionicSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"psionicName",
+					"psionicSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
@@ -386,23 +388,22 @@
 		"vehicleWeapon": {
 			"type": "array",
 			"items": {
+				"type": "object",
 				"allOf": [
-					{"$ref": "#/definitions/foundrySideDataGeneric"},
-					{
-						"type": "object",
-						"properties": {
-							"vehicleName": {"type": "string"},
-							"vehicleSource": {"type": "string"}
-						},
-						"required": [
-							"name",
-							"source",
-							"vehicleName",
-							"vehicleSource"
-						],
-						"minProperties": 5
-					}
-				]
+					{"$ref": "#/$defs/foundrySideDataGenericBase"}
+				],
+				"properties": {
+					"vehicleName": {"type": "string"},
+					"vehicleSource": {"type": "string"}
+				},
+				"required": [
+					"name",
+					"source",
+					"vehicleName",
+					"vehicleSource"
+				],
+				"minProperties": 5,
+				"unevaluatedProperties": false
 			},
 			"uniqueItems": true,
 			"minItems": 1
