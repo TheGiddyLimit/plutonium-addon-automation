@@ -16,7 +16,7 @@ class DataManager {
 
 	static async _pLoadIndex () {
 		this._P_LOADING_INDEX = this._P_LOADING_INDEX || (async () => {
-			this._INDEX = await Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`);
+			this._INDEX = await DataUtil.loadJSON(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`);
 		})();
 
 		await this._P_LOADING_INDEX;
@@ -34,7 +34,7 @@ class DataManager {
 		const ixFile = MiscUtil.get(this._INDEX, propJson, ...path);
 		if (ixFile == null) return null;
 
-		const json = await Util.plutoniumApi.util.requests.getWithCache(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
+		const json = await DataUtil.loadJSON(`${SharedConsts.MODULE_PATH}/data/${this._INDEX._file[ixFile]}`);
 
 		const out = (json?.[propJson] || [])
 			.find(it => fnMatch(it));
