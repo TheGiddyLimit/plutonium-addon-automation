@@ -1,0 +1,85 @@
+{
+	"_meta": {
+		"version": "1.0.0",
+		"convertedBy": [
+			"Giddy#0001"
+		],
+		"dateAdded": 1673182555,
+		"dateLastModified": 1673182555
+	},
+	"optionalfeature": [
+		{
+			"name": "Aid Us, Friend (3 Ferocity)",
+			"source": "BST",
+			"_TODO": [
+				"Assumes in-combat use for advantage on attack roll"
+			],
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.grants.advantage.attack.all",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"isAttacked"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "No Escape (1+ Ferocity)",
+			"source": "BST",
+			"_TODO": [
+				"Does not modify movement"
+			],
+			"effects": [
+				{
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnStart"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Thrash (4 Ferocity)",
+			"source": "BST",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "flags.midi-qol.disadvantage.attack.all",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						},
+						{
+							"key": "flags.midi-qol.grants.advantage.attack.all",
+							"mode": "CUSTOM",
+							"value": "1",
+							"priority": 20
+						}
+					],
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnStartSource"
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
