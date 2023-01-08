@@ -3,6 +3,7 @@
 class ConverterUi {
 	static _iptFile = null;
 	static _iptText = null;
+	static _cbKeepImg = null;
 	static _btnConvert = null;
 	static _btnCopy = null;
 	static _outText = null;
@@ -60,12 +61,22 @@ class ConverterUi {
 	}
 
 	static _doConvert_ () {
-		this._outText.value = JSON.stringify(Converter.getConverted(JSON.parse(this._iptText.value)), null, "\t");
+		this._outText.value = JSON.stringify(
+			Converter.getConverted(
+				JSON.parse(this._iptText.value),
+				{
+					isKeepImg: this._cbKeepImg.checked,
+				},
+			),
+			null,
+			"\t",
+		);
 	}
 
 	static init () {
 		this._iptFile = document.getElementById("ipt-file");
 		this._iptText = document.getElementById("ipt-text");
+		this._cbKeepImg = document.getElementById("cb-keep-img");
 		this._btnConvert = document.getElementById("btn-convert");
 		this._btnCopy = document.getElementById("btn-copy");
 		this._outText = document.getElementById("out-text");
@@ -92,24 +103,32 @@ class ConverterUtil {
 }
 
 class Converter {
-	static getConverted (json) {
+	static getConverted (json, {isKeepImg = false} = {}) {
 		if (json instanceof Array) {
+			const [, ...rest] = arguments;
 			return json
 				.sort((a, b) => (a.flags?.srd5e?.page || "").localeCompare(b.flags?.srd5e?.page || "")
 					|| a.type.localeCompare(b.type)
 					|| a.name.localeCompare(b.name, {sensitivity: "base"}))
-				.map(it => this.getConverted(it));
+				.map(it => this.getConverted(it, ...rest));
 		}
 
 		const effects = EffectConverter.getEffects(json);
 		const flags = FlagConverter.getFlags(json);
 
-		return {
+		const out = {
 			name: json.name,
 			source: this._getSource(json),
 			effects,
 			flags,
 		};
+
+		if (isKeepImg) {
+			const img = ImgConverter.getImg(json);
+			if (img) out.img = img;
+		}
+
+		return out;
 	}
 
 	static _getSource (json) {
@@ -133,6 +152,7 @@ class FlagConverter {
 				switch (k) {
 					// region Discard these
 					case "srd5e":
+					case "plutonium":
 					case "core":
 					case "favtab": // https://foundryvtt.com/packages/favtab
 					case "magicitems": // https://foundryvtt.com/packages/magicitems
@@ -313,6 +333,19 @@ class EffectConverter {
 			case 5: return "OVERRIDE";
 			default: return modeRaw;
 		}
+	}
+}
+
+class ImgConverter {
+	static _IGNORED_IMGS = new Set([
+		"icons/svg/mystery-man.svg",
+		"icons/svg/item-bag.svg",
+		"icons/svg/aura.svg",
+	]);
+
+	static getImg (json) {
+		if (json.img && !this._IGNORED_IMGS.has(json.img)) return json.img;
+		return null;
 	}
 }
 

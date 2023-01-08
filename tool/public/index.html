@@ -15,7 +15,7 @@
 		.min-h-0 {
 			min-height: 0 !important;
 		}
-		
+
 		.w-80p {
 			width: 80px !important;
 		}
@@ -31,7 +31,14 @@
 			<textarea class="form-control h-100 min-h-0 lh-1 font-monospace" id="ipt-text"></textarea>
 		</div>
 		<div class="col-6 h-100 d-flex flex-column">
-			<div class="mb-3">
+			<div class="d-flex align-items-center mb-3">
+				<label class="me-2">
+					<span>Keep <code>img</code>s</span>
+					<input type="checkbox" id="cb-keep-img">
+				</label>
+
+				<div class="vr me-2"></div>
+
 				<button type="button" class="btn btn-primary btn-sm me-1 w-80p" id="btn-convert">Convert</button>
 				<button type="button" class="btn btn-primary btn-sm me-1 w-80p" id="btn-copy">Copy</button>
 			</div>
