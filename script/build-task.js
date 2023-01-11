@@ -41,18 +41,22 @@ export const buildTask = async () => {
 		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/plutonium-addon-automation.zip`,
 		compatibility: {
 			minimum: "10",
-			verified: "10.288",
+			verified: "10.291",
 		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
 
 		relationships: {
 			requires: [
+				// region Disabled, as Plutonium may go by other IDs :^)
+				/*
 				{
 					id: "plutonium",
 					type: "module",
 					manifest: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-next/master/module.json",
 				},
+				*/
+				// endregion
 				{
 					id: "midi-qol",
 					type: "module",

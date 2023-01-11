@@ -7,7 +7,10 @@ class Util {
 		`|`,
 	];
 
-	static get plutoniumApi () { return game.modules.get(SharedConsts.MODULE_NAME_PARENT).api; }
+	static get plutoniumApi () {
+		return game.modules.get(SharedConsts.MODULE_NAME_PARENT)?.api
+			|| game.modules.get(SharedConsts.MODULE_NAME_PARENT_ALT)?.api;
+	}
 }
 
 class DataManager {
