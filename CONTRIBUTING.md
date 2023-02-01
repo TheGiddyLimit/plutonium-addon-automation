@@ -78,7 +78,7 @@ To reference this human-readable macro in the main data files, use `"itemMacro":
 
 ### Bulk conversion from Foundry
 
-In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium Add-on: Automation*-compatible data (plus anything not recognised—sort through that yourself).
+In [`tool/public/`](./tool/public) is a simple webpage which you can use to automate some of the data-filling work. On the left, enter a Foundry item's JSON, or load a file at the top. The data will be stripped to just *Plutonium Addon: Automation*-compatible data (plus anything not recognised—sort through that yourself).
 
 You can also upload entire `items.db` files, but be aware that the webpage doesn't split the items out by (game-mechanical) datatype, and some modules might be hiding some clutter in that file (e.g. DFCE custom CEs).
 
