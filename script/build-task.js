@@ -45,6 +45,13 @@ export const buildTask = async () => {
 		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
+		languages: [
+			{
+				lang: "en",
+				name: "English",
+				path: "lang/en.json",
+			},
+		],
 
 		relationships: {
 			requires: [
