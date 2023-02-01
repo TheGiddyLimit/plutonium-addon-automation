@@ -1,5 +1,5 @@
+/** From "MidiQOL Sample Items" compendium */
 async function macro (args) {
-	// From "MidiQOL Sample Items" compendium
 	if (args[0].macroPass !== "preDamageRoll") return;
 
 	const target = await fromUuid(args[0].targetUuids[0]);

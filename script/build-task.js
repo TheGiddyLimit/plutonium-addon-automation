@@ -145,10 +145,18 @@ export const buildTask = async () => {
 						if (!ent.itemMacro) return;
 
 						const macroPath = path.join(DIR_ITEM_MACROS, parentDir, ent.itemMacro);
-						ent.itemMacro = fs.readFileSync(macroPath, "utf-8")
+
+						const lines = fs.readFileSync(macroPath, "utf-8")
 							.trim()
-							.split("\n")
-							.slice(1, -1)
+							.split("\n");
+
+						const ixStart = lines.findIndex(l => l.startsWith("async function macro"));
+						if (!~ixStart) throw new Error(`Expected macro "${macroPath}" to include "async function macro ..."`);
+
+						if (lines.at(-1) !== "}") throw new Error(`Expected macro "${macroPath}" to end with "\\n}"!`);
+
+						ent.itemMacro = lines
+							.slice(ixStart, -1)
 							.map(it => it.replace(/^\t/, ""))
 							.join("\n");
 
