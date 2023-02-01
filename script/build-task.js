@@ -156,7 +156,7 @@ export const buildTask = async () => {
 						if (lines.at(-1) !== "}") throw new Error(`Expected macro "${macroPath}" to end with "\\n}"!`);
 
 						ent.itemMacro = lines
-							.slice(ixStart, -1)
+							.slice(ixStart + 1, -1)
 							.map(it => it.replace(/^\t/, ""))
 							.join("\n");
 

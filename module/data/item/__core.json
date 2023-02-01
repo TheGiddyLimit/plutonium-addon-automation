@@ -1,6 +1,138 @@
 {
 	"item": [
 		{
+			"name": "Bullseye Lantern",
+			"source": "PHB",
+			"effects": [
+				{
+					"duration": {
+						"seconds": 21600
+					},
+					"changes": [
+						{
+							"key": "macro.itemMacro",
+							"mode": "ADD",
+							"value": ""
+						}
+					]
+				}
+			],
+			"flags": {
+				"midiProperties": {
+					"toggleEffect": true
+				}
+			},
+			"itemMacro": "PHB_bullseye-lantern.js"
+		},
+		{
+			"name": "Goggles of Night",
+			"source": "DMG",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "macro.itemMacro",
+							"mode": "CUSTOM",
+							"value": "@token"
+						}
+					],
+					"transfer": true,
+					"flags": {
+						"dae": {
+							"stackable": "noneName"
+						}
+					}
+				}
+			],
+			"flags": {
+				"midiProperties": {
+					"toggleEffect": true
+				}
+			},
+			"itemMacro": "DMG_goggles-of-night.js"
+		},
+		{
+			"name": "Lantern of Revealing",
+			"source": "DMG",
+			"effects": [
+				{
+					"duration": {
+						"seconds": 21600
+					},
+					"changes": [
+						{
+							"key": "macro.itemMacro",
+							"mode": "ADD",
+							"value": ""
+						}
+					]
+				}
+			],
+			"flags": {
+				"midiProperties": {
+					"toggleEffect": true
+				}
+			},
+			"itemMacro": "DMG_lantern-of-revealing.js"
+		},
+		{
+			"name": "Mace of Disruption",
+			"source": "DMG",
+			"_TODO": [
+				"ItemMacro always runs, regardless of target's type."
+			],
+			"system": {
+				"activation.condition": "[\"fiend\", \"undead\"].includes(raceOrType)  && item.attunement !== 1"
+			},
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "StatusEffect",
+							"mode": "CUSTOM",
+							"value": "Convenient Effect: Frightened"
+						}
+					],
+					"duration": {
+						"rounds": 99
+					},
+					"flags": {
+						"dae": {
+							"specialDuration": [
+								"turnEndSource"
+							]
+						}
+					}
+				},
+				{
+					"changes": [
+						{
+							"key": "ATL.brightLight",
+							"mode": "UPGRADE",
+							"value": "20",
+							"priority": 20
+						},
+						{
+							"key": "ATL.dimLight",
+							"mode": "UPGRADE",
+							"value": "40",
+							"priority": 20
+						}
+					],
+					"transfer": true,
+					"requires": {
+						"ActiveAuras": true
+					}
+				}
+			],
+			"flags": {
+				"midi-qol": {
+					"onUseMacroName": "[preDamageApplication]ItemMacro",
+					"effectActivation": true
+				}
+			}
+		},
+		{
 			"name": "Sentinel Shield",
 			"source": "DMG",
 			"effects": [
@@ -19,6 +151,84 @@
 			"_merge": {
 				"effects": true
 			}
+		}
+	],
+	"magicvariant": [
+		{
+			"name": "Sword of Life Stealing",
+			"source": "DMG",
+			"flags": {
+				"midi-qol": {
+					"onUseMacroName": "[postActiveEffects]ItemMacro"
+				},
+				"midiProperties": {
+					"rollOther": true
+				}
+			},
+			"itemMacro": "DMG_sword-of-life-stealing.js"
+		},
+		{
+			"name": "Sword of Sharpness",
+			"source": "DMG",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "ATL.dimLight",
+							"mode": "ADD",
+							"value": "20"
+						},
+						{
+							"key": "ATL.brightLight",
+							"mode": "ADD",
+							"value": "10"
+						}
+					],
+					"transfer": true,
+					"requires": {
+						"ATL": true
+					}
+				}
+			],
+			"flags": {
+				"midi-qol": {
+					"onUseMacroName": "[postActiveEffects]ItemMacro"
+				},
+				"midiProperties": {
+					"rollOther": true
+				}
+			},
+			"itemMacro": "DMG_sword-of-sharpness.js"
+		},
+		{
+			"name": "Sword of Wounding",
+			"source": "DMG",
+			"effects": [
+				{
+					"changes": [
+						{
+							"key": "macro.itemMacro",
+							"mode": "CUSTOM",
+							"value": "0"
+						}
+					],
+					"duration": {
+						"rounds": 99
+					},
+					"flags": {
+						"dae": {
+							"stackable": "count",
+							"macroRepeat": "startEveryTurn"
+						}
+					}
+				}
+			],
+			"flags": {
+				"midi-qol": {
+					"onUseMacroName": "[postActiveEffects]ItemMacro"
+				}
+			},
+			"itemMacro": "DMG_sword-of-wounding.js"
 		}
 	]
 }
