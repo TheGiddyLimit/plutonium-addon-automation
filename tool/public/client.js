@@ -154,9 +154,12 @@ class FlagConverter {
 					case "srd5e":
 					case "plutonium":
 					case "core":
+					case "exportSource":
 					case "favtab": // https://foundryvtt.com/packages/favtab
 					case "magicitems": // https://foundryvtt.com/packages/magicitems
 					case "cf": // https://foundryvtt.com/packages/compendium-folders (?)
+					case "scene-packer": // https://foundryvtt.com/packages/scene-packer
+					case "betterRolls5e": // https://foundryvtt.com/packages/betterrolls5e/
 						break;
 						// endregion
 
