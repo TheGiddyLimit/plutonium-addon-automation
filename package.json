@@ -5,8 +5,8 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"test:js": "eslint script module/js module/shared tool test macro-item",
-		"lint:js": "eslint script module/js module/shared tool test macro-item --fix",
+		"test:js": "eslint script module/js module/shared tool docs test macro-item",
+		"lint:js": "eslint script module/js module/shared tool docs test macro-item --fix",
 		"test:data": "node test/test-json.js && node test/test-data.js",
 		"lint:data": "node test/test-data.js --fix",
 		"test": "npm run test:data && npm run test:js",
@@ -15,7 +15,7 @@
 		"build:module": "node script/build.js",
 		"build": "npm run build:index && npm run build:module",
 		"package": "node script/package.js",
-		"tools": "node tool/server.js",
+		"local-pages": "node tool/local-pages.js",
 		"macro-template": "node script/generate-item-macro-template.js",
 		"mt": "npm run macro-template --"
 	},
