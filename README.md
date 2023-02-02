@@ -46,4 +46,4 @@ If you have [Item Macro](https://github.com/Kekilla0/Item-Macro) active, you als
 
 ## Contributing
 
-Please see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+Please see [`CONTRIBUTING.md`](./CONTRIBUTING.md). See also the [tools page](https://thegiddylimit.github.io/plutonium-addon-automation/).
