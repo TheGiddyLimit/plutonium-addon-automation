@@ -33,6 +33,10 @@ As above, *Plutonium Addon: Automation* is designed for the extensive automation
 
 ## Required set-up
 
+You can install the module using the following manifest url:
+
+`https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/latest/download/module.json`
+
 You **must** configure some modules in a specific way, or the automation won't work. Configure the following:
 
 - _**DFreds Convenient Effects** > Modify Status Effects_ — select either `Replace` (preferred) or `Add`.
