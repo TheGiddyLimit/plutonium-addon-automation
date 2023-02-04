@@ -39,6 +39,7 @@ export const buildTask = async () => {
 		manifest: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/latest/download/module.json`,
 		// Set "download" to this specific version, so that users manually entering the link will receive the version they expect
 		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/plutonium-addon-automation.zip`,
+		changelog: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/CHANGELOG.md",
 		compatibility: {
 			minimum: "10",
 			verified: "10.291",
