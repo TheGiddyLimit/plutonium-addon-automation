@@ -209,7 +209,9 @@ class SettingsManager {
 
 			let value = expectedValue;
 			if (propPath) {
-				value = foundry.utils.getProperty(value, propPath);
+				const current = foundry.utils.deepClone(game.settings.get(moduleId, settingKey));
+				foundry.utils.setProperty(current, propPath, value);
+				value = current;
 			}
 
 			await game.settings.set(moduleId, settingKey, value);
