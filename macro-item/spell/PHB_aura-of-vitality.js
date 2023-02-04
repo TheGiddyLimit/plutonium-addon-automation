@@ -15,6 +15,7 @@ async function macro (args) {
 			},
 			damage: { parts: [["2d6", "healing"]] },
 			duration: { units: "inst" },
+			level: args[1].efData.flags["midi-qol"].castData.castLevel,
 			preparation: {
 				mode: "atwill",
 				prepared: true,
