@@ -68,17 +68,17 @@ export const buildTask = async () => {
 				{
 					id: "midi-qol",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/midi-qol/raw/master/package/module.json",
+					manifest: "https://gitlab.com/tposney/midi-qol/raw/v10/package/module.json",
 				},
 				{
 					id: "dae",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/dae/raw/master/package/module.json",
+					manifest: "https://gitlab.com/tposney/dae/raw/v10/package/module.json",
 				},
 				{
 					id: "times-up",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/times-up/raw/master/package/module.json",
+					manifest: "https://gitlab.com/tposney/times-up/raw/v10/package/module.json",
 				},
 				{
 					id: "dfreds-convenient-effects",
