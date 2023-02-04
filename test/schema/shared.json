@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.6.0",
+	"version": "0.6.1",
 
 	"$defs": {
 		"schema": {
@@ -108,13 +108,22 @@
 						"Prone",
 						"Restrained",
 						"Stunned",
-						"Unconscious"
+						"Unconscious",
+
+						"Bullseye Lantern",
+						"Candle",
+						"Hooded Lantern",
+						"Lantern",
+						"Torch"
 					]
 				},
 
 				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
 
-				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"}
+				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"},
+
+				"disabled": {"const": true},
+				"transfer": {"const": true}
 			},
 			"required": [
 				"convenientEffect"
