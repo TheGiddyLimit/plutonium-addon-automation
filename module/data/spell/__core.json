@@ -271,6 +271,13 @@
 			]
 		},
 		{
+			"name": "Dimension Door",
+			"source": "PHB",
+			"system": {
+				"damage.parts": []
+			}
+		},
+		{
 			"name": "Fly",
 			"source": "PHB",
 			"effects": [
