@@ -47,7 +47,10 @@ class DataManager {
 			const convEffect = game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
 			if (!convEffect) return eff;
 
-			const convEffectData = convEffect.convertToActiveEffectData();
+			const convEffectData = convEffect.convertToActiveEffectData({
+				includeAte: game.modules.get("ATL")?.active,
+				includeTokenMagic: game.modules.get("tokenmagic")?.active,
+			});
 
 			delete eff.convenientEffect;
 
