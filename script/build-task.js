@@ -38,7 +38,7 @@ export const buildTask = async () => {
 		// Use "latest" as manifest URL, so that when updating the module the user always gets the latest version
 		manifest: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/latest/download/module.json`,
 		// Set "download" to this specific version, so that users manually entering the link will receive the version they expect
-		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/${packageJson.version}/plutonium-addon-automation.zip`,
+		download: `https://github.com/TheGiddyLimit/plutonium-addon-automation/releases/download/v${packageJson.version}/plutonium-addon-automation.zip`,
 		changelog: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/CHANGELOG.md",
 		compatibility: {
 			minimum: "10",
