@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.7
+
+> 2023-02-05
+
+- Fixed download URL
+
 ## 0.3.6
 
 > 2023-02-05
