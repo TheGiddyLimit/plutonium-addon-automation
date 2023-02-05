@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.6
+
+> 2023-02-05
+
+- Updated module dependency URLs
+- Fixed Midi QOL "Apply Convenient Effects" auto-config value
+
 ## 0.3.5
 
 > 2023-02-04
