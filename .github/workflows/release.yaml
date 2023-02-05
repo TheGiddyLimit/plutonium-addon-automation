@@ -5,6 +5,13 @@ on:
       tags:
          - 'v[0-9]+.[0-9]+.[0-9]+'
 
+   # Allow running manually from the actions tab
+   workflow_dispatch:
+
+concurrency:
+   group: "release"
+   cancel-in-progress: true
+
 jobs:
    build-and-deploy:
       runs-on: ubuntu-latest
