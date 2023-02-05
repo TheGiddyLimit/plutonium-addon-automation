@@ -112,7 +112,7 @@ class SettingsManager {
 			settingKey: "ConfigSettings",
 			propPath: "autoCEEffects",
 			isGmOnly: true,
-			expectedValue: "cepri",
+			expectedValue: "itempri",
 			displaySettingName: "midi-qol.AutoCEEffects.Name",
 		},
 		{
