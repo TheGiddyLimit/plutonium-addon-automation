@@ -11,10 +11,6 @@ jobs:
       steps:
          -  uses: actions/checkout@master
 
-         # See: https://stackoverflow.com/a/58178121
-         -  name: Set Env
-            run: echo "RELEASE_VERSION=$(node -pe "require('./package.json').version")" >> $GITHUB_ENV
-
          -  name: Build
             run: |
                node --version
@@ -30,6 +26,6 @@ jobs:
 
          -  name: Upload Release
             run: |
-               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "${{ env.RELEASE_VERSION }}"$'\n\n'"Version ${{ env.RELEASE_VERSION }}" ${{ env.RELEASE_VERSION }}
+               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "${{ github.ref_name }}"$'\n\n'"Version ${{ github.ref_name }}" ${{ github.ref_name }}
             env:
                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
