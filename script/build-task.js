@@ -85,6 +85,7 @@ export const buildTask = async () => {
 					type: "module",
 					manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
 				},
+				// We depend on Item Macro as we utilize its item API in some macros (`.hasMacro`, `.executeMacro`)
 				{
 					id: "itemacro",
 					type: "module",
