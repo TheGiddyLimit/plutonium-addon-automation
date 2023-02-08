@@ -13,15 +13,19 @@
 		"lint": "npm run lint:data && npm run lint:js",
 		"build:index": "node script/generate-index.js",
 		"build:module": "node script/build.js",
-		"build": "npm run build:index && npm run build:module",
+		"build:changelog": "node script/generate-changelog.js.js",
+		"build": "npm run build:index && npm run build:changelog && npm run build:module",
 		"package": "node script/package.js",
 		"local-pages": "node tool/local-pages.js",
 		"macro-template": "node script/generate-item-macro-template.js",
-		"mt": "npm run macro-template --"
+		"mt": "npm run macro-template --",
+		"preversion:changelog": "node test/test-preversion-changelog.js",
+		"preversion": "npm run preversion:changelog && npm t",
+		"version": "npm run build:changelog && npm add CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
-		"5etools-utils": "^0.2.0",
+		"5etools-utils": "^0.5.15",
 		"adm-zip-giddy": "^0.4.12",
 		"commander": "^9.1.0",
 		"eslint": "^8.11.0",
