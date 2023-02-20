@@ -1,0 +1,22 @@
+<form class="ve-flex-col ve-window min-h-0 h-100 relative">
+	<h4>Hide Notifications for Optional Dependencies:</h4>
+
+	{{#each modules as |module ix|}}
+		<label class="ve-flex-v-center py-1 w-100">
+			<div class="ve-flex-col w-100 mr-2">
+				<div class="ve-flex-v-center mb-1">
+					<span class="bold mr-1">{{title}}</span>
+					<span class="ve-muted ve-small">({{id}})</span>
+				</div>
+
+				<div class="ve-small"><a href="https://foundryvtt.com/packages/{{id}}" rel="noopener noreferrer">https://foundryvtt.com/packages/{{id}}</a></div>
+			</div>
+
+			<div class="ve-flex">
+				<input type="checkbox" data-dtype="Boolean" class="m-0" name="{{id}}" {{checked isChecked}}>
+			</div>
+		</label>
+	{{/each}}
+
+	<button type="submit" class="mt-1"><i class="fas fa-save"></i> Save Changes</button>
+</form>
