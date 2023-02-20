@@ -21,7 +21,7 @@
 						{
 							"key": "flags.midi-qol.OverTime",
 							"mode": "OVERRIDE",
-							"value": "turn=end,removeCondition=true,saveAbility=str,saveDC=8+@prof+@abilities.con.mod,saveMagic=true,label=Fire Rune",
+							"value": "turn=end,removeCondition=true,saveAbility=str,saveDC=8+@attributes.prof+@abilities.con.mod,saveMagic=true,label=Fire Rune",
 							"priority": "20"
 						}
 					],
