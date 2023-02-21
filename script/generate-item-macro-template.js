@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import {Um} from "5etools-utils";
-import { Command } from "commander";
+import {Command} from "commander";
 import path from "path";
 import {DIR_ITEM_MACROS} from "./consts.js";
 
