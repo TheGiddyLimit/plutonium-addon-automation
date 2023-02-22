@@ -22,7 +22,20 @@ export class DataManager {
 			.find(it => fnMatch(it));
 		if (!out) return null;
 
-		return this._getFiltered(this._getPostProcessed(out));
+		return this._getFilteredOutput(this._getPostProcessed(this._getFilteredInput(out)));
+	}
+
+	static _getFilteredInput (out) {
+		out = this._getFilteredInput_itemMacro({out});
+		return out;
+	}
+
+	static _getFilteredInput_itemMacro ({out}) {
+		if (this._isRequiresMatch(out.itemMacro?.requires)) return out;
+
+		out = foundry.utils.deepClone(out);
+		delete out.itemMacro;
+		return out;
 	}
 
 	static _getPostProcessed (out) {
@@ -79,7 +92,7 @@ export class DataManager {
 				"author": game.userId,
 				"img": "icons/svg/dice-target.svg",
 				"scope": "global",
-				"command": out.itemMacro,
+				"command": out.itemMacro.script,
 				"folder": null,
 				"sort": 0,
 				"ownership": {"default": 0},
@@ -92,30 +105,32 @@ export class DataManager {
 		return out;
 	}
 
-	static _getFiltered (out) {
-		out = this._getFiltered_effects({out});
+	static _getFilteredOutput (out) {
+		out = this._getFilteredOutput_effects({out});
 		return out;
 	}
 
-	static _getFiltered_effects ({out}) {
+	static _getFilteredOutput_effects ({out}) {
 		if (!out.effects?.some(({requires}) => !!requires)) return out;
 
 		out = foundry.utils.deepClone(out);
 
 		out.effects = out.effects
-			.filter(eff => {
-				if (!eff.requires) return true;
-
-				return Object.keys(eff.requires)
-					.map(moduleId => {
-						if (game.modules.get(moduleId)?.active) return true;
-						OptionalDependenciesManager.doNotifyMissing(moduleId);
-						return false;
-					})
-					// Avoid using `.every` directly, above, so that we run through all possible requirements for each effect
-					.every(Boolean);
-			});
+			.filter(eff => this._isRequiresMatch(eff.requires));
 
 		return out;
+	}
+
+	static _isRequiresMatch (requiresObj) {
+		if (!requiresObj) return true;
+
+		return Object.keys(requiresObj)
+			.map(moduleId => {
+				if (game.modules.get(moduleId)?.active) return true;
+				OptionalDependenciesManager.doNotifyMissing(moduleId);
+				return false;
+			})
+			// Avoid using `.every` directly, above, so that we run through all possible requirements
+			.every(Boolean);
 	}
 }

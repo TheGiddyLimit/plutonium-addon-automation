@@ -27,7 +27,9 @@
 					}
 				}
 			],
-			"itemMacro": "PHB_aid.js"
+			"itemMacro": {
+				"file": "PHB_aid.js"
+			}
 		},
 		{
 			"name": "Antimagic Field",
@@ -146,7 +148,9 @@
 					}
 				}
 			],
-			"itemMacro": "PHB_aura-of-vitality.js"
+			"itemMacro": {
+				"file": "PHB_aura-of-vitality.js"
+			}
 		},
 		{
 			"name": "Beacon of Hope",
@@ -597,7 +601,9 @@
 					"onUseMacroName": "[preDamageRoll]ItemMacro"
 				}
 			},
-			"itemMacro": "XGE_toll-the-dead.js"
+			"itemMacro": {
+				"file": "XGE_toll-the-dead.js"
+			}
 		},
 		{
 			"name": "Tongues",

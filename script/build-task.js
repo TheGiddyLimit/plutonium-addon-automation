@@ -90,12 +90,6 @@ export const buildTask = async (
 					type: "module",
 					manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
 				},
-				// We depend on Item Macro as we utilize its item API in some macros (`.hasMacro`, `.executeMacro`)
-				{
-					id: "itemacro",
-					type: "module",
-					manifest: "https://github.com/Kekilla0/Item-Macro/releases/latest/download/module.json",
-				},
 			],
 			conflicts: [
 				{
@@ -158,7 +152,7 @@ export const buildTask = async (
 
 						if (!ent.itemMacro) return;
 
-						const macroPath = path.join(DIR_ITEM_MACROS, parentDir, ent.itemMacro);
+						const macroPath = path.join(DIR_ITEM_MACROS, parentDir, ent.itemMacro.file);
 
 						const lines = fs.readFileSync(macroPath, "utf-8")
 							.trim()
@@ -169,10 +163,14 @@ export const buildTask = async (
 
 						if (lines.at(-1) !== "}") throw new Error(`Expected macro "${macroPath}" to end with "\\n}"!`);
 
-						ent.itemMacro = lines
-							.slice(ixStart + 1, -1)
-							.map(it => it.replace(/^\t/, ""))
-							.join("\n");
+						ent.itemMacro = {
+							...ent.itemMacro,
+							file: undefined,
+							script: lines
+								.slice(ixStart + 1, -1)
+								.map(it => it.replace(/^\t/, ""))
+								.join("\n"),
+						};
 
 						if (ent.flags?.itemacro) throw new Error(`Entity had both "itemMacro" and "itemacro" flags!`);
 

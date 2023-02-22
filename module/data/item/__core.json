@@ -22,7 +22,9 @@
 					"toggleEffect": true
 				}
 			},
-			"itemMacro": "PHB_bullseye-lantern.js"
+			"itemMacro": {
+				"file": "PHB_bullseye-lantern.js"
+			}
 		},
 		{
 			"name": "Goggles of Night",
@@ -49,7 +51,9 @@
 					"toggleEffect": true
 				}
 			},
-			"itemMacro": "DMG_goggles-of-night.js"
+			"itemMacro": {
+				"file": "DMG_goggles-of-night.js"
+			}
 		},
 		{
 			"name": "Lantern of Revealing",
@@ -73,7 +77,9 @@
 					"toggleEffect": true
 				}
 			},
-			"itemMacro": "DMG_lantern-of-revealing.js"
+			"itemMacro": {
+				"file": "DMG_lantern-of-revealing.js"
+			}
 		},
 		{
 			"name": "Mace of Disruption",
@@ -186,7 +192,9 @@
 					"rollOther": true
 				}
 			},
-			"itemMacro": "DMG_sword-of-life-stealing.js"
+			"itemMacro": {
+				"file": "DMG_sword-of-life-stealing.js"
+			}
 		},
 		{
 			"name": "Sword of Sharpness",
@@ -219,7 +227,9 @@
 					"rollOther": true
 				}
 			},
-			"itemMacro": "DMG_sword-of-sharpness.js"
+			"itemMacro": {
+				"file": "DMG_sword-of-sharpness.js"
+			}
 		},
 		{
 			"name": "Sword of Wounding",
@@ -249,7 +259,9 @@
 					"onUseMacroName": "[postActiveEffects]ItemMacro"
 				}
 			},
-			"itemMacro": "DMG_sword-of-wounding.js"
+			"itemMacro": {
+				"file": "DMG_sword-of-wounding.js"
+			}
 		}
 	]
 }

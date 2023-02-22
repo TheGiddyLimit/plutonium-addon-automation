@@ -17,7 +17,7 @@ While the module is activated in your world, each time Plutonium would import a 
 
 As with Plutonium, **all data is included in the module itself**. There's no need to import everything prematurely, 'just in case'.
 
-Some effects don't use effects directly, but rather call item macros. If you, as the GM, wish to allow players to view/edit these macros on items they own, configure Item Macro to allow the _Player access_ option.
+Some effects don't use effects directly, but rather call item macros. If you, as the GM, wish to allow players to view/edit these macros on items they own, install and configure Item Macro to allow the _Player access_ option.
 
 ### Dependencies and incompatibilities
 
@@ -26,11 +26,11 @@ Besides Plutonium itself, *Plutonium Addon: Automation* **requires**:
 - [Midi QoL](https://foundryvtt.com/packages/midi-qol)
 - [times-up](https://foundryvtt.com/packages/times-up)
 - [DFred's Convenient Effects](https://foundryvtt.com/packages/dfreds-convenient-effects)
-- [Item Macro](https://foundryvtt.com/packages/itemacro)
 
 Some specific automations require additional modules. You will be prompted to install/activate an additional module if you import a document which requires one or more of these:
 - [Active-Auras](https://foundryvtt.com/packages/ActiveAuras)
 - [Active Token Effects](https://foundryvtt.com/packages/ATL)
+- [Item Macro](https://foundryvtt.com/packages/itemacro)
 - [Warp Gate](https://foundryvtt.com/packages/warpgate)
 
 As above, *Plutonium Addon: Automation* is designed for the extensive automation provided 'Midi ecosystem' and, as such, *isn't* designed for modules such as [MARS 5e](https://foundryvtt.com/packages/mars-5e), [MRE 5e](https://foundryvtt.com/packages/mre-dnd5e), and [Better Rolls](https://foundryvtt.com/packages/betterrolls5e). Using them may cause problems. Also, we don't recommend using this with [Combat Utility Belt](https://foundryvtt.com/packages/combat-utility-belt).

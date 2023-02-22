@@ -202,7 +202,12 @@
 					}
 				}
 			],
-			"itemMacro": "PHB_rage.js"
+			"itemMacro": {
+				"file": "PHB_rage.js",
+				"requires": {
+					"itemacro": true
+				}
+			}
 		},
 		{
 			"name": "Reckless Attack",
