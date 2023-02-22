@@ -3,6 +3,7 @@ import {SharedConsts} from "../module/shared/SharedConsts.js";
 import {Kludge} from "plutonium-utils";
 import * as path from "path";
 import {buildTask} from "./build-task.js";
+import {DIST_SUBDIR_MODULE} from "./consts.js";
 
 function _zip (dirPart, zipRoot) {
 	const zip = new Zip();
@@ -27,7 +28,7 @@ function _zip (dirPart, zipRoot) {
 async function doPackage () {
 	await buildTask();
 
-	const zip = _zip(SharedConsts.MODULE_DIR, SharedConsts.MODULE_ID);
+	const zip = _zip(DIST_SUBDIR_MODULE, SharedConsts.MODULE_ID);
 
 	const outPath = `./dist/${SharedConsts.MODULE_ID}.zip`;
 	zip.writeZip(outPath);

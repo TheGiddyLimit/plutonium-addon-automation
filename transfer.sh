@@ -13,7 +13,7 @@ echo "Removing existing module..."
 rm -rf "${1}/modules/plutonium-addon-automation"
 
 echo "Building..."
-npm run build
+npm run build:dev
 
 echo "Transferring..."
 cp -rf dist/plutonium-addon-automation "${1}/modules/"

@@ -3,13 +3,18 @@ import doBuild from "plutonium-utils/lib/BuildTask.js";
 import {SharedConsts} from "../module/shared/SharedConsts.js";
 import {Uf} from "5etools-utils";
 import fs from "fs";
-import {DIR_ITEM_MACROS} from "./consts.js";
+import {BUNDLE_MODULE_PATH, DIR_ITEM_MACROS, DIST_SUBDIR_MODULE} from "./consts.js";
+import pBuildBundleJs from "./build-bundle.js";
 
 const packageJson = Uf.readJSON(`./package.json`);
 
-export const buildTask = async () => {
+export const buildTask = async (
+	{
+		isBundle = false,
+	} = {},
+) => {
 	await doBuild({
-		dir: SharedConsts.MODULE_DIR,
+		dir: DIST_SUBDIR_MODULE,
 
 		additionalFiles: [
 			{
@@ -115,18 +120,25 @@ export const buildTask = async () => {
 				},
 			],
 		},
-		esmodules: [
-			"./js/Main.js",
-		],
+		esmodules: isBundle
+			? [
+				BUNDLE_MODULE_PATH,
+			]
+			: [
+				`./js/Main.js`,
+			],
+		dirsModuleIgnore: isBundle ? ["js"] : [],
 	});
+
+	if (isBundle) await pBuildBundleJs();
 
 	const itemMacroDirs = new Set(fs.readdirSync(DIR_ITEM_MACROS));
 	const noItemMacroDirs = fs.readdirSync("module/data")
 		.filter(name => !itemMacroDirs.has(name))
-		.map(name => path.join(SharedConsts.MODULE_DIR, "data", name));
+		.map(name => path.join(DIST_SUBDIR_MODULE, "data", name));
 
 	const files = Uf.listJsonFiles(
-		path.join(SharedConsts.MODULE_DIR, "data"),
+		path.join(DIST_SUBDIR_MODULE, "data"),
 		{
 			dirBlocklist: new Set(noItemMacroDirs),
 		},

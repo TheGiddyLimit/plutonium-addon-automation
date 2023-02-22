@@ -16,6 +16,7 @@
 		"build:module": "node script/build.js",
 		"build:changelog": "node script/generate-changelog.js",
 		"build": "npm run build:index && npm run build:deps && npm run build:changelog && npm run build:module",
+		"build:dev": "npm run build:index && npm run build:deps && npm run build:changelog && npm run build:module -- --dev",
 		"package": "node script/package.js",
 		"local-pages": "node tool/local-pages.js",
 		"macro-template": "node script/generate-item-macro-template.js",
@@ -32,6 +33,7 @@
 		"eslint": "^8.11.0",
 		"express": "^4.17.3",
 		"json-source-map": "^0.6.1",
-		"plutonium-utils": "^0.1.15"
+		"plutonium-utils": "^0.1.16",
+		"rollup": "^3.17.2"
 	}
 }
