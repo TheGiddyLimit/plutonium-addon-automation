@@ -9,23 +9,26 @@ async function main () {
 
 	const out = {};
 
+	const handleRequiresObj = (requiresObj) => {
+		if (!requiresObj) return;
+		Object.keys(requiresObj)
+			.forEach(moduleId => {
+				if (!packageLookup[moduleId]) throw new Error(`Module with ID "${moduleId}" was not a known Foundry package!`);
+				out[moduleId] = packageLookup[moduleId];
+			});
+	};
+
 	Kludge.lsRecursiveSync("./module/data")
 		.filter(it => !it.includes("_generated") && it.endsWith(".json"))
 		.forEach(filePath => {
 			const json = Kludge.readJsonSync(filePath);
-			Object.entries(json)
-				.forEach(([prop, arr]) => {
+			Object.values(json)
+				.forEach((arr) => {
 					if (!(arr instanceof Array)) return;
 
 					arr.forEach(ent => {
-						(ent?.effects || []).forEach(eff => {
-							if (!eff.requires) return;
-							Object.keys(eff.requires)
-								.forEach(moduleId => {
-									if (!packageLookup[moduleId]) throw new Error(`Module with ID "${moduleId}" was not a known Foundry package!`);
-									out[moduleId] = packageLookup[moduleId];
-								});
-						});
+						(ent?.effects || []).forEach(eff => handleRequiresObj(eff.requires));
+						handleRequiresObj(ent.itemMacro?.requires);
 					});
 				});
 		});
