@@ -9,6 +9,7 @@ export class DataManager {
 			propJson,
 			path,
 			fnMatch,
+			isSilent = false,
 		},
 	) {
 		const index = await (this.#P_INDEX = this.#P_INDEX || DataUtil.loadJSON(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`));
@@ -22,16 +23,24 @@ export class DataManager {
 			.find(it => fnMatch(it));
 		if (!out) return null;
 
-		return this._getFilteredOutput(this._getPostProcessed(this._getFilteredInput(out)));
+		return this._getFilteredOutput(
+			this._getPostProcessed(
+				this._getFilteredInput(
+					out,
+					{isSilent},
+				),
+			),
+			{isSilent},
+		);
 	}
 
-	static _getFilteredInput (out) {
-		out = this._getFilteredInput_itemMacro({out});
+	static _getFilteredInput (out, {isSilent}) {
+		out = this._getFilteredInput_itemMacro({out, isSilent});
 		return out;
 	}
 
-	static _getFilteredInput_itemMacro ({out}) {
-		if (this._isRequiresMatch(out.itemMacro?.requires)) return out;
+	static _getFilteredInput_itemMacro ({out, isSilent}) {
+		if (this._isRequiresMatch(out.itemMacro?.requires, {isSilent})) return out;
 
 		out = foundry.utils.deepClone(out);
 		delete out.itemMacro;
@@ -105,29 +114,29 @@ export class DataManager {
 		return out;
 	}
 
-	static _getFilteredOutput (out) {
-		out = this._getFilteredOutput_effects({out});
+	static _getFilteredOutput (out, {isSilent}) {
+		out = this._getFilteredOutput_effects({out, isSilent});
 		return out;
 	}
 
-	static _getFilteredOutput_effects ({out}) {
+	static _getFilteredOutput_effects ({out, isSilent}) {
 		if (!out.effects?.some(({requires}) => !!requires)) return out;
 
 		out = foundry.utils.deepClone(out);
 
 		out.effects = out.effects
-			.filter(eff => this._isRequiresMatch(eff.requires));
+			.filter(eff => this._isRequiresMatch(eff.requires, {isSilent}));
 
 		return out;
 	}
 
-	static _isRequiresMatch (requiresObj) {
+	static _isRequiresMatch (requiresObj, {isSilent}) {
 		if (!requiresObj) return true;
 
 		return Object.keys(requiresObj)
 			.map(moduleId => {
 				if (game.modules.get(moduleId)?.active) return true;
-				OptionalDependenciesManager.doNotifyMissing(moduleId);
+				if (!isSilent) OptionalDependenciesManager.doNotifyMissing(moduleId);
 				return false;
 			})
 			// Avoid using `.every` directly, above, so that we run through all possible requirements
