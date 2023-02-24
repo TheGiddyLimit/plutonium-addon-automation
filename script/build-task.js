@@ -112,6 +112,16 @@ export const buildTask = async (
 					type: "module",
 					reason: "May cause issues with features which require rolls; use with caution.",
 				},
+				{
+					id: "ready-set-roll-5e",
+					type: "module",
+					reason: "May cause issues with features which require rolls; use with caution.",
+				},
+				{
+					id: "wire",
+					type: "module",
+					reason: "May cause issues with features which require rolls; use with caution.",
+				},
 			],
 		},
 		esmodules: isBundle

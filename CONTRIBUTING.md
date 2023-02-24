@@ -27,7 +27,7 @@ There is a lot of 5e content to automate, so all contribution is welcomed and ap
 
 We organise on the [5etools Discord server](https://discord.gg/5etools).
 
-Although we will respond to issues and pull requests here, the easiest way to get a quick response or report minor typos/bugs is to message the **#plutonium-addon-automation** channel. Come join us if you'd like to help out! (*Especially* join us if you plan to fill out a lot of data at once—helps avoid wasted effort.)
+Although we will respond to issues and pull requests here, the easiest way to get a quick response or report minor typos/bugs is to message the **#plutonium-general** channel. Come join us if you'd like to help out! (*Especially* join us if you plan to fill out a lot of data at once—helps avoid wasted effort.)
 
 ---
 
