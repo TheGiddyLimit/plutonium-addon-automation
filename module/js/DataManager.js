@@ -80,6 +80,10 @@ export class DataManager {
 					img: convEffectData.icon,
 					// endregion
 					...eff,
+					// Override CE's built-in IDs, as they are not valid (e.g. `"id": "Convenient Effect: Invisible"`),
+					//   which causes issues when creating temporary actors (e.g. when using Quick Insert to view a
+					//   creature).
+					id: foundry.utils.randomID(),
 				},
 			);
 		});
