@@ -23,7 +23,7 @@
 		"mt": "npm run macro-template --",
 		"preversion:changelog": "node test/test-preversion-changelog.js",
 		"preversion": "npm run preversion:changelog && npm t",
-		"version": "npm run build:changelog && npm add CHANGELOG.md"
+		"version": "npm run build:changelog && git add CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
