@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0
+
+> 2023-02-25
+
+- Added notifications for missing optional modules during import
+- Item macros may now declare required modules
+- Switched to `@attributes.prof` over `@prof`, as the former is always available and the latter is derived
+- Fixed level scaling for XGE's Toll the Dead
+- Fixed crash when creating temporary documents containing Convenient Effects (e.g. via Quick Insert-ing an actor)
+- Improved documentation
+- (Switched to JSON source for changelog; Markdown changelog now generated from JSON)
+
 ## 0.3.7
 
 > 2023-02-05
