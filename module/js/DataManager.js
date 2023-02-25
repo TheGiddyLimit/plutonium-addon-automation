@@ -64,10 +64,14 @@ export class DataManager {
 			const convEffect = game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
 			if (!convEffect) return eff;
 
-			const convEffectData = convEffect.convertToActiveEffectData({
-				includeAte: game.modules.get("ATL")?.active,
-				includeTokenMagic: game.modules.get("tokenmagic")?.active,
-			});
+			const convEffectData = convEffect.convertToActiveEffectData
+				// DCE < v4.0.0
+				? convEffect.convertToActiveEffectData({
+					includeAte: game.modules.get("ATL")?.active,
+					includeTokenMagic: game.modules.get("tokenmagic")?.active,
+				})
+				// DCE >= v4.0.0
+				: convEffect.toObject(true);
 
 			delete eff.convenientEffect;
 
@@ -80,9 +84,11 @@ export class DataManager {
 					img: convEffectData.icon,
 					// endregion
 					...eff,
+
 					// Override CE's built-in IDs, as they are not valid (e.g. `"id": "Convenient Effect: Invisible"`),
 					//   which causes issues when creating temporary actors (e.g. when using Quick Insert to view a
 					//   creature).
+					// (N.b.: No longer required as of CE v4.0.0)
 					id: foundry.utils.randomID(),
 				},
 			);
