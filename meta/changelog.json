@@ -18,5 +18,10 @@
 		"ver": "0.4.0",
 		"date": "2023-02-25",
 		"txt": "- Added notifications for missing optional modules during import\n- Item macros may now declare required modules\n- Switched to `@attributes.prof` over `@prof`, as the former is always available and the latter is derived\n- Fixed level scaling for XGE's Toll the Dead\n- Fixed crash when creating temporary documents containing Convenient Effects (e.g. via Quick Insert-ing an actor)\n- Improved documentation\n- (Switched to JSON source for changelog; Markdown changelog now generated from JSON)"
+	},
+	{
+		"ver": "0.4.1",
+		"date": "2023-02-25",
+		"txt": "- Fix crash when building Convenient Effects data with DFreds Convenient Effects v4.y.z"
 	}
 ]
