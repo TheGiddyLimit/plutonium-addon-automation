@@ -125,7 +125,7 @@ export class OptionalDependenciesManager {
 
 		const modules = moduleIds
 			.map(id => index[id])
-			.sort(([a, b]) => SortUtil.ascSortLower(a.title, b.title));
+			.sort((a, b) => SortUtil.ascSortLower(a.title, b.title));
 
 		const ptIntro = `Some automations could not be applied during import, as the following module${modules.length === 1 ? "" : "s"} ${modules.length === 1 ? "is" : "are"} not installed and active`;
 
