@@ -6,6 +6,7 @@
 - [Installation](#installation)
    - [Dependencies and incompatibilities](#dependencies-and-incompatibilities)
    - [**Required** set-up](#required-set-up) (⚠️ **read this!**)
+   - [Optional integrations](#optional-integrations)
 - [Contributing](#contributing)
 
 ---
@@ -56,6 +57,13 @@ If you have [Item Macro](https://foundryvtt.com/packages/itemacro) activated, yo
 - _**Item Macro** > Override default macro execution_ — uncheck this.
 - _**Item Macro** > Character Sheet Hook_ — uncheck this.
 - (If installed) _**[Token Action HUD](https://foundryvtt.com/packages/token-action-hud)** > Item-Macro: item macro, original item, or both_ — select `Show the original item`. (Note this is a user setting, so either ensure that each user configures this or use a module such as [Force Client Settings](https://foundryvtt.com/packages/force-client-settings) to guarantee it.)
+
+### Optional integrations
+
+*Plutonium Addon: Automation* can optionally make use of data provided by other modules. An integration is available for:
+- [Chris's Premades](https://foundryvtt.com/packages/chris-premades)
+
+This integration is only active if the above module is installed and active, and can be disabled in *Plutonium Addon: Automation*'s settings.
 
 ## Contributing
 

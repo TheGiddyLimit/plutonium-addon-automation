@@ -3,6 +3,7 @@ import {Util} from "./Util.js";
 import {OptionalDependenciesManager} from "./OptionalDependenciesManager.js";
 import {SettingsManager} from "./SettingsManager.js";
 import {Api} from "./Api.js";
+import {Integrations} from "./integrations/Integrations.js";
 
 class Main {
 	static _HAS_FAILED = false;
@@ -19,6 +20,7 @@ class Main {
 	static _handleInit () {
 		SettingsManager.handleInit();
 		OptionalDependenciesManager.handleInit();
+		Integrations.handleInit();
 	}
 
 	static handleReady () {
@@ -34,6 +36,7 @@ class Main {
 		Api.handleReady();
 		SettingsManager.handleReady();
 		OptionalDependenciesManager.handleReady();
+		Integrations.handleReady();
 		console.log(...Util.LGT, `Initialized.`);
 	}
 
