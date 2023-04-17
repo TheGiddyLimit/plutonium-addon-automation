@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+> 2023-04-17
+
+- Added optional integration with the "Chris's Premades" module, allowing Plutonium to use CPR's data to enhance imported content
+
 ## 0.4.1
 
 > 2023-02-25
