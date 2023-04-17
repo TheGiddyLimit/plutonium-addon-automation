@@ -23,5 +23,10 @@
 		"ver": "0.4.1",
 		"date": "2023-02-25",
 		"txt": "- Fix crash when building Convenient Effects data with DFreds Convenient Effects v4.y.z"
+	},
+	{
+		"ver": "0.5.0",
+		"date": "2023-04-17",
+		"txt": "- Added optional integration with the \"Chris's Premades\" module, allowing Plutonium to use CPR's data to enhance imported content"
 	}
 ]
