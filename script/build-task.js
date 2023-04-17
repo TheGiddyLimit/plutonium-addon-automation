@@ -71,6 +71,11 @@ export const buildTask = async (
 				*/
 				// endregion
 				{
+					id: "lib-wrapper",
+					type: "module",
+					manifest: "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+				},
+				{
 					id: "midi-qol",
 					type: "module",
 					manifest: "https://gitlab.com/tposney/midi-qol/raw/v10/package/module.json",
