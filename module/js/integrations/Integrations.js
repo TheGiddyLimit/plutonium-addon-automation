@@ -9,8 +9,8 @@ export class Integrations extends StartupHookMixin(class {}) {
 		new IntegrationChrisPremades(),
 	];
 
-	static onHookInit () { this._INTEGRATIONS.forEach(itg => itg.onHookInit()); }
-	static onHookReady () { this._INTEGRATIONS.forEach(itg => itg.onHookReady()); }
+	static _onHookInit () { this._INTEGRATIONS.forEach(itg => itg.onHookInit()); }
+	static _onHookReady () { this._INTEGRATIONS.forEach(itg => itg.onHookReady()); }
 
 	static async pGetExpandedAddonData (
 		{

@@ -3,4 +3,5 @@ export class ModuleSettingConsts {
 	static IS_NOTIFY_ON_LOAD = "isNotifyOnLoad";
 	static MENU_CONFIGURE_OPTIONAL_DEPENDENCIES = "menuConfigureOptionalDependencies";
 	static OPTIONAL_DEPENDENCY_NOTIFICATION_CONFIG = "optionalDependencyNotificationConfig";
+	static DEV_IS_WARN_WHEN_NOT_AUTOMATED = "dev_isWarnWhenNotAutomated";
 }

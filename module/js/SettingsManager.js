@@ -170,7 +170,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static onHookInit () {
+	static _onHookInit () {
 		game.settings.registerMenu(
 			SharedConsts.MODULE_ID,
 			ModuleSettingConsts.MENU_CONFIGURE_DEPENDENCIES,
@@ -201,7 +201,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static onHookReady () {
+	static _onHookReady () {
 		this._onHookReady_doPostCompatibilityNotification();
 	}
 
