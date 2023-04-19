@@ -1,12 +1,16 @@
 import {IntegrationChrisPremades} from "./ChrisPremades.js";
+import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
 
-export class Integrations {
+/**
+ * @mixes {StartupHookMixin}
+ */
+export class Integrations extends StartupHookMixin(class {}) {
 	static _INTEGRATIONS = [
 		new IntegrationChrisPremades(),
 	];
 
-	static handleInit () { this._INTEGRATIONS.forEach(itg => itg.handleInit()); }
-	static handleReady () { this._INTEGRATIONS.forEach(itg => itg.handleReady()); }
+	static onHookInit () { this._INTEGRATIONS.forEach(itg => itg.onHookInit()); }
+	static onHookReady () { this._INTEGRATIONS.forEach(itg => itg.onHookReady()); }
 
 	static async pGetExpandedAddonData (
 		{

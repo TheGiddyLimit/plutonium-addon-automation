@@ -1,7 +1,11 @@
 import {SharedConsts} from "../shared/SharedConsts.js";
 import {ModuleSettingConsts} from "./ModuleSettingConsts.js";
+import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
 
-export class OptionalDependenciesManager {
+/**
+ * @mixes {StartupHookMixin}
+ */
+export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 	static #P_INDEX = null;
 
 	static async _pLoadIndex () {
@@ -53,7 +57,7 @@ export class OptionalDependenciesManager {
 
 	/* -------------------------------------------- */
 
-	static handleInit () {
+	static onHookInit () {
 		game.settings.registerMenu(
 			SharedConsts.MODULE_ID,
 			ModuleSettingConsts.MENU_CONFIGURE_OPTIONAL_DEPENDENCIES,
@@ -81,7 +85,7 @@ export class OptionalDependenciesManager {
 
 	/* -------------------------------------------- */
 
-	static handleReady () {
+	static onHookReady () {
 		$(document.body)
 			.on("click", `[data-paa-module-ids]`, async evt => {
 				const msgId = evt.currentTarget.closest(`[data-message-id]`).getAttribute("data-message-id");
