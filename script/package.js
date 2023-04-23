@@ -1,6 +1,6 @@
 import Zip from "adm-zip-giddy";
 import {SharedConsts} from "../module/shared/SharedConsts.js";
-import {Kludge} from "plutonium-utils";
+import {Uf} from "5etools-utils";
 import * as path from "path";
 import {buildTask} from "./build-task.js";
 import {DIST_SUBDIR_MODULE} from "./consts.js";
@@ -8,7 +8,7 @@ import {DIST_SUBDIR_MODULE} from "./consts.js";
 function _zip (dirPart, zipRoot) {
 	const zip = new Zip();
 	const DIR_PART = `${dirPart}/`;
-	const allFiles = Kludge.lsRecursiveSync(DIR_PART);
+	const allFiles = Uf.lsRecursiveSync(DIR_PART);
 	allFiles.forEach(f => {
 		const zipPath = f.substring(DIR_PART.length - 2);
 

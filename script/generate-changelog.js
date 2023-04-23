@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import {Kludge} from "plutonium-utils";
+import {Uf} from "5etools-utils";
 
-const json = Kludge.readJsonSync("./meta/changelog.json");
+const json = Uf.readJsonSync("./meta/changelog.json");
 
 const out = [
 	"# Changelog",
