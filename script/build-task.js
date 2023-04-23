@@ -96,6 +96,29 @@ export const buildTask = async (
 					manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
 				},
 			],
+			// See: https://github.com/foundryvtt/foundryvtt/issues/8649
+			recommends: [
+				{
+					id: "ActiveAuras",
+					type: "module",
+					reason: "Enables additional automations",
+				},
+				{
+					id: "ATL",
+					type: "module",
+					reason: "Enables additional automations",
+				},
+				{
+					id: "ATL",
+					type: "warpgate",
+					reason: "Enables additional automations",
+				},
+				{
+					id: "ATL",
+					type: "itemacro",
+					reason: "Enables additional automations; allows editing of some automations",
+				},
+			],
 			conflicts: [
 				{
 					id: "combat-utility-belt",
