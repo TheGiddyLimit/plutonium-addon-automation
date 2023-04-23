@@ -6,7 +6,7 @@ import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
  * @mixes {StartupHookMixin}
  */
 export class Api extends StartupHookMixin(class {}) {
-	static onHookReady () {
+	static _onHookReady () {
 		game.modules.get(SharedConsts.MODULE_ID).api = this;
 	}
 

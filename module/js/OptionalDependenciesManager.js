@@ -57,7 +57,7 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static onHookInit () {
+	static _onHookInit () {
 		game.settings.registerMenu(
 			SharedConsts.MODULE_ID,
 			ModuleSettingConsts.MENU_CONFIGURE_OPTIONAL_DEPENDENCIES,
@@ -85,7 +85,7 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static onHookReady () {
+	static _onHookReady () {
 		$(document.body)
 			.on("click", `[data-paa-module-ids]`, async evt => {
 				const msgId = evt.currentTarget.closest(`[data-message-id]`).getAttribute("data-message-id");

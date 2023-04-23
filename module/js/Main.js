@@ -4,6 +4,7 @@ import {OptionalDependenciesManager} from "./OptionalDependenciesManager.js";
 import {SettingsManager} from "./SettingsManager.js";
 import {Api} from "./Api.js";
 import {Integrations} from "./integrations/Integrations.js";
+import {DataManager} from "./DataManager.js";
 
 class Main {
 	static _HAS_FAILED = false;
@@ -13,6 +14,7 @@ class Main {
 		SettingsManager,
 		OptionalDependenciesManager,
 		Integrations,
+		DataManager,
 	];
 
 	static onHookInit () {
@@ -26,7 +28,8 @@ class Main {
 
 	static _onHookInit () {
 		this._STARTUP_CLAZZES
-			.forEach(clazz => clazz.onHookInit());
+			.map(clazz => clazz.onHookInit())
+			.map(clazz => clazz.onHookInitDev());
 	}
 
 	static onHookReady () {
@@ -40,7 +43,8 @@ class Main {
 
 	static _onHookReady () {
 		this._STARTUP_CLAZZES
-			.forEach(clazz => clazz.onHookReady());
+			.map(clazz => clazz.onHookReady())
+			.map(clazz => clazz.onHookReadyDev());
 
 		console.log(...Util.LGT, `Initialized.`);
 	}
