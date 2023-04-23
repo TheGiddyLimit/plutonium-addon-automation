@@ -8,35 +8,40 @@ import {Integrations} from "./integrations/Integrations.js";
 class Main {
 	static _HAS_FAILED = false;
 
-	static handleInit () {
+	static _STARTUP_CLAZZES = [
+		Api,
+		SettingsManager,
+		OptionalDependenciesManager,
+		Integrations,
+	];
+
+	static onHookInit () {
 		if (this._HAS_FAILED) return;
 		try {
-			this._handleInit();
+			this._onHookInit();
 		} catch (e) {
 			this._onError(e);
 		}
 	}
 
-	static _handleInit () {
-		SettingsManager.handleInit();
-		OptionalDependenciesManager.handleInit();
-		Integrations.handleInit();
+	static _onHookInit () {
+		this._STARTUP_CLAZZES
+			.forEach(clazz => clazz.onHookInit());
 	}
 
-	static handleReady () {
+	static onHookReady () {
 		if (this._HAS_FAILED) return;
 		try {
-			this._handleReady();
+			this._onHookReady();
 		} catch (e) {
 			this._onError(e);
 		}
 	}
 
-	static _handleReady () {
-		Api.handleReady();
-		SettingsManager.handleReady();
-		OptionalDependenciesManager.handleReady();
-		Integrations.handleReady();
+	static _onHookReady () {
+		this._STARTUP_CLAZZES
+			.forEach(clazz => clazz.onHookReady());
+
 		console.log(...Util.LGT, `Initialized.`);
 	}
 
@@ -47,5 +52,5 @@ class Main {
 	}
 }
 
-Hooks.on("init", Main.handleInit.bind(Main));
-Hooks.on("ready", Main.handleReady.bind(Main));
+Hooks.on("init", Main.onHookInit.bind(Main));
+Hooks.on("ready", Main.onHookReady.bind(Main));

@@ -1,8 +1,12 @@
 import {SharedConsts} from "../shared/SharedConsts.js";
 import {DataManager} from "./DataManager.js";
+import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
 
-export class Api {
-	static handleReady () {
+/**
+ * @mixes {StartupHookMixin}
+ */
+export class Api extends StartupHookMixin(class {}) {
+	static onHookReady () {
 		game.modules.get(SharedConsts.MODULE_ID).api = this;
 	}
 

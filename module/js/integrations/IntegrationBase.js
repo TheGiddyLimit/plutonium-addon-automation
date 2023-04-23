@@ -10,16 +10,16 @@ export class IntegrationBase {
 	_isEnabled () { return game.settings.get(SharedConsts.MODULE_ID, this._settingKeyIsEnabled); }
 	_isActive () { return this._isModuleActive() && this._isEnabled(); }
 
-	handleInit () {
+	onHookInit () {
 		// Register the setting regardless of whether or not the module is available, as a hint to the user that the
 		//    integration exists.
-		this._handleInit_registerSettings();
+		this._onHookInit_registerSettings();
 
 		if (!this._isActive()) return;
-		this._handleInit();
+		this._onHookInit();
 	}
 
-	_handleInit_registerSettings () {
+	_onHookInit_registerSettings () {
 		const moduleTitle = game.modules.get(this._moduleId)?.title || this._moduleId;
 
 		game.settings.register(
@@ -37,13 +37,13 @@ export class IntegrationBase {
 		);
 	}
 
-	handleReady () {
+	onHookReady () {
 		if (!this._isActive()) return;
-		this._handleReady();
+		this._onHookReady();
 	}
 
-	_handleInit () { /* Implement as required */ }
-	_handleReady () { /* Implement as required */ }
+	_onHookInit () { /* Implement as required */ }
+	_onHookReady () { /* Implement as required */ }
 
 	/** @abstract */
 	async pGetExpandedAddonData (

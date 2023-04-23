@@ -1,5 +1,6 @@
 import {IntegrationBase} from "./IntegrationBase.js";
 import {SharedConsts} from "../../shared/SharedConsts.js";
+import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
 
 // Cheat and pretend we're not always overriding, as our patches are temporary/highly contextual
 const _LIBWRAPPER_TYPE_TEMP = "MIXED";
@@ -7,11 +8,13 @@ const _LIBWRAPPER_TYPE_TEMP = "MIXED";
 /**
  * Designed for use with `chris-premades` v0.3.7
  * See: https://github.com/chrisk123999/chris-premades
+ *
+ * @mixes {StartupHookMixin}
  */
-export class IntegrationChrisPremades extends IntegrationBase {
+export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) {
 	_moduleId = "chris-premades";
 
-	_handleInit () {
+	_onHookInit () {
 		libWrapper.register(SharedConsts.MODULE_ID, "Hooks.on", this._lw_Hooks_on.bind(this), _LIBWRAPPER_TYPE_TEMP);
 	}
 

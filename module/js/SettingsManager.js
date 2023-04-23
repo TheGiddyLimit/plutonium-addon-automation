@@ -1,7 +1,11 @@
 import {SharedConsts} from "../shared/SharedConsts.js";
 import {ModuleSettingConsts} from "./ModuleSettingConsts.js";
+import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
 
-export class SettingsManager {
+/**
+ * @mixes {StartupHookMixin}
+ */
+export class SettingsManager extends StartupHookMixin(class {}) {
 	static _SETTING_METAS = [
 		{
 			moduleId: "dfreds-convenient-effects",
@@ -161,13 +165,12 @@ export class SettingsManager {
 			}
 		}
 
-		_updateObject (evt, formData) { /* No-op */
-		}
+		_updateObject (evt, formData) { /* No-op */ }
 	};
 
 	/* -------------------------------------------- */
 
-	static handleInit () {
+	static onHookInit () {
 		game.settings.registerMenu(
 			SharedConsts.MODULE_ID,
 			ModuleSettingConsts.MENU_CONFIGURE_DEPENDENCIES,
@@ -198,11 +201,11 @@ export class SettingsManager {
 
 	/* -------------------------------------------- */
 
-	static handleReady () {
-		this._handleReady_doPostCompatibilityNotification();
+	static onHookReady () {
+		this._onHookReady_doPostCompatibilityNotification();
 	}
 
-	static _handleReady_doPostCompatibilityNotification () {
+	static _onHookReady_doPostCompatibilityNotification () {
 		if (!game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.IS_NOTIFY_ON_LOAD)) return;
 
 		const settings = SettingsManager._getSettingsData();
