@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import {Kludge} from "plutonium-utils";
+import {Uf} from "5etools-utils";
 
 async function main () {
-	const packageList = Kludge.readJsonSync("./script/data/foundry-modules.json");
+	const packageList = Uf.readJsonSync("./script/data/foundry-modules.json");
 
 	const packageLookup = {};
 	packageList.packages.forEach(pack => packageLookup[pack.name] = pack);
@@ -18,10 +18,10 @@ async function main () {
 			});
 	};
 
-	Kludge.lsRecursiveSync("./module/data")
+	Uf.lsRecursiveSync("./module/data")
 		.filter(it => !it.includes("_generated") && it.endsWith(".json"))
 		.forEach(filePath => {
-			const json = Kludge.readJsonSync(filePath);
+			const json = Uf.readJsonSync(filePath);
 			Object.values(json)
 				.forEach((arr) => {
 					if (!(arr instanceof Array)) return;

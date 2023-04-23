@@ -6,7 +6,7 @@ import fs from "fs";
 import {BUNDLE_MODULE_PATH, DIR_ITEM_MACROS, DIST_SUBDIR_MODULE} from "./consts.js";
 import pBuildBundleJs from "./build-bundle.js";
 
-const packageJson = Uf.readJSON(`./package.json`);
+const packageJson = Uf.readJsonSync(`./package.json`);
 
 export const buildTask = async (
 	{
@@ -154,7 +154,7 @@ export const buildTask = async (
 	);
 	files
 		.forEach(filePath => {
-			const json = Uf.readJSON(filePath);
+			const json = Uf.readJsonSync(filePath);
 			const parentDir = path.basename(path.dirname(filePath));
 
 			let isMod = false;

@@ -18,7 +18,7 @@ function cleanFolder (folder) {
 	const files = Uf.listJsonFiles(folder);
 	files
 		.forEach(filePath => {
-			let {raw, json} = Uf.readJSON(filePath, {isIncludeRaw: true});
+			let {raw, json} = Uf.readJsonSync(filePath, {isIncludeRaw: true});
 
 			if (!filePath.endsWith(".json")) ALL_ERRORS.push(`${filePath} had invalid extension! Should be ".json" (case-sensitive).`);
 
