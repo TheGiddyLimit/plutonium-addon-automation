@@ -2,6 +2,7 @@
 
 *Plutonium Addon: Automation* is a module to extend Plutonium, for the purpose of marrying the importation of D&D 5e game material with the automation provided by the 'Midi ecosystem'.
 
+- [Disclaimer](#disclaimer)
 - [How it works](#how-it-works)
 - [Installation](#installation)
    - [Dependencies and incompatibilities](#dependencies-and-incompatibilities)
@@ -10,6 +11,14 @@
 - [Contributing](#contributing)
 
 ---
+
+## Disclaimer
+
+*Plutonium Addon: Automation* is **NOT** supported by any of the modules listed below. If you encounter an issue with your game, disable *Plutonium* and *Plutonium Addon: Automation* and try again.
+
+If an issue persists, consider asking about it in the [Issues section](https://github.com/TheGiddyLimit/plutonium-addon-automation/issues) or in our [Discord](https://discord.gg/5etools) before bringing it to the attention of other module authors.
+
+⚠️ Beware the rules of other spaces when discussing *Plutonium* and/or *Plutonium Addon: Automation* module outwith the above channels! ⚠️
 
 ## How it works
 
