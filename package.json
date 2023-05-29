@@ -4,6 +4,7 @@
 	"author": "Giddy",
 	"type": "module",
 	"license": "MIT",
+	"private": true,
 	"scripts": {
 		"test:js": "eslint script module/js module/shared tool docs test macro-item",
 		"lint:js": "eslint script module/js module/shared tool docs test macro-item --fix",
