@@ -47,7 +47,7 @@ export const buildTask = async (
 		changelog: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/CHANGELOG.md",
 		compatibility: {
 			minimum: "10",
-			verified: "10.291",
+			verified: "11.301",
 		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
