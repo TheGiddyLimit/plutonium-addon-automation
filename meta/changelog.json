@@ -28,5 +28,10 @@
 		"ver": "0.5.0",
 		"date": "2023-04-17",
 		"txt": "- Added optional integration with the \"Chris's Premades\" module, allowing Plutonium to use CPR's data to enhance imported content"
+	},
+	{
+		"ver": "0.5.1",
+		"date": "2023-06-14",
+		"txt": "- Bumped compatible version\n- Added dependency disclaimer"
 	}
 ]
