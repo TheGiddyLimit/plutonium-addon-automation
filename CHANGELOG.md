@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1
+
+> 2023-06-14
+
+- Bumped compatible version
+- Added dependency disclaimer
+
 ## 0.5.0
 
 > 2023-04-17
