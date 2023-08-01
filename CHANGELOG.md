@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+> 2023-08-01
+
+- Added optional integration with the "Midi SRD" module
+
 ## 0.5.1
 
 > 2023-06-14
