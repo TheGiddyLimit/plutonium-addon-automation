@@ -16,6 +16,38 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 
 	_onHookInit () {
 		libWrapper.register(SharedConsts.MODULE_ID, "Hooks.on", this._lw_Hooks_on.bind(this), _LIBWRAPPER_TYPE_TEMP);
+		this._registerFlagKeys({
+			wanted: [
+				"autoanimations",
+				"babonus",
+				"chris-premades",
+				"dae",
+				"enhanced-terrain-layer",
+				"itemacro",
+				"link-item-resource-5e",
+				"magicitems",
+				"midi-qol",
+				"midiProperties",
+				"rest-recovery",
+				"templatemacro",
+			],
+			unwanted: [
+				"betterRolls5e",
+				"cf",
+				"core",
+				"custom-character-sheet-sections",
+				"ddbimporter",
+				"exportSource",
+				"favtab",
+				"infusions",
+				"inventory-plus",
+				"monsterMunch",
+				"obsidian",
+				"spell-class-filter-for-5e",
+				"tidy5e-sheet",
+				"world",
+			],
+		});
 	}
 
 	_hook_createHeaderButton = null;
@@ -183,48 +215,6 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 
 	_pGetExpandedAddonData_getPostProcessed (fauxItemJson) {
 		fauxItemJson = foundry.utils.deepClone(fauxItemJson);
-
-		// Avoid clobbering specific system data
-		["name", "source", "description"].forEach(prop => delete fauxItemJson.system[prop]);
-
-		// Remove junk flags
-		// Commented-out flag keys are present in the data, but are flags we wish to keep
-		[
-			// "autoanimations",
-			// "babonus",
-			"betterRolls5e",
-			"cf",
-			// "chris-premades",
-			"core",
-			"custom-character-sheet-sections",
-			// "dae",
-			"ddbimporter",
-			// "enhanced-terrain-layer",
-			"exportSource",
-			"favtab",
-			"infusions",
-			"inventory-plus",
-			// "itemacro",
-			// "link-item-resource-5e",
-			// "magicitems",
-			// "midi-qol",
-			// "midiProperties",
-			"monsterMunch",
-			"obsidian",
-			// "rest-recovery",
-			"spell-class-filter-for-5e",
-			// "templatemacro",
-			"tidy5e-sheet",
-			"world",
-		].forEach(prop => delete fauxItemJson.flags[prop]);
-
-		// Cleanup
-		if (!Object.keys(fauxItemJson.system || {}).length) delete fauxItemJson.system;
-		if (!Object.keys(fauxItemJson.flags || {}).length) delete fauxItemJson.flags;
-		if (!fauxItemJson.effects?.length) delete fauxItemJson.effects;
-
-		if (!Object.keys(fauxItemJson).length) return null;
-
-		return fauxItemJson;
+		return this._getPostProcessed({json: fauxItemJson});
 	}
 }

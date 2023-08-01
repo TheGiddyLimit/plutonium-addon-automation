@@ -6,6 +6,24 @@ import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
  * @mixes {StartupHookMixin}
  */
 export class SettingsManager extends StartupHookMixin(class {}) {
+	static _onHookInitDev () {
+		game.settings.register(
+			SharedConsts.MODULE_ID,
+			ModuleSettingConsts.DEV_IS_DBG,
+			{
+				name: "PLUTAA.Developer: Enable Debugging",
+				hint: "Enable additional debug logging.",
+				default: false,
+				type: Boolean,
+				scope: "client",
+				config: true,
+				restricted: true,
+			},
+		);
+	}
+
+	/* -------------------------------------------- */
+
 	static _SETTING_METAS = [
 		{
 			moduleId: "dfreds-convenient-effects",

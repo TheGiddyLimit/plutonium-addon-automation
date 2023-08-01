@@ -71,6 +71,7 @@ If you have [Item Macro](https://foundryvtt.com/packages/itemacro) activated, yo
 
 *Plutonium Addon: Automation* can optionally make use of data provided by other modules. An integration is available for:
 - [Chris's Premades](https://foundryvtt.com/packages/chris-premades)
+- [Midi SRD](https://foundryvtt.com/packages/midi-srd)
 
 This integration is only active if the above module is installed and active, and can be disabled in *Plutonium Addon: Automation*'s settings.
 

@@ -2,5 +2,6 @@
 	"PLUTAA.Configure Dependencies": "Configure Dependencies",
 	"PLUTAA.Configure Notifications": "Configure Notifications",
 	"PLUTAA.Show Config on Load": "Show Config on Load",
-	"PLUTAA.Developer: Warn when Not Automated": "Developer: Warn when Not Automated"
+	"PLUTAA.Developer: Warn when Not Automated": "Developer: Warn when Not Automated",
+	"PLUTAA.Developer: Enable Debugging": "Developer: Enable Debugging"
 }
