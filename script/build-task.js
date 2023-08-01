@@ -109,13 +109,13 @@ export const buildTask = async (
 					reason: "Enables additional automations",
 				},
 				{
-					id: "ATL",
-					type: "warpgate",
+					id: "warpgate",
+					type: "module",
 					reason: "Enables additional automations",
 				},
 				{
-					id: "ATL",
-					type: "itemacro",
+					id: "itemacro",
+					type: "module",
 					reason: "Enables additional automations; allows editing of some automations",
 				},
 			],
