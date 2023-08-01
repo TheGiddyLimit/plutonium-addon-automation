@@ -98,6 +98,7 @@ export const buildTask = async (
 			],
 			// See: https://github.com/foundryvtt/foundryvtt/issues/8649
 			recommends: [
+				// region Modules required by specific automations
 				{
 					id: "ActiveAuras",
 					type: "module",
@@ -118,6 +119,15 @@ export const buildTask = async (
 					type: "module",
 					reason: "Enables additional automations; allows editing of some automations",
 				},
+				// endregion
+
+				// region Optional integrations
+				{
+					id: "chris-premades",
+					type: "module",
+					reason: "Provides an additional data source from which to draw automations",
+				},
+				// endregion
 			],
 			conflicts: [
 				{
