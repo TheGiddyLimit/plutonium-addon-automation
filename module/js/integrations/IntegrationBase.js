@@ -91,7 +91,7 @@ export class IntegrationBase {
 		this._mutCleanJson({json});
 		if (!Object.keys(json).length) return null;
 		// Implicitly override SRD effects if an integration has effects, as we assume they bring their own
-		if (json.effects.length) json.ignoreSrdEffects = true;
+		if (json.effects?.length) json.ignoreSrdEffects = true;
 		return json;
 	}
 }
