@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1
+
+> 2023-08-02
+
+- Fixed Midi SRD integration failing to find SRD-renamed documents
+ - Fixed crash when processing integration data which does not include active effects
+
 ## 0.6.0
 
 > 2023-08-01
