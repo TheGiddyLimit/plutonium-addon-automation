@@ -47,8 +47,27 @@ export class IntegrationBase {
 	_onHookInit () { /* Implement as required */ }
 	_onHookReady () { /* Implement as required */ }
 
-	/** @abstract */
 	async pGetExpandedAddonData (
+		{
+			propJson,
+			path,
+			fnMatch,
+			ent,
+			isSilent = false,
+		},
+	) {
+		if (!this._isActive()) return null;
+		return this._pGetExpandedAddonData({
+			propJson,
+			path,
+			fnMatch,
+			ent,
+			isSilent,
+		});
+	}
+
+	/** @abstract */
+	async _pGetExpandedAddonData (
 		{
 			propJson,
 			path,

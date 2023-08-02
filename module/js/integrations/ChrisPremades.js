@@ -90,7 +90,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		"vehicle",
 	]);
 
-	async pGetExpandedAddonData (
+	async _pGetExpandedAddonData (
 		{
 			propJson,
 			path,

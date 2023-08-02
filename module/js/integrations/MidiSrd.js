@@ -1,5 +1,8 @@
 import {IntegrationBase} from "./IntegrationBase.js";
 import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
+import {SharedConsts} from "../../shared/SharedConsts.js";
+import {ModuleSettingConsts} from "../ModuleSettingConsts.js";
+import {Util} from "../Util.js";
 
 /**
  * Designed for use with `midi-srd` v11.0.0
@@ -42,7 +45,7 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 	static _PS_CACHE_PACK = {};
 	static _PACK_CACHE = {};
 
-	async pGetExpandedAddonData (
+	async _pGetExpandedAddonData (
 		{
 			propJson,
 			path,
@@ -55,6 +58,11 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 
 		const packId = this.constructor._PROP_TO_PACK[propJson];
 		if (!packId) return null;
+
+		if (!game.packs.get(packId)) { // Should never occur
+			if (game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) console.warn(...Util.LGT, `Could not find pack with ID "${packId}"!`);
+			return null;
+		}
 
 		await (this.constructor._PS_CACHE_PACK[packId] ||= this.constructor._pDoCachePack({packId}));
 
