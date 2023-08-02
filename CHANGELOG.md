@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.2
+
+> 2023-08-02
+
+- Fixed module integrations attempting to run when the associated module is inactive
+
 ## 0.6.1
 
 > 2023-08-02
