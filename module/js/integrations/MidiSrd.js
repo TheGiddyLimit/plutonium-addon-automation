@@ -58,10 +58,19 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 
 		await (this.constructor._PS_CACHE_PACK[packId] ||= this.constructor._pDoCachePack({packId}));
 
-		const cacheDoc = this.constructor._PACK_CACHE[packId]?.[this.constructor._getCacheLookupName(ent)];
+		const cacheDoc = this.constructor._getCacheLookupNames({ent})
+			.map(lookupName => this.constructor._PACK_CACHE[packId]?.[lookupName])
+			.find(Boolean);
 		if (!cacheDoc) return null;
 
 		return this._getAddonData({doc: cacheDoc});
+	}
+
+	static _getCacheLookupNames ({ent}) {
+		return [
+			this._getCacheLookupName(ent),
+			(typeof ent.srd !== "string") ? null : this._getCacheLookupName({name: ent.srd, source: ent.source}),
+		].filter(Boolean);
 	}
 
 	static _getCacheLookupName ({name, source}) {
