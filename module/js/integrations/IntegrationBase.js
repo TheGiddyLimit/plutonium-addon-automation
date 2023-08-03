@@ -53,6 +53,8 @@ export class IntegrationBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -62,6 +64,8 @@ export class IntegrationBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent,
 		});
 	}
@@ -73,6 +77,8 @@ export class IntegrationBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }

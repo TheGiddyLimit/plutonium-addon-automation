@@ -11,6 +11,8 @@ export class DataSourceSelf extends DataSourceBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {

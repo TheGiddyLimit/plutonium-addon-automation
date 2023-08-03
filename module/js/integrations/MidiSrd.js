@@ -51,6 +51,8 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {

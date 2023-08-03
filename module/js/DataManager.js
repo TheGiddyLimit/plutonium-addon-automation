@@ -46,6 +46,8 @@ export class DataManager extends StartupHookMixin(class {}) {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -59,6 +61,8 @@ export class DataManager extends StartupHookMixin(class {}) {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent,
 		}));
 

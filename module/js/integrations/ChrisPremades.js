@@ -1,6 +1,7 @@
 import {IntegrationBase} from "./IntegrationBase.js";
 import {SharedConsts} from "../../shared/SharedConsts.js";
 import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
+import {Util} from "../Util.js";
 
 // Cheat and pretend we're not always overriding, as our patches are temporary/highly contextual
 const _LIBWRAPPER_TYPE_TEMP = "MIXED";
@@ -96,6 +97,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -110,6 +113,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent,
 		});
 	}
@@ -120,6 +125,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -137,6 +144,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 								path,
 								fnMatch,
 								ent,
+								propBase,
+								base,
 								isSilent,
 							},
 						),
@@ -154,6 +163,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -178,15 +189,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		const type = this._pGetExpandedAddonData_getItemType({propJson});
 
 		// Create a stubbed `Item` subclass to bypass CPR's `instanceof Item` check
-		const fauxObject = new class extends Item {
-			get actor () { return fauxActor; }
-			set actor (val) { /* No-op */ }
-
-			delete () { /* No-op */ }
-		}({
-			name: ent.name,
-			type,
-		});
+		const fauxObject = this._pGetExpandedAddonData_getFauxObject({ent, propBase, base, fauxActor, type});
+		if (!fauxObject) return null;
 
 		const jsonEmpty = fauxObject.toObject(true);
 
@@ -211,6 +215,31 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_SPELLS].includes(propJson)) return "spell";
 		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_ITEMS].includes(propJson)) return "equipment";
 		return "feat";
+	}
+
+	_pGetExpandedAddonData_getFauxObject ({ent, propBase, base = undefined, fauxActor, type}) {
+		try {
+			const docData = {
+				name: ent.name,
+				type,
+			};
+
+			// Apply the base system data--we do this so that CPR's changes are made against a reasonable approximation
+			//   of the to-be-created document, rather than an empty document. This avoids cases where e.g. CPR fails
+			//   to wipe the `damage` from a spell which relies on a macro for its damage roll (see: Scorching Ray).
+			if (base !== undefined && propBase === "system") {
+				docData.system = foundry.utils.deepClone(base);
+			}
+
+			return new class extends Item {
+				get actor () { return fauxActor; }
+				set actor (val) { /* No-op */ }
+
+				delete () { /* No-op */ }
+			}(docData);
+		} catch (e) {
+			console.error(...Util.LGT, e);
+		}
 	}
 
 	_pGetExpandedAddonData_getPostProcessed (fauxItemJson) {

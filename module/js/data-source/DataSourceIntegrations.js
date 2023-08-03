@@ -8,6 +8,8 @@ export class DataSourceIntegrations extends DataSourceBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) {
@@ -16,6 +18,8 @@ export class DataSourceIntegrations extends DataSourceBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent,
 		});
 	}

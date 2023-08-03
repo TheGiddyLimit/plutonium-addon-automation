@@ -6,6 +6,8 @@ export class DataSourceBase {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }

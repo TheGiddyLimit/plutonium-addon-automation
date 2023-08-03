@@ -20,6 +20,8 @@ export class Integrations extends StartupHookMixin(class {}) {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent = false,
 		},
 	) {
@@ -28,6 +30,8 @@ export class Integrations extends StartupHookMixin(class {}) {
 			path,
 			fnMatch,
 			ent,
+			propBase,
+			base,
 			isSilent,
 		}));
 	}
