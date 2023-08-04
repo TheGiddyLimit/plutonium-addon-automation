@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.3
+
+> 2023-08-04
+
+- Improved source accuracy of data returned by the "Chris's Premades" integration
+
 ## 0.6.2
 
 > 2023-08-02
