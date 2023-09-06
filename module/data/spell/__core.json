@@ -457,37 +457,7 @@
 				{
 					"changes": [
 						{
-							"key": "system.abilities.str.bonuses.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						},
-						{
-							"key": "system.abilities.dex.bonuses.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						},
-						{
-							"key": "system.abilities.con.bonuses.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						},
-						{
-							"key": "system.abilities.int.bonuses.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						},
-						{
-							"key": "system.abilities.wis.bonuses.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						},
-						{
-							"key": "system.abilities.cha.bonuses.save",
+							"key": "system.bonuses.abilities.save",
 							"mode": "ADD",
 							"value": "-1d4",
 							"priority": 20
