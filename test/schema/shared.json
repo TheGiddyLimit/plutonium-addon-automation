@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.7.0",
+	"version": "0.7.1",
 
 	"$defs": {
 		"schema": {
@@ -171,8 +171,7 @@
 				"effects": {
 					"type": "array",
 					"items": {"$ref": "#/$defs/effectObject"},
-					"uniqueItems": true,
-					"minItems": 1
+					"uniqueItems": true
 				},
 
 				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
@@ -220,7 +219,7 @@
 
 				"_merge": {
 					"type": "object",
-					"description": "If our \"X\" (e.g. \"data\") should be merged with any base \"X\", rather than overwriting.",
+					"description": "If our \"X\" (e.g. \"system\") should be merged with any base \"X\", rather than overwriting.",
 					"properties": {
 						"system": {"const": true},
 						"chooseSystem": {"const": true},

@@ -3,6 +3,7 @@ import {Um} from "5etools-utils";
 import {Command} from "commander";
 import path from "path";
 import {DIR_ITEM_MACROS} from "./consts.js";
+import {getMacroFilename} from "../shared/util.js";
 
 const MACRO_TEMPLATE = `async function macro (args) {
 	// TODO write your macro here!
@@ -24,11 +25,7 @@ function main () {
 	const dirPath = path.join(DIR_ITEM_MACROS, params.dir);
 	fs.mkdirSync(dirPath, {recursive: true});
 
-	const filePath = path.join(
-		dirPath,
-		// FIXME better sluggification of `name`
-		`${params.source}_${params.name.toLowerCase().replace(/ /g, "-")}.js`,
-	);
+	const filePath = path.join(dirPath, getMacroFilename({name: params.name, source: params.source}));
 
 	if (fs.existsSync(filePath)) throw new Error(`File "${filePath}" already exists!`);
 
