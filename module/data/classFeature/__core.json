@@ -207,7 +207,8 @@
 				"requires": {
 					"itemacro": true
 				}
-			}
+			},
+			"ignoreSrdEffects": true
 		},
 		{
 			"name": "Reckless Attack",
