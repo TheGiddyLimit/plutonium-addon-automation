@@ -22,7 +22,7 @@ async function macro (args) {
 				const stacks = getProperty(lastArg.efData, "flags.dae.stacks") || 1;
 				const label = `${lastArg.efData.label.replace(/\s+\(\d*\)/, "")} (${stacks - 1})`;
 				Hooks.once("midi-qol.RollComplete", () => {
-					tactor.updateEmbeddedDocuments("ActiveEffect", [{ _id: lastArg.efData._id, "flags.dae.stacks": stacks - 1, "label": label }]);
+					tactor.updateEmbeddedDocuments("ActiveEffect", [{_id: lastArg.efData._id, "flags.dae.stacks": stacks - 1, "label": label}]);
 				});
 			}
 		} else if (args[0] === "each") {
@@ -31,14 +31,14 @@ async function macro (args) {
 			const saveType = "con";
 			const DC = 15;
 			const flavor = `${CONFIG.DND5E.abilities[saveType]} DC${DC} ${item?.name || ""}`;
-			let save = (await tactor.rollAbilitySave(saveType, { flavor, fastForward: true })).total;
+			let save = (await tactor.rollAbilitySave(saveType, {flavor, fastForward: true})).total;
 			if (save >= DC) {
 				const effectsToDelete = tactor.effects.filter(ef => ef.origin === lastArg.origin).map(ef => ef.id);
 				ChatMessage.create({content: "Save was made"});
-				await MidiQOL.socket().executeAsGM("removeEffects", { actorUuid: tactor.uuid, effects: [...effectsToDelete, lastArg.effectId] });
+				await MidiQOL.socket().executeAsGM("removeEffects", {actorUuid: tactor.uuid, effects: [...effectsToDelete, lastArg.effectId]});
 			} else {
 				let damageRoll = await new Roll(`${woundCount}d4[necrotic]`).roll({async: true}); // could be argument
-				const wf = new MidiQOL.DamageOnlyWorkflow(tactor, ttoken, damageRoll.total, "necrotic", [ttoken], damageRoll, { flavor: `Failed Save for ${item.name}`, itemData: item?.toObject(false), itemCardId: "new", useOther: true });
+				const wf = new MidiQOL.DamageOnlyWorkflow(tactor, ttoken, damageRoll.total, "necrotic", [ttoken], damageRoll, {flavor: `Failed Save for ${item.name}`, itemData: item?.toObject(false), itemCardId: "new", useOther: true});
 			}
 		} else if (args[0] === "off") {
 			// do any clean up

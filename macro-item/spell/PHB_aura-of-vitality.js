@@ -13,8 +13,8 @@ async function macro (args) {
 				concentration: false,
 				vocal: true,
 			},
-			damage: { parts: [["2d6", "healing"]] },
-			duration: { units: "inst" },
+			damage: {parts: [["2d6", "healing"]]},
+			duration: {units: "inst"},
 			level: args[1].efData.flags["midi-qol"].castData.castLevel,
 			preparation: {
 				mode: "atwill",
@@ -29,7 +29,7 @@ async function macro (args) {
 				value: 1,
 			},
 		},
-		{ overwrite: true },
+		{overwrite: true},
 	);
 
 	if (args[0] === "on") {
@@ -46,7 +46,7 @@ async function macro (args) {
 				},
 			},
 			{},
-			{ name: "plutonium-addon-automation-aura-of-vitality" },
+			{name: "plutonium-addon-automation-aura-of-vitality"},
 		);
 	} else if (args[0] === "off") {
 		await warpgate.revert(token, "plutonium-addon-automation-aura-of-vitality");

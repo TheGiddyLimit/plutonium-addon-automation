@@ -405,6 +405,18 @@
 				"allowTemplateLiterals": true
 			}
 		],
-		"no-var": "error"
+		"no-var": "error",
+		"object-curly-spacing": [
+			"error",
+			"never"
+		],
+		"computed-property-spacing": [
+			"error",
+			"never"
+		],
+		"array-bracket-spacing": [
+			"error",
+			"never"
+		]
 	}
 }

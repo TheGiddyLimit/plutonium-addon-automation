@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import {Um, Uf} from "5etools-utils";
-import { Command } from "commander";
+import {Command} from "commander";
 
 const program = new Command()
 	.option("--fix", `Fix the files.`)
