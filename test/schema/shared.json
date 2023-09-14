@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.7.0",
+	"version": "0.7.1",
 
 	"$defs": {
 		"schema": {
@@ -217,6 +217,8 @@
 					"required": ["file"],
 					"additionalProperties": false
 				},
+
+				"ignoreSrdEffects": {"type": "boolean"},
 
 				"_merge": {
 					"type": "object",
