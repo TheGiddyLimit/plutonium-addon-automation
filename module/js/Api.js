@@ -1,6 +1,7 @@
 import {SharedConsts} from "../shared/SharedConsts.js";
 import {DataManager} from "./DataManager.js";
 import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
+import DdbImporter from "./api/DdbImporter.js";
 
 /**
  * @mixes {StartupHookMixin}
@@ -13,4 +14,6 @@ export class Api extends StartupHookMixin(class {}) {
 	static pGetExpandedAddonData (opts) {
 		return DataManager.api_pGetExpandedAddonData(opts);
 	}
+
+	static DdbImporter = DdbImporter;
 }
