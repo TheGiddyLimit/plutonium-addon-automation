@@ -24,16 +24,22 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
+	static _MODULE_ID__DFREDS_CONVENIENT_EFFECTS = "dfreds-convenient-effects";
+	static _MODULE_ID__MIDI_QOL = "midi-qol";
+	static _MODULE_ID__ITEM_MACRO = "itemacro";
+	static _MODULE_ID__TOKEN_ACTION_HUD = "token-action-hud";
+	static _MODULE_ID__CHRIS_PREMADES = "chris-premades";
+
 	static _SETTING_METAS = [
 		{
-			moduleId: "dfreds-convenient-effects",
+			moduleId: this._MODULE_ID__DFREDS_CONVENIENT_EFFECTS,
 			settingKey: "modifyStatusEffects",
 			isGmOnly: true,
 			expectedValue: "replace",
 			allowedValues: ["replace", "add"],
 		},
 		{
-			moduleId: "midi-qol",
+			moduleId: this._MODULE_ID__MIDI_QOL,
 			settingKey: "ConfigSettings",
 			propPath: "autoCEEffects",
 			isGmOnly: true,
@@ -41,22 +47,32 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			displaySettingName: "midi-qol.AutoCEEffects.Name",
 		},
 		{
-			moduleId: "itemacro",
+			moduleId: this._MODULE_ID__ITEM_MACRO,
 			settingKey: "defaultmacro",
 			isGmOnly: true,
 			expectedValue: false,
 		},
 		{
-			moduleId: "itemacro",
+			moduleId: this._MODULE_ID__ITEM_MACRO,
 			settingKey: "charsheet",
 			isGmOnly: true,
 			expectedValue: false,
 		},
 		{
-			moduleId: "token-action-hud",
+			moduleId: this._MODULE_ID__TOKEN_ACTION_HUD,
 			settingKey: "itemMacroReplace",
 			expectedValue: "showOriginal",
 		},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Armor of Agathys", displaySettingName: "Armor of Agathys Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Beacon of Hope", displaySettingName: "Beacon of Hope Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Darkness", displaySettingName: "Darkness Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Death Ward", displaySettingName: "Death Ward Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Fog Cloud", displaySettingName: "Fog Cloud Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Mirror Image", displaySettingName: "Mirror Image Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Protection from Evil and Good", displaySettingName: "Protection from Evil and Good Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Sanctuary", displaySettingName: "Sanctuary Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Shadow of Moil", displaySettingName: "Shadow of Moil Automation", expectedValue: true},
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Warding Bond", displaySettingName: "Warding Bond Automation", expectedValue: true},
 	];
 
 	static _getSettingsData () {
@@ -85,7 +101,8 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 				if (propPath) value = foundry.utils.getProperty(value, propPath);
 
 				return {
-					name: `${game.modules.get(moduleId).title} \u2013 <i>${game.i18n.localize(displaySettingName || setting.name)}</i>`,
+					moduleTitle: game.modules.get(moduleId).title,
+					name: game.i18n.localize(displaySettingName || setting.name),
 					isExpected: expectedValue === value,
 					isAllowed: allowedValues.includes(value),
 					displayExpectedValue: setting.choices
@@ -115,9 +132,21 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 		async getData (opts) {
 			const settings = SettingsManager._getSettingsData();
 
+			const settingGroups = settings
+				.reduce(
+					(accum, setting) => {
+						(accum[setting.moduleTitle] ||= []).push(setting);
+						return accum;
+					},
+					{},
+				);
+
 			const out = {
 				...(await super.getData(opts)),
 				settings,
+				settingGroups: Object.entries(settingGroups)
+					.sort(([kA], [kB]) => SortUtil.ascSortLower(kA, kB))
+					.map(([, v]) => v),
 				isMassError: settings.some(it => !it.isExpected),
 				isMassWarning: settings.some(it => !it.isAllowed),
 			};
@@ -154,12 +183,11 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 		async _onClick_pFixAll () {
 			try {
 				const cnt = this.#lastData.settings.filter(it => !it.isExpected).length;
-				for (let ix = 0; ix < this.#lastData.settings.length; ++ix) {
-					const setting = this.#lastData.settings[ix];
+				for (const setting of this.#lastData.settings) {
 					if (setting.isExpected) continue;
-					await this._pFixSetting({ix});
+					await this._pFixSetting({ix: setting.ixSetting});
 					await this.render();
-					game.settings.sheet.render();
+					if (game.settings.sheet.rendered) game.settings.sheet.render();
 				}
 				ui.notifications.info(`${cnt} setting${cnt === 1 ? "" : "s"} updated!`);
 				await this.close({force: true});
