@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0
+
+> 2023-09-19
+
+- Ported and integrated various spell macros from D&D Beyond Importer (<https://github.com/MrPrimate/ddb-importer>), increasing spell automation to approximate parity (assuming the use of "Chris's Premades" and "Midi SRD" modules)
+- Fixed Rage automation failing to exclude SRD effect
+
 ## 0.6.3
 
 > 2023-08-04
