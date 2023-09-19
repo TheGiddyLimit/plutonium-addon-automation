@@ -53,5 +53,10 @@
 		"ver": "0.6.3",
 		"date": "2023-08-04",
 		"txt": "- Improved source accuracy of data returned by the \"Chris's Premades\" integration"
+	},
+	{
+		"ver": "0.7.0",
+		"date": "2023-09-19",
+		"txt": "- Ported and integrated various spell macros from D&D Beyond Importer (<https://github.com/MrPrimate/ddb-importer>), increasing spell automation to approximate parity (assuming the use of \"Chris's Premades\" and \"Midi SRD\" modules)\n- Fixed Rage automation failing to exclude SRD effect"
 	}
 ]
