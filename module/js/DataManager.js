@@ -56,15 +56,19 @@ export class DataManager extends StartupHookMixin(class {}) {
 			DataSourceIntegrations,
 		];
 
-		const out = await dataSources.pSerialAwaitFirst(dataSource => dataSource.pGetExpandedAddonData({
-			propJson,
-			path,
-			fnMatch,
-			ent,
-			propBase,
-			base,
-			isSilent,
-		}));
+		const out = await dataSources.pSerialAwaitFirst(async dataSource => {
+			const out = await dataSource.pGetExpandedAddonData({
+				propJson,
+				path,
+				fnMatch,
+				ent,
+				propBase,
+				base,
+				isSilent,
+			});
+			if (out && game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) console.debug(...Util.LGT, `Found automation for ${ent.name} in data source: ${dataSource.name}`);
+			return out;
+		});
 
 		this._doDevWarn({ent, out});
 

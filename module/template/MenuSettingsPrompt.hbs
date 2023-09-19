@@ -11,26 +11,30 @@
 		</button>
 	</div>
 
-	<hr class="hr-1">
-
-	{{#each settings as |setting ix|}}
-		<div class="ve-flex-v-center py-1 w-100">
-			<div class="ve-flex w-100 mr-2">{{{name}}}</div>
-			<div  class="ve-flex-v-center no-shrink">
-				{{#if isExpected}}
-					<button type="button" class="btn btn-default btn-xs" name="btn-fix" disabled>
-						<i class="fas fa-fw fa-check mr-0" title="Compatible setting value detected."></i>
-					</button>
-				{{else if isAllowed}}
-					<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Sub-optimal setting value detected. Click to fix (setting will be set to &quot;{{displayExpectedValue}}&quot;).">
-						<i class="fas fa-fw fa-triangle-exclamation mr-0"></i>
-					</button>
-				{{else}}
-					<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Incompatible setting value detected! Click to fix (setting will be set to&quot;{{displayExpectedValue}}&quot;).">
-						<i class="fas fa-fw fa-octagon-exclamation mr-0"></i>
-					</button>
-				{{/if}}
+	{{#each settingGroups as |group ix|}}
+		{{#each group as |setting ix|}}
+			{{#if @first}}
+				<hr class="hr-1">
+				<div class="py-1 bold">{{moduleTitle}}</div>
+			{{/if}}
+			<div class="ve-flex-v-center py-1 w-100">
+				<div class="ve-flex w-100 mr-2">{{{name}}}</div>
+				<div  class="ve-flex-v-center no-shrink">
+					{{#if isExpected}}
+						<button type="button" class="btn btn-default btn-xs" name="btn-fix" disabled>
+							<i class="fas fa-fw fa-check mr-0" title="Compatible setting value detected."></i>
+						</button>
+					{{else if isAllowed}}
+						<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Sub-optimal setting value detected. Click to fix (setting will be set to &quot;{{displayExpectedValue}}&quot;).">
+							<i class="fas fa-fw fa-triangle-exclamation mr-0"></i>
+						</button>
+					{{else}}
+						<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Incompatible setting value detected! Click to fix (setting will be set to&quot;{{displayExpectedValue}}&quot;).">
+							<i class="fas fa-fw fa-octagon-exclamation mr-0"></i>
+						</button>
+					{{/if}}
+				</div>
 			</div>
-		</div>
+		{{/each}}
 	{{/each}}
 </form>

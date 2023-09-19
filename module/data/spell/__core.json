@@ -1,75 +1,6 @@
 {
 	"spell": [
 		{
-			"name": "Absorb Elements",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.bonuses.mwak.damage",
-							"value": "(@item.level)d6",
-							"mode": "CUSTOM",
-							"priority": 20
-						},
-						{
-							"key": "system.bonuses.msak.damage",
-							"value": "(@item.level)d6",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"rounds": 2,
-						"startTurn": 1
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"DamageDealt"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Absorb Elements - Extra Damage"
-				},
-				{
-					"changes": [
-						{
-							"key": "system.traits.dr.value",
-							"value": "fire",
-							"mode": "ADD",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"rounds": 2
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Absorb Elements - Resistance"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_absorb-elements.js"
-			}
-		},
-		{
 			"name": "Aid",
 			"source": "PHB",
 			"system": {
@@ -138,47 +69,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Armor of Agathys",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.dae.onUpdateTarget",
-							"mode": "CUSTOM",
-							"value": "Armor of Agathys,ItemMacro,system.attributes.hp.temp,@item.level",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 3600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Armor of Agathys"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"_merge": {
-				"system": true
-			},
-			"itemMacro": {
-				"file": "PHB_armor-of-agathys.js"
-			}
 		},
 		{
 			"name": "Arms of Hadar",
@@ -485,84 +375,6 @@
 			]
 		},
 		{
-			"name": "Chromatic Orb",
-			"source": "PHB",
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postDamageRoll]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_chromatic-orb.js"
-			}
-		},
-		{
-			"name": "Cloudkill",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "label=Cloudkill (Start of Turn),turn=start, saveAbility=con, killAnim=true, saveDC=@attributes.spelldc, saveDamage=halfdamage, rollType=save, saveMagic=true, damageBeforeSave=false, damageRoll=(@item.level)d8, damageType=poison",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "@item.level",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"save": "str",
-							"displayTemp": true
-						}
-					},
-					"name": "Cloudkill",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				},
-				"plutonium-addon-automation": {
-					"effect": {
-						"dice": "5d8[poison]",
-						"damageType": "poison",
-						"save": "",
-						"sequencerFile": "jb2a.fog_cloud.2.green"
-					}
-				}
-			},
-			"itemMacro": {
-				"file": "Generic_ddbi-aa-damage-on-entry.js"
-			},
-			"system": {
-				"damage.parts": [],
-				"actionType": "other"
-			}
-		},
-		{
 			"name": "Color Spray",
 			"source": "PHB",
 			"flags": {
@@ -679,42 +491,6 @@
 			},
 			"system": {
 				"save.ability": null
-			}
-		},
-		{
-			"name": "Crown of Madness",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "StatusEffect",
-							"mode": "CUSTOM",
-							"value": "Convenient Effect: Charmed",
-							"priority": 20
-						},
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "OVERRIDE",
-							"value": "label=Crown of Madness (End of Turn),turn=end,saveDC=@attributes.spelldc,saveAbility=wis,saveMagic=true,killAnim=true",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Crown of Madness"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
 			}
 		},
 		{
@@ -1015,46 +791,6 @@
 			}
 		},
 		{
-			"name": "Hail of Thorns",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.onUseMacroName",
-							"value": "ItemMacro.Hail of Thorns,postActiveEffects",
-							"mode": "CUSTOM",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Hail of Thorns"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_hail-of-thorns.js"
-			},
-			"system": {
-				"damage.parts": [],
-				"actionType": "other",
-				"save.ability": null
-			}
-		},
-		{
 			"name": "Haste",
 			"source": "PHB",
 			"effects": [
@@ -1117,38 +853,6 @@
 			]
 		},
 		{
-			"name": "Hex",
-			"source": "PHB",
-			"_merge": {
-				"system": true
-			},
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Marked"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_hex.js"
-			},
-			"system": {
-				"damage.parts": []
-			}
-		},
-		{
 			"name": "Hold Person",
 			"source": "PHB",
 			"effects": [
@@ -1169,68 +873,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "Hunter's Mark",
-			"source": "PHB",
-			"_merge": {
-				"system": true
-			},
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.dae.onUpdateSource",
-							"mode": "CUSTOM",
-							"value": "Hunter's Mark",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 3600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Marked"
-				},
-				{
-					"changes": [
-						{
-							"key": "flags.dnd5e.DamageBonusMacro",
-							"value": "ItemMacro",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"transfer": true,
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Hunter's Mark"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_hunter's-mark.js"
-			},
-			"system": {
-				"damage.parts": []
-			}
 		},
 		{
 			"name": "Ice Knife",
@@ -1567,36 +1209,6 @@
 			"flags": {
 				"midiProperties": {
 					"nodam": true
-				}
-			}
-		},
-		{
-			"name": "Mirror Image",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "macro.tokenMagic",
-							"mode": "CUSTOM",
-							"value": "images",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Mirror Image"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
 				}
 			}
 		},
@@ -1957,64 +1569,6 @@
 			}
 		},
 		{
-			"name": "Spike Growth",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.attributes.movement.walk",
-							"value": "0.5",
-							"mode": "MULTIPLY",
-							"priority": 30
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"isMoved"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"displayTemp": true
-						}
-					},
-					"name": "Spike Growth",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"system": {
-				"damage.parts": []
-			},
-			"itemMacro": {
-				"file": "PHB_spike-growth.js"
-			}
-		},
-		{
 			"name": "Spirit Guardians",
 			"source": "PHB",
 			"effects": [
@@ -2082,135 +1636,6 @@
 				"actionType": "other",
 				"damage.parts": [],
 				"save.ability": null
-			}
-		},
-		{
-			"name": "Spirit Shroud",
-			"source": "TCE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.spiritShroud",
-							"mode": "OVERRIDE",
-							"value": "@uuid",
-							"priority": 20
-						},
-						{
-							"key": "system.attributes.movement.all",
-							"mode": "CUSTOM",
-							"value": "-10",
-							"priority": "15"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "Enemy",
-							"radius": 10,
-							"ignoreSelf": true,
-							"displayTemp": true
-						}
-					},
-					"name": "Spirit Shroud",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "TCE_spirit-shroud.js"
-			},
-			"system": {
-				"damage.parts": [],
-				"scaling.formula": "(floor(((@item.level) - 1) / 2))d8"
-			}
-		},
-		{
-			"name": "Storm Sphere",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.disadvantage.skill.prc",
-							"mode": "ADD",
-							"value": "0",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "turn=end,label=Storm Sphere (End of Turn),damageRoll=(@item.level - 2)d6,damageType=bludgeoning,saveRemove=false,saveDC=@attributes.spelldc,saveAbility=str,saveDamage=nodamage,killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"macroRepeat": "startEveryTurn"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"save": "str",
-							"displayTemp": true
-						}
-					},
-					"name": "Storm Sphere",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_storm-sphere.js"
-			},
-			"_merge": {
-				"system": true
-			},
-			"system": {
-				"damage.parts": [
-					[
-						"2d6",
-						"bludgeoning"
-					]
-				],
-				"formula": "4d6[lightning]",
-				"actionType": "save"
 			}
 		},
 		{
@@ -2372,45 +1797,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Vitriolic Sphere",
-			"source": "XGE",
-			"_merge": {
-				"system": true
-			},
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "turn=end,label=Vitriolic Sphere (End of Turn),damageRoll=5d4,damageType=acid,removeCondition=true,killAnim=true",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"rounds": 1
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"turnEnd"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Vitriolic Sphere"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			}
 		},
 		{
 			"name": "Witch Bolt",
