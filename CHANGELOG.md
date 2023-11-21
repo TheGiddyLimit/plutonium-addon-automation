@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1
+
+> 2023-11-21
+
+- Added compatibility with dnd5e 2.4.x
+
 ## 0.7.0
 
 > 2023-09-19
