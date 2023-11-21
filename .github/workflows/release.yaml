@@ -35,6 +35,7 @@ jobs:
 
          -  name: Upload Release
             run: |
-               gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes "Version ${{github.ref_name}}" plutonium-addon-automation.zip dist/plutonium-addon-automation/module.json
+               node script/workflows/write-version-notes-file.js ${{github.ref_name}}
+               gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes-file NOTES_FILE.md plutonium-addon-automation.zip dist/plutonium-addon-automation/module.json
             env:
                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
