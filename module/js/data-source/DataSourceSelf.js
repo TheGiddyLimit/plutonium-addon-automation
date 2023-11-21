@@ -84,7 +84,7 @@ export class DataSourceSelf extends DataSourceBase {
 				{
 					// region Convert to our alternate field names, which are prioritized. This ensures the CE name/image
 					//   will be used over a name/image generated from the parent document.
-					name: convEffectData.label,
+					name: convEffectData.name ?? convEffectData.label,
 					img: convEffectData.icon,
 					// endregion
 					...eff,
