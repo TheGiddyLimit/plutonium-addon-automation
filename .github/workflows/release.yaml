@@ -35,6 +35,6 @@ jobs:
 
          -  name: Upload Release
             run: |
-               hub release create -a plutonium-addon-automation.zip -a dist/plutonium-addon-automation/module.json -m "${{ github.ref_name }}"$'\n\n'"Version ${{ github.ref_name }}" ${{ github.ref_name }}
+               gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes "Version ${{github.ref_name}}" plutonium-addon-automation.zip dist/plutonium-addon-automation/module.json
             env:
                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
