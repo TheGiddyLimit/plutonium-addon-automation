@@ -98,7 +98,13 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 			.forEach(doc => {
 				this._PACK_CACHE[packId][this._getCacheLookupName({
 					name: doc.name,
-					source: this._getCleanDocSource({source: doc.system.source}),
+					source: this._getCleanDocSource({
+						source: doc.system.source == null
+							? null
+							: typeof doc.system.source === "object"
+								? (doc.system.source.book || doc.system.source.custom) // dnd5e >=2.4.x
+								: doc.system.source, // dnd5e <=2.3.x
+					}),
 				})] = doc;
 			});
 	}
