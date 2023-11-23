@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.2
+
+> 2023-11-23
+
+- Fixed "ADD" active effects missing leading operator
+- Fixed rare missing-flag crash when using the "Chris's Premades" integration
+
 ## 0.7.1
 
 > 2023-11-21
