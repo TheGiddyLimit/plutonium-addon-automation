@@ -12,7 +12,7 @@
 						{
 							"key": "system.attributes.hp.max",
 							"mode": "ADD",
-							"value": "(@item.level - 1) * 5",
+							"value": "+ (@item.level - 1) * 5",
 							"priority": 20
 						},
 						{

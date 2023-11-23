@@ -205,12 +205,12 @@
 						{
 							"key": "ATL.dimLight",
 							"mode": "ADD",
-							"value": "20"
+							"value": "+ 20"
 						},
 						{
 							"key": "ATL.brightLight",
 							"mode": "ADD",
-							"value": "10"
+							"value": "+ 10"
 						}
 					],
 					"transfer": true,

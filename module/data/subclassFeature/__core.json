@@ -14,13 +14,13 @@
 						{
 							"key": "data.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "max(1,@abilities.int.mod)",
+							"value": "+ max(1,@abilities.int.mod)",
 							"priority": "20"
 						},
 						{
 							"key": "data.attributes.movement.walk",
 							"mode": "ADD",
-							"value": "10",
+							"value": "+ 10",
 							"priority": "20"
 						},
 						{
@@ -32,7 +32,7 @@
 						{
 							"key": "flags.midi-qol.concentrationSaveBonus",
 							"mode": "ADD",
-							"value": "max(1,@abilities.int.mod)",
+							"value": "+ max(1,@abilities.int.mod)",
 							"priority": "20"
 						}
 					],
