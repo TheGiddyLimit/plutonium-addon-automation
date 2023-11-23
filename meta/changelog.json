@@ -63,5 +63,10 @@
 		"ver": "0.7.1",
 		"date": "2023-11-21",
 		"txt": "- Added compatibility with dnd5e 2.4.x"
+	},
+	{
+		"ver": "0.7.2",
+		"date": "2023-11-23",
+		"txt": "- Fixed \"ADD\" active effects missing leading operator\n- Fixed rare missing-flag crash when using the \"Chris's Premades\" integration"
 	}
 ]
