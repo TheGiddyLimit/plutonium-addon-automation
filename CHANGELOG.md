@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.3
+
+> 2023-11-26
+
+- Added "actor type" pass-through, enabling future Plutonium fixes around "Chris's Premades" integration
+
 ## 0.7.2
 
 > 2023-11-23
