@@ -8,6 +8,7 @@ export class DataSourceBase {
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }

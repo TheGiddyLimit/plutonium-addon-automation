@@ -53,6 +53,7 @@ export class IntegrationMidiSrd extends StartupHookMixin(IntegrationBase) {
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) {

@@ -55,6 +55,7 @@ export class IntegrationBase {
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -66,6 +67,7 @@ export class IntegrationBase {
 			ent,
 			propBase,
 			base,
+			actorType,
 			isSilent,
 		});
 	}
@@ -79,6 +81,7 @@ export class IntegrationBase {
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }

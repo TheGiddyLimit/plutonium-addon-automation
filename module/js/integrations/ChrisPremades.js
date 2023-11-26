@@ -99,6 +99,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -115,6 +116,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			ent,
 			propBase,
 			base,
+			actorType,
 			isSilent,
 		});
 	}
@@ -127,6 +129,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			ent,
 			propBase,
 			base = undefined,
+			actorType,
 			isSilent = false,
 		},
 	) {
@@ -146,6 +149,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 								ent,
 								propBase,
 								base,
+								actorType,
 								isSilent,
 							},
 						),
@@ -165,14 +169,14 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) {
 		// Create a fake actor to bypass CPR's `doc.actor` check
 		const fauxActor = new (class {
-			// TODO(Future) return `"npc"` if this is a creature embedded item (requires Plutonium support/reworks)
 			get type () {
-				return "character";
+				return actorType ?? (propJson.startsWith("monster") ? "npc" : "character");
 			}
 
 			_embeddedItems = null;

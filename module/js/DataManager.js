@@ -48,6 +48,7 @@ export class DataManager extends StartupHookMixin(class {}) {
 			ent,
 			propBase,
 			base = undefined,
+			actorType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -64,6 +65,7 @@ export class DataManager extends StartupHookMixin(class {}) {
 				ent,
 				propBase,
 				base,
+				actorType,
 				isSilent,
 			});
 			if (out && game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) console.debug(...Util.LGT, `Found automation for ${ent.name} in data source: ${dataSource.name}`);
