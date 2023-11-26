@@ -31,11 +31,11 @@ export const buildTask = async (
 			{
 				name: "Giddy",
 				url: "https://www.patreon.com/Giddy5e",
-				discord: "Giddy#0001",
+				discord: "giddy_",
 			},
 			{
 				name: "Spappz",
-				discord: "spap#9812",
+				discord: "spap",
 			},
 		],
 		readme: "README.md",
@@ -47,7 +47,7 @@ export const buildTask = async (
 		changelog: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/CHANGELOG.md",
 		compatibility: {
 			minimum: "10",
-			verified: "11.301",
+			verified: "11.315",
 		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
