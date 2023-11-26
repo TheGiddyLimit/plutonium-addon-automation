@@ -68,5 +68,10 @@
 		"ver": "0.7.2",
 		"date": "2023-11-23",
 		"txt": "- Fixed \"ADD\" active effects missing leading operator\n- Fixed rare missing-flag crash when using the \"Chris's Premades\" integration"
+	},
+	{
+		"ver": "0.7.3",
+		"date": "2023-11-26",
+		"txt": "- Added \"actor type\" pass-through, enabling future Plutonium fixes around \"Chris's Premades\" integration"
 	}
 ]
