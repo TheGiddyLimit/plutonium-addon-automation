@@ -1,6 +1,6 @@
-import {getMacroFilename} from "./shared/util.js";
-import {pDoDownloadZip} from "./util.js";
-import {flattenObject} from "./shared/foundry-helpers.js";
+import {getMacroFilename} from "../shared/util.js";
+import {pDoDownloadZip} from "../client/util.js";
+import {flattenObject} from "../shared/foundry-helpers.js";
 
 class ConverterUi {
 	static _iptFile = null;

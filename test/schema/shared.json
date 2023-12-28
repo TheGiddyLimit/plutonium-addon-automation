@@ -5,7 +5,7 @@
 
 	"$defs": {
 		"schema": {
-			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is  advised that you leave this key out when submitting to the repo.",
+			"description": "An optional key that allows you specify the schema you want to verify against in compatible IDEs.\nIt is advised that you leave this key out when submitting to the repo.",
 			"type": "string",
 			"examples": [
 				"../../../test/schema/homebrew.json",

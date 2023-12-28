@@ -1,3 +1,10 @@
-# """Docs"""
+# Docs
 
-This directory is used to deploy static web tooling to GitHub Pages. The deployment can be found [here](https://thegiddylimit.github.io/plutonium-addon-automation).
+The following documentation is available:
+
+- [Resolution Order.md](Resolution Order.md)
+
+See also:
+
+- The project [README](../README.md)
+- The [contribution guidelines](../CONTRIBUTING.md)
