@@ -5,6 +5,7 @@ import {SettingsManager} from "./SettingsManager.js";
 import {Api} from "./Api.js";
 import {Integrations} from "./integrations/Integrations.js";
 import {DataManager} from "./DataManager.js";
+import {DataSourceSelf} from "./data-source/DataSourceSelf.js";
 
 class Main {
 	static _HAS_FAILED = false;
@@ -15,6 +16,7 @@ class Main {
 		OptionalDependenciesManager,
 		Integrations,
 		DataManager,
+		DataSourceSelf,
 	];
 
 	static onHookInit () {

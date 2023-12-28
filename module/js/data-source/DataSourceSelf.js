@@ -1,8 +1,28 @@
 import {SharedConsts} from "../../shared/SharedConsts.js";
 import {OptionalDependenciesManager} from "../OptionalDependenciesManager.js";
 import {DataSourceBase} from "./DataSourceBase.js";
+import {ModuleSettingConsts} from "../ModuleSettingConsts.js";
+import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
 
-export class DataSourceSelf extends DataSourceBase {
+export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
+	static _onHookInitDev () {
+		game.settings.register(
+			SharedConsts.MODULE_ID,
+			ModuleSettingConsts.DEV_IS_DISABLE_SELF_SOURCE,
+			{
+				name: "PLUTAA.Developer: Disable Non-Integration Data",
+				hint: "Disable module-internal data.",
+				default: false,
+				type: Boolean,
+				scope: "client",
+				config: true,
+				restricted: true,
+			},
+		);
+	}
+
+	/* -------------------------------------------- */
+
 	static #P_INDEX = null;
 
 	static async pGetExpandedAddonData (
@@ -17,6 +37,8 @@ export class DataSourceSelf extends DataSourceBase {
 			isSilent = false,
 		},
 	) {
+		if (game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DISABLE_SELF_SOURCE)) return null;
+
 		const index = await (this.#P_INDEX = this.#P_INDEX || DataUtil.loadJSON(`${SharedConsts.MODULE_PATH}/data/_generated/index.json`));
 
 		const ixFile = MiscUtil.get(index, propJson, ...path);
