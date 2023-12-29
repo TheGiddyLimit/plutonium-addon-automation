@@ -71,171 +71,6 @@
 			]
 		},
 		{
-			"name": "Arms of Hadar",
-			"source": "PHB",
-			"system": {
-				"duration.units": null,
-				"target.type": "creature",
-				"range.units": "spec"
-			},
-			"flags": {
-				"midiProperties": {
-					"halfdam": true
-				}
-			},
-			"effects": [
-				{
-					"convenientEffect": "Reaction"
-				}
-			]
-		},
-		{
-			"name": "Aura of Life",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "necrotic",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "@token",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"macroRepeat": "startEveryTurn"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "Allies",
-							"radius": 30,
-							"displayTemp": true
-						}
-					},
-					"name": "Aura of Life",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_aura-of-life.js"
-			},
-			"system": {
-				"target.type": "self",
-				"range.units": "self",
-				"actionType": "other",
-				"damage.parts": []
-			}
-		},
-		{
-			"name": "Aura of Purity",
-			"source": "PHB",
-			"_TODO": [
-				"Does not grant advantage for saving throws against conditions"
-			],
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "poison",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 600
-					},
-					"flags": {
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "Allies",
-							"radius": 30,
-							"height": true,
-							"displayTemp": true
-						}
-					},
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			]
-		},
-		{
-			"name": "Aura of Vitality",
-			"source": "PHB",
-			"system": {
-				"damage.parts": [],
-				"target.type": "self"
-			},
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "macro.itemMacro",
-							"mode": "CUSTOM",
-							"value": "",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60
-					},
-					"requires": {
-						"warpgate": true
-					}
-				}
-			],
-			"itemMacro": {
-				"file": "PHB_aura-of-vitality.js"
-			}
-		},
-		{
-			"name": "Beacon of Hope",
-			"source": "PHB",
-			"_TODO": [
-				"Does not grant max healing damage, which requires new midi support"
-			],
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.advantage.ability.save.wis",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": 20
-						},
-						{
-							"key": "flags.midi-qol.advantage.deathSave",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60
-					}
-				}
-			]
-		},
-		{
 			"name": "Blur",
 			"source": "PHB",
 			"_TODO": [
@@ -256,27 +91,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Booming Blade",
-			"source": "TCE",
-			"_merge": {
-				"system": true
-			},
-			"system": {
-				"damage.parts": [],
-				"damage.versatile": "",
-				"actionType": "other"
-			},
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "TCE_booming-blade.js"
-			}
 		},
 		{
 			"name": "Branding Smite",
@@ -326,53 +140,6 @@
 				"actionType": "other",
 				"damage.parts": []
 			}
-		},
-		{
-			"name": "Chill Touch",
-			"source": "PHB",
-			"system": {
-				"duration.units": null,
-				"duration.value": null
-			},
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.disadvantage.attack.all",
-							"mode": "CUSTOM",
-							"value": "targetId === \"@token\" && details.type.value === \"undead\"",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"turnEndSource"
-							]
-						}
-					}
-				},
-				{
-					"changes": [
-						{
-							"key": "system.traits.di.custom",
-							"mode": "CUSTOM",
-							"value": "healing",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"core": {
-							"statusId": "Chill Touch"
-						},
-						"dae": {
-							"specialDuration": [
-								"turnStartSource"
-							]
-						}
-					}
-				}
-			]
 		},
 		{
 			"name": "Color Spray",
@@ -655,25 +422,6 @@
 			}
 		},
 		{
-			"name": "Fly",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.attributes.movement.fly",
-							"mode": "UPGRADE",
-							"value": "60",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 600
-					}
-				}
-			]
-		},
-		{
 			"name": "Frostbite",
 			"source": "XGE",
 			"effects": [
@@ -715,27 +463,6 @@
 					"convenientEffect": "Invisible"
 				}
 			]
-		},
-		{
-			"name": "Green-Flame Blade",
-			"source": "TCE",
-			"_merge": {
-				"system": true
-			},
-			"system": {
-				"damage.parts": [],
-				"damage.versatile": "",
-				"actionType": "other"
-			},
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "TCE_green-flame-blade.js"
-			}
 		},
 		{
 			"name": "Guidance",
@@ -853,28 +580,6 @@
 			]
 		},
 		{
-			"name": "Hold Person",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": 5,
-							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Person",
-							"priority": 20
-						},
-						{
-							"key": "StatusEffect",
-							"mode": 0,
-							"value": "Convenient Effect: Paralyzed",
-							"priority": 20
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Ice Knife",
 			"source": "XGE",
 			"flags": {
@@ -954,67 +659,6 @@
 						"damageType": "fire",
 						"save": "",
 						"sequencerFile": "jb2a.fumes.fire.orange"
-					}
-				}
-			},
-			"itemMacro": {
-				"file": "Generic_ddbi-aa-damage-on-entry.js"
-			}
-		},
-		{
-			"name": "Insect Plague",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "label=Insect Plague Turn End,turn=end, saveAbility=con, saveDC=@attributes.spelldc, saveDamage=halfdamage, rollType=save, saveMagic=true, damageBeforeSave=false, damageRoll=(@item.level)d10, damageType=piercing, killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "@item.level",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"save": "dex",
-							"displayTemp": true
-						}
-					},
-					"name": "Insect Plague",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				},
-				"plutonium-addon-automation": {
-					"effect": {
-						"dice": "4d10[piercing]",
-						"damageType": "piercing",
-						"save": "",
-						"sequencerFile": "jb2a.butterflies.many.orange"
 					}
 				}
 			},
@@ -1184,35 +828,6 @@
 			}
 		},
 		{
-			"name": "Mind Sliver",
-			"source": "TCE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.bonuses.abilities.save",
-							"mode": "ADD",
-							"value": "-1d4",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"isSave",
-								"turnEndSource"
-							]
-						}
-					}
-				}
-			],
-			"flags": {
-				"midiProperties": {
-					"nodam": true
-				}
-			}
-		},
-		{
 			"name": "Otiluke's Resilient Sphere",
 			"source": "PHB",
 			"effects": [
@@ -1301,41 +916,6 @@
 			},
 			"itemMacro": {
 				"file": "PHB_otto's-irresistible-dance.js"
-			}
-		},
-		{
-			"name": "Pass without Trace",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.skills.ste.bonuses.check",
-							"mode": "ADD",
-							"value": "+ 10",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Pass without Trace"
-				}
-			],
-			"system": {
-				"target.value": null,
-				"target.units": null,
-				"target.type": "self"
-			},
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
 			}
 		},
 		{
@@ -1432,32 +1012,6 @@
 					"forceCEOff": true
 				}
 			}
-		},
-		{
-			"name": "Sanctuary",
-			"source": "PHB",
-			"_TODO": [
-				"Expire effect when character casts a spell on an enemy",
-				"Automate effect--WIS save should be forced"
-			],
-			"system": {
-				"actionType": "other"
-			},
-			"effects": [
-				{
-					"flags": {
-						"core": {
-							"statusId": "Sanctuary"
-						},
-						"dae": {
-							"specialDuration": [
-								"1Attack",
-								"DamageDealt"
-							]
-						}
-					}
-				}
-			]
 		},
 		{
 			"name": "Silence",
@@ -1636,96 +1190,6 @@
 				"actionType": "other",
 				"damage.parts": [],
 				"save.ability": null
-			}
-		},
-		{
-			"name": "Tasha's Caustic Brew",
-			"source": "TCE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "OVERRIDE",
-							"value": "turn=start,damageRoll=2d4,damageType=acid,label=Tasha's Caustic Brew",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 60
-					}
-				}
-			]
-		},
-		{
-			"name": "Thunderous Smite",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.dnd5e.DamageBonusMacro",
-							"value": "ItemMacro.Thunderous Smite",
-							"mode": "CUSTOM",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.thunderousSmite.dc",
-							"value": "@attributes.spelldc",
-							"mode": "OVERRIDE",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"1Hit:mwak"
-							],
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Thunderous Smite"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro,[preTargeting]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_thunderous-smite.js"
-			},
-			"system": {
-				"actionType": "other",
-				"damage.parts": []
-			}
-		},
-		{
-			"name": "Toll the Dead",
-			"source": "XGE",
-			"system": {
-				"damage.parts": [
-					[
-						"1d8",
-						"necrotic"
-					]
-				],
-				"damage.versatile": "",
-				"scaling.mode": "cantrip"
-			},
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preDamageRoll]ItemMacro"
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_toll-the-dead.js"
 			}
 		},
 		{
