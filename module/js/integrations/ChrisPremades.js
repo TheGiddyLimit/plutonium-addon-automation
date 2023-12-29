@@ -7,7 +7,7 @@ import {Util} from "../Util.js";
 const _LIBWRAPPER_TYPE_TEMP = "MIXED";
 
 /**
- * Designed for use with `chris-premades` v0.3.7
+ * Designed for use with `chris-premades` v0.9.17
  * See: https://github.com/chrisk123999/chris-premades
  *
  * @mixes {StartupHookMixin}
@@ -155,7 +155,9 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 						),
 				),
 				{
-					returnValue: true,
+					returnValue: CONFIG.chrisPremades.itemConfiguration[ent.name]
+						? "update"
+						: true,
 				},
 			),
 		);
