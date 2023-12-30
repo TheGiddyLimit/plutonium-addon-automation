@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.4
+
+> 2023-12-30
+
+- Switched various spells (~20 total) to prefer data provided by "Chris's Premades," as these automations are of higher quality _[or in some cases, actually work!]_
+- Updated "Chris's Premades" integration to better handle latest module version
+
 ## 0.7.3
 
 > 2023-11-26
