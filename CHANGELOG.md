@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.5
+
+> 2024-01-03
+
+- Fixed "Chris's Premades" integration failing to apply for players
+- Fixed "Chris's Premades" failing to locate "Ki Points" automation
+
 ## 0.7.4
 
 > 2023-12-30
