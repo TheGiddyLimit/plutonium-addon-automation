@@ -64,6 +64,8 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			expectedValue: "showOriginal",
 		},
 		// region chris-premades
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Item Configuration Access", displaySettingName: "Item Configuration Access", expectedValue: true},
+
 		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Effect Auras", displaySettingName: "Effect Auras", expectedValue: true},
 		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "On Hit", displaySettingName: "On Hit", expectedValue: true},
 		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Combat Listener", displaySettingName: "Combat Listener", expectedValue: true},

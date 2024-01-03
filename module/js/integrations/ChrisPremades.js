@@ -66,13 +66,18 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 
 	_stubSemaphores = {};
 
-	async _pWithStubbed (nameStubbed, fn, {returnValue} = {}) {
+	async _pWithStubbed (nameStubbed, {returnValue, fnPatch} = {}, fn) {
 		let out;
 		// Only register/deregister on semaphore 0 to avoid libWrapper errors (a module may only patch a method once)
 		try {
 			this._stubSemaphores[nameStubbed] = this._stubSemaphores[nameStubbed] || 0;
 			if (!this._stubSemaphores[nameStubbed]++) {
-				libWrapper.register(SharedConsts.MODULE_ID, nameStubbed, () => returnValue, _LIBWRAPPER_TYPE_TEMP);
+				libWrapper.register(
+					SharedConsts.MODULE_ID,
+					nameStubbed,
+					(fnOriginal, ...args) => fnPatch ? fnPatch(fnOriginal, ...args) : returnValue,
+					_LIBWRAPPER_TYPE_TEMP,
+				);
 			}
 			out = await fn();
 		} finally {
@@ -135,30 +140,42 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 	) {
 		return this._pWithStubbed(
 			"ui.notifications.info",
+			{},
 			() => this._pWithStubbed(
-				"chrisPremades.helpers.dialog",
-				() => this._pWithStubbed(
-					"ChatMessage.create",
-					this._pGetExpandedAddonData_pWithStubbed
-						.bind(
-							this,
-							{
-								propJson,
-								path,
-								fnMatch,
-								ent,
-								propBase,
-								base,
-								actorType,
-								isSilent,
-							},
-						),
-				),
+				"game.settings.get",
 				{
-					returnValue: CONFIG.chrisPremades.itemConfiguration[ent.name]
-						? "update"
-						: true,
+					fnPatch: (fn, ...args) => {
+						const [module, key] = args;
+						if (!game.user.isGM && module === "chris-premades" && key === "Item Replacer Access") return true;
+						return fn(...args);
+					},
 				},
+				() => this._pWithStubbed(
+					"chrisPremades.helpers.dialog",
+					{
+						returnValue: CONFIG.chrisPremades.itemConfiguration[ent.name]
+							? "update"
+							: true,
+					},
+					() => this._pWithStubbed(
+						"ChatMessage.create",
+						{},
+						this._pGetExpandedAddonData_pWithStubbed
+							.bind(
+								this,
+								{
+									propJson,
+									path,
+									fnMatch,
+									ent,
+									propBase,
+									base,
+									actorType,
+									isSilent,
+								},
+							),
+					),
+				),
 			),
 		);
 	}
