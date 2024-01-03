@@ -195,7 +195,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		const type = this._pGetExpandedAddonData_getItemType({propJson});
 
 		// Create a stubbed `Item` subclass to bypass CPR's `instanceof Item` check
-		const fauxObject = this._pGetExpandedAddonData_getFauxObject({ent, propBase, base, fauxActor, type});
+		const fauxName = this._pGetExpandedAddonData_getMappedName({propJson, name: ent.name});
+		const fauxObject = this._pGetExpandedAddonData_getFauxObject({name: fauxName, propBase, base, fauxActor, type});
 		if (!fauxObject) return null;
 
 		const jsonEmpty = fauxObject.toObject(true);
@@ -223,10 +224,20 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		return "feat";
 	}
 
-	_pGetExpandedAddonData_getFauxObject ({ent, propBase, base = undefined, fauxActor, type}) {
+	static _MAPPED_NAMES = {
+		"classFeature": {
+			"Ki": "Ki Points",
+		},
+	};
+
+	_pGetExpandedAddonData_getMappedName ({propJson, name}) {
+		return this.constructor._MAPPED_NAMES[propJson]?.[name] || name;
+	}
+
+	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, fauxActor, type}) {
 		try {
 			const docData = {
-				name: ent.name,
+				name,
 				type,
 			};
 
