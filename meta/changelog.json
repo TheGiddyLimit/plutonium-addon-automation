@@ -78,5 +78,10 @@
 		"ver": "0.7.4",
 		"date": "2023-12-30",
 		"txt": "- Switched various spells (~20 total) to prefer data provided by \"Chris's Premades,\" as these automations are of higher quality _[or in some cases, actually work!]_\n- Updated \"Chris's Premades\" integration to better handle latest module version"
+	},
+	{
+		"ver": "0.7.5",
+		"date": "2024-01-03",
+		"txt": "- Fixed \"Chris's Premades\" integration failing to apply for players\n- Fixed \"Chris's Premades\" failing to locate \"Ki Points\" automation"
 	}
 ]
