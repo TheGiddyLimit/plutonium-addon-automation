@@ -1,6 +1,32 @@
 {
 	"subclass": [
 		{
+			"name": "Circle of Stars",
+			"source": "TCE",
+			"className": "Druid",
+			"classSource": "PHB",
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "starry-form",
+						"type": "dice",
+						"scale": {
+							"2": {
+								"n": 1,
+								"die": 8
+							},
+							"10": {
+								"n": 2,
+								"die": 8
+							}
+						}
+					},
+					"title": "Starry Form"
+				}
+			]
+		},
+		{
 			"name": "Path of the Zealot",
 			"source": "XGE",
 			"className": "Barbarian",

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.7.1",
+	"version": "0.7.2",
 
 	"$defs": {
 		"schema": {
@@ -140,6 +140,16 @@
 			]
 		},
 
+		"foundryAdvancementObject": {
+			"type": "object"
+		},
+
+		"foundryAdvancementArray": {
+			"type": "array",
+			"items": {"$ref": "#/$defs/foundryAdvancementObject"},
+			"uniqueItems": true
+		},
+
 		"foundrySideDataGenericBase": {
 			"type": "object",
 			"properties": {
@@ -262,7 +272,8 @@
 				],
 				"properties": {
 					"className": {"type": "string"},
-					"classSource": {"type": "string"}
+					"classSource": {"type": "string"},
+					"advancement": {"$ref": "#/$defs/foundryAdvancementArray"}
 				},
 				"required": [
 					"name",
