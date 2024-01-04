@@ -6,6 +6,33 @@ import {Util} from "../Util.js";
 // Cheat and pretend we're not always overriding, as our patches are temporary/highly contextual
 const _LIBWRAPPER_TYPE_TEMP = "MIXED";
 
+class _ChrisPremadesNameMappings {
+	static _MAP_SPECIFIC = {
+		"classFeature": {
+			"Ki": "Ki Points",
+			// Note: for College of Creation bards it's "Bardic Inspiration, Magical Inspiration, & Mote of Potential" but we ignore this case
+			"Bardic Inspiration": "Bardic Inspiration & Magical Inspiration",
+		},
+	};
+
+	static _MAP_GENERAL = {
+		"optionalfeature": ent => {
+			if (ent.featureType?.some(it => it === "MM")) return `Metamagic - ${ent.name}`;
+
+			return null;
+		},
+	};
+
+	static getMappedName ({propJson, ent}) {
+		if (this._MAP_SPECIFIC[propJson]?.[ent.name]) return this._MAP_SPECIFIC[propJson]?.[ent.name];
+		if (this._MAP_GENERAL[propJson]) {
+			const mapped = this._MAP_GENERAL[propJson](ent);
+			if (mapped) return mapped;
+		}
+		return ent.name;
+	}
+}
+
 /**
  * Designed for use with `chris-premades` v0.9.17
  * See: https://github.com/chrisk123999/chris-premades
@@ -212,7 +239,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		const type = this._pGetExpandedAddonData_getItemType({propJson});
 
 		// Create a stubbed `Item` subclass to bypass CPR's `instanceof Item` check
-		const fauxName = this._pGetExpandedAddonData_getMappedName({propJson, name: ent.name});
+		const fauxName = _ChrisPremadesNameMappings.getMappedName({propJson, ent});
 		const fauxObject = this._pGetExpandedAddonData_getFauxObject({name: fauxName, propBase, base, fauxActor, type});
 		if (!fauxObject) return null;
 
@@ -239,18 +266,6 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_SPELLS].includes(propJson)) return "spell";
 		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_ITEMS].includes(propJson)) return "equipment";
 		return "feat";
-	}
-
-	static _MAPPED_NAMES = {
-		"classFeature": {
-			"Ki": "Ki Points",
-			// Note: for College of Creation bards it's "Bardic Inspiration, Magical Inspiration, & Mote of Potential" but we ignore this case
-			"Bardic Inspiration": "Bardic Inspiration & Magical Inspiration",
-		},
-	};
-
-	_pGetExpandedAddonData_getMappedName ({propJson, name}) {
-		return this.constructor._MAPPED_NAMES[propJson]?.[name] || name;
 	}
 
 	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, fauxActor, type}) {
