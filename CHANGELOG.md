@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.6
+
+> 2024-01-06
+
+- Improved "Chris's Premades" integration support for
+  - Bardic Inspiration
+  - Druid "Circle of Stars" subclass
+  - Metamagic options 
+
 ## 0.7.5
 
 > 2024-01-03
