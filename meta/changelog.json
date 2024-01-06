@@ -83,5 +83,10 @@
 		"ver": "0.7.5",
 		"date": "2024-01-03",
 		"txt": "- Fixed \"Chris's Premades\" integration failing to apply for players\n- Fixed \"Chris's Premades\" failing to locate \"Ki Points\" automation"
+	},
+	{
+		"ver": "0.7.6",
+		"date": "2024-01-06",
+		"txt": "- Improved \"Chris's Premades\" integration support for\n  - Bardic Inspiration\n  - Druid \"Circle of Stars\" subclass\n  - Metamagic options "
 	}
 ]
