@@ -123,6 +123,12 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		"vehicle",
 	]);
 
+	_entsJsonBlocklist = {
+		"item": [
+			{name: "Shield", source: Parser.SRC_PHB}, // Avoid collision with spell of the same name
+		],
+	};
+
 	async _pGetExpandedAddonData (
 		{
 			propJson,
@@ -140,6 +146,9 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			|| !SourceUtil.isSiteSource(ent.source)
 			|| this._propsJsonBlocklist.has(propJson)
 		) return null;
+
+		const jsonBlocklist = this._entsJsonBlocklist[propJson];
+		if (jsonBlocklist?.length && jsonBlocklist.some(it => fnMatch(it))) return null;
 
 		return this._pGetExpandedAddonData_pWithStubs({
 			propJson,
