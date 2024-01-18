@@ -99,10 +99,10 @@ export class IntegrationBase {
 	_mutCleanJson ({json}) {
 		// Avoid clobbering specific data
 		["name", "img"].forEach(prop => delete json[prop]);
-		["source", "description"].forEach(prop => delete json?.system[prop]);
+		["source", "description"].forEach(prop => delete json?.system?.[prop]);
 
 		// Remove unwanted flags
-		this._unwantedFlagKeys.forEach(prop => delete json?.flags[prop]);
+		this._unwantedFlagKeys.forEach(prop => delete json?.flags?.[prop]);
 
 		if (game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) {
 			const unknownFlags = CollectionUtil.setDiff(new Set(Object.keys(json.flags)), this._wantedFlagKeys);
