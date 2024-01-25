@@ -10,8 +10,6 @@ class _ChrisPremadesNameMappings {
 	static _MAP_SPECIFIC = {
 		"classFeature": {
 			"Ki": "Ki Points",
-			// Note: for College of Creation bards it's "Bardic Inspiration, Magical Inspiration, & Mote of Potential" but we ignore this case
-			"Bardic Inspiration": "Bardic Inspiration & Magical Inspiration",
 		},
 	};
 
