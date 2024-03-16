@@ -23,7 +23,7 @@
 
 *Plutonium Addon: Automation* runs invisibly and (mostly) silently.
 
-While the module is activated in your world, each time Plutonium would import a document, it will check if any automation data is available for that document. If so, it will import the document with the additional automation data included. If not, it will import the document standardly for Plutonium (although sometimes slightly and non-destructively tweaked for better compatibility with the modules below).
+While the module is activated in your world, each time Plutonium would import a document, it will check if any automation data is available for that document. If so, it will import the document with the additional automation data included. If not, it will import the document as if *Plutonium Addon: Automation* were not enabled (although sometimes slightly and non-destructively tweaked for better compatibility with the modules below).
 
 Some automations don't use effects directly, but rather call item macros. If you, as the GM, wish to allow players to view/edit macros on items they own, install [Item Macro](https://foundryvtt.com/packages/itemacro) and configure it to allow the _Player access_ option.
 
