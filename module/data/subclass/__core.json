@@ -1,6 +1,36 @@
 {
 	"subclass": [
 		{
+			"name": "Battle Master",
+			"source": "PHB",
+			"className": "Fighter",
+			"classSource": "PHB",
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "combat-superiority-die",
+						"type": "dice",
+						"scale": {
+							"3": {
+								"n": 1,
+								"die": 8
+							},
+							"10": {
+								"n": 1,
+								"die": 10
+							},
+							"18": {
+								"n": 1,
+								"die": 12
+							}
+						}
+					},
+					"title": "Combat Superiority"
+				}
+			]
+		},
+		{
 			"name": "Circle of Stars",
 			"source": "TCE",
 			"className": "Druid",

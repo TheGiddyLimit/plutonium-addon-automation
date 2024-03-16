@@ -16,6 +16,7 @@ class _ChrisPremadesNameMappings {
 	static _MAP_GENERAL = {
 		"optionalfeature": ent => {
 			if (ent.featureType?.some(it => it === "MM")) return `Metamagic - ${ent.name}`;
+			if (ent.featureType?.some(it => it === "MV:B")) return `Maneuvers: ${ent.name}`;
 
 			return null;
 		},
