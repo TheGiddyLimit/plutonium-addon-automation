@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.7
+
+> 2024-01-06
+
+- Improved "Chris's Premades" integration:
+  - Improved Battle Master Fighter support
+  - Fixed Shield item/spell confusion
+  - Fixed crash on missing flags
+
 ## 0.7.6
 
 > 2024-01-06
