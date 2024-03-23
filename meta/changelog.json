@@ -88,5 +88,10 @@
 		"ver": "0.7.6",
 		"date": "2024-01-06",
 		"txt": "- Improved \"Chris's Premades\" integration support for\n  - Bardic Inspiration\n  - Druid \"Circle of Stars\" subclass\n  - Metamagic options "
+	},
+	{
+		"ver": "0.7.7",
+		"date": "2024-01-06",
+		"txt": "- Improved \"Chris's Premades\" integration:\n  - Improved Battle Master Fighter support\n  - Fixed Shield item/spell confusion\n  - Fixed crash on missing flags"
 	}
 ]
