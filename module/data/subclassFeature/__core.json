@@ -69,7 +69,7 @@
 						{
 							"key": "system.bonuses.mwak.damage",
 							"mode": "ADD",
-							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[@items.divine-fury.flags.plutonium-addon-automation.chosenDamageType]",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[@srd5e.items.divine-fury.flags.plutonium-addon-automation.chosenDamageType]",
 							"priority": 20
 						}
 					],
