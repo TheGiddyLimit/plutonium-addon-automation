@@ -122,11 +122,16 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		"vehicle",
 	]);
 
-	_entsJsonBlocklist = {
-		"item": [
-			{name: "Shield", source: Parser.SRC_PHB}, // Avoid collision with spell of the same name
-		],
-	};
+	// Lazy init to avoid `Parser` being unavailable
+	static __entsJsonBlocklist = null;
+
+	static get _entsJsonBlocklist () {
+		return this.__entsJsonBlocklist ||= {
+			"item": [
+				{name: "Shield", source: Parser.SRC_PHB}, // Avoid collision with spell of the same name
+			],
+		};
+	}
 
 	async _pGetExpandedAddonData (
 		{
@@ -146,7 +151,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			|| this._propsJsonBlocklist.has(propJson)
 		) return null;
 
-		const jsonBlocklist = this._entsJsonBlocklist[propJson];
+		const jsonBlocklist = this.constructor._entsJsonBlocklist[propJson];
 		if (jsonBlocklist?.length && jsonBlocklist.some(it => fnMatch(it))) return null;
 
 		return this._pGetExpandedAddonData_pWithStubs({
