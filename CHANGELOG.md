@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.8
+
+> 2024-04-03
+
+- Updated effects to match latest Plutonium version
+- Fixed rare load-order startup crash
+
 ## 0.7.7
 
 > 2024-01-06
