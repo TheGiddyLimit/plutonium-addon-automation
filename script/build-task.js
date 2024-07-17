@@ -226,6 +226,7 @@ export const buildTask = async (
 						};
 
 						if (ent.flags?.itemacro) throw new Error(`Entity had both "itemMacro" and "itemacro" flags!`);
+						if (ent.flags?.dae?.macro) throw new Error(`Entity had both "itemMacro" and "dae.macro" flags!`);
 
 						isMod = true;
 					});
