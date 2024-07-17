@@ -203,10 +203,7 @@
 				}
 			],
 			"itemMacro": {
-				"file": "PHB_rage.js",
-				"requires": {
-					"itemacro": true
-				}
+				"file": "PHB_rage.js"
 			},
 			"ignoreSrdEffects": true
 		},

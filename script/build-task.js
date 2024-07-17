@@ -114,11 +114,6 @@ export const buildTask = async (
 					type: "module",
 					reason: "Enables additional automations",
 				},
-				{
-					id: "itemacro",
-					type: "module",
-					reason: "Enables additional automations; allows editing of some automations",
-				},
 				// endregion
 
 				// region Optional integrations
