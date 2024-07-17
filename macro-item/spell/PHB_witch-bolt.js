@@ -14,7 +14,7 @@ async function macro (args) {
 		}));
 		const casterToken = await fromUuid(options.sourceUuid);
 		const itemData = sourceItem.toObject();
-		setProperty(itemData, "system.components.concentration", false);
+		itemData.system.properties = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.removeFromProperties(itemData.system.properties, "concentration") ?? [];
 		itemData.effects = [];
 		delete itemData._id;
 
@@ -26,7 +26,7 @@ async function macro (args) {
 			targets,
 			damageRoll,
 			{
-				flavor: `(${CONFIG.DND5E.damageTypes[damageType]})`,
+				flavor: `(${CONFIG.DND5E.damageTypes[damageType].label})`,
 				itemCardId: "new",
 				itemData,
 				isCritical: false,
@@ -35,7 +35,9 @@ async function macro (args) {
 	}
 
 	async function cancel (caster) {
-		const concentration = caster.effects.find((i) => i.name ?? i.label === "Concentrating");
+		// Remove concentration and the effect causing it since the effect has been used
+		const concentration = MidiQOL.getConcentrationEffect(macroData.actor);
+
 		if (concentration) {
 			await MidiQOL.socket().executeAsGM("removeEffects", {actorUuid: caster.uuid, effects: [concentration.id]});
 		}
@@ -55,12 +57,7 @@ async function macro (args) {
 			icon: args[0].item.img,
 			duration: {rounds: 10, startTime: game.time.worldTime},
 			origin: args[0].item.uuid,
-			changes: [{
-				key: "macro.itemMacro.local",
-				value: "",
-				mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
-				priority: 20,
-			}],
+			changes: [game.modules.get("plutonium-addon-automation").api.DdbImporter.macros({macroType: "spell", macroName: "witchBolt.js", document: {name: "Witch Bolt"}})],
 			disabled: false,
 			"flags.dae.macroRepeat": "startEveryTurn",
 		}];
@@ -72,7 +69,7 @@ async function macro (args) {
 			userId: game.userId,
 		};
 
-		DAE.setFlag(args[0].actor, "witchBoltSpell", options);
+		await DAE.setFlag(args[0].actor, "witchBoltSpell", options);
 		await args[0].actor.createEmbeddedDocuments("ActiveEffect", effectData);
 	} else if (args[0] === "off") {
 		const sourceItem = await fromUuid(lastArg.origin);
@@ -82,29 +79,29 @@ async function macro (args) {
 		const sourceItem = await fromUuid(lastArg.origin);
 		const caster = sourceItem.parent;
 		const options = DAE.getFlag(caster, "witchBoltSpell");
-		const isInRange = await game.modules.get("plutonium-addon-automation")?.api.DdbImporter.effects.checkTargetInRange(options);
+		const isInRange = await game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.checkTargetInRange(options);
 		if (isInRange) {
 			const userIds = Object.entries(caster.ownership).filter((k) => k[1] === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER).map((k) => k[0]);
-			const mes = await ChatMessage.create({
-				content: `<p>${caster.name} may use their action to sustain Witch Bolt.</p><br>`,
+			await ChatMessage.create({
+				content: `<p>${caster.name} may use their action to sustain Witch Bolt. Asking them now...</p><br>`,
 				type: CONST.CHAT_MESSAGE_TYPES.OTHER,
 				speaker: caster.uuid,
 				whisper: game.users.filter((u) => userIds.includes(u.id) || u.isGM),
 			});
-			new Dialog({
-				title: sourceItem.name,
+			const result = await game.modules.get("plutonium-addon-automation").api.DdbImporter.dialog.AskUserButtonDialog(options.userId, {
+				buttons: [
+					{label: "Yes, damage!", value: true},
+					{label: "No, end concentration", value: false},
+				],
+				title: "Witch Bolt",
 				content: "<p>Use action to sustain Witch Bolt?</p>",
-				buttons: {
-					continue: {
-						label: "Yes, damage!",
-						callback: () => sustainedDamage({options, damageType, damageDice, sourceItem, caster}),
-					},
-					end: {
-						label: "No, end concentration",
-						callback: () => cancel(caster),
-					},
-				},
-			}).render(true);
+			},
+			"column");
+			if (result) {
+				sustainedDamage({options, damageType, damageDice, sourceItem, caster});
+			} else {
+				cancel(caster);
+			}
 		}
 	}
 }

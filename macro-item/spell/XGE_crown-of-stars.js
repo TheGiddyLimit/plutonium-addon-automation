@@ -18,7 +18,7 @@ async function macro (args) {
 		if (!castItem) {
 			const DAEItem = lastArg.efData.flags.dae.itemData;
 			const stars = 7 + ((args[1] - 7) * 2);
-			const uuid = randomID();
+			const uuid = foundry.utils.randomID();
 			const weaponData = {
 				_id: uuid,
 				name: castItemName,
@@ -31,11 +31,15 @@ async function macro (args) {
 					uses: {value: stars, max: stars, per: "charges"},
 					ability: DAEItem.system.ability,
 					actionType: "rsak",
-					attackBonus: DAEItem.system.attackBonus,
+					attack: {
+						bonus: DAEItem.system.attack.bonus,
+					},
 					chatFlavor: "",
 					critical: null,
 					damage: {parts: [["4d12", "radiant"]], versatile: ""},
-					weaponType: "simpleR",
+					type: {
+						value: "natural",
+					},
 					proficient: true,
 					equipped: true,
 					description: DAEItem.system.description,

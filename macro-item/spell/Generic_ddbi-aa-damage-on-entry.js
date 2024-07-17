@@ -23,23 +23,27 @@ async function macro (args) {
 		const saveAbility = ddbEffectFlags.save;
 		const casterToken = canvas.tokens.placeables.find((t) => t.actor?.uuid === caster.uuid);
 		const scalingDiceArray = item.system.scaling.formula.split("d");
-		const scalingDiceNumber = itemLevel - item.system.level;
+		const scalingDiceNumber = item.system.scaling.mode === "none"
+			? 0
+			: itemLevel - item.system.level;
 		const upscaledDamage = isCantrip
 			? `${game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.getCantripDice(caster)}d${scalingDiceArray[1]}[${damageType}]`
 			: scalingDiceNumber > 0 ? `${scalingDiceNumber}d${scalingDiceArray[1]}[${damageType}] + ${damageDice}` : damageDice;
 
-		const workflowItemData = duplicate(item);
+		const workflowItemData = foundry.utils.duplicate(item);
 		workflowItemData.system.target = {value: 1, units: "", type: "creature"};
 		workflowItemData.system.save.ability = saveAbility;
-		workflowItemData.system.components.concentration = false;
+		workflowItemData.system.properties = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.removeFromProperties(workflowItemData.system.properties, "concentration") ?? [];
 		workflowItemData.system.level = itemLevel;
 		workflowItemData.system.duration = {value: null, units: "inst"};
 		workflowItemData.system.target = {value: null, width: null, units: "", type: "creature"};
+		workflowItemData.system.uses = {value: null, max: "", per: null, recovery: "", autoDestroy: false};
+		workflowItemData.system.consume = {"type": "", "target": null, "amount": null};
 
-		setProperty(workflowItemData, "flags.itemacro", {});
-		setProperty(workflowItemData, "flags.midi-qol", {});
-		setProperty(workflowItemData, "flags.dae", {});
-		setProperty(workflowItemData, "effects", []);
+		foundry.utils.setProperty(workflowItemData, "flags.itemacro", {});
+		foundry.utils.setProperty(workflowItemData, "flags.midi-qol", {});
+		foundry.utils.setProperty(workflowItemData, "flags.dae", {});
+		foundry.utils.setProperty(workflowItemData, "effects", []);
 		delete workflowItemData._id;
 
 		const saveOnEntry = ddbEffectFlags.saveOnEntry;
@@ -48,19 +52,11 @@ async function macro (args) {
 			// eslint-disable-next-line new-cap
 			const entryItem = new CONFIG.Item.documentClass(workflowItemData, {parent: caster});
 			// console.warn("Saving item on entry", {entryItem, targetToken});
-			const options = {
-				showFullCard: false,
-				createWorkflow: true,
-				targetUuids: [targetToken.document.uuid],
-				configureDialog: false,
-				versatile: false,
-				consumeResource: false,
-				consumeSlot: false,
-			};
-			await MidiQOL.completeItemUse(entryItem, {}, options);
+			const [config, options] = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.syntheticItemWorkflowOptions({targets: [targetToken.document.uuid]});
+			await MidiQOL.completeItemUse(entryItem, config, options);
 		} else {
 			const damageRoll = await new CONFIG.Dice.DamageRoll(upscaledDamage).evaluate({async: true});
-			if (game.dice3d) game.dice3d.showForRoll(damageRoll);
+			await MidiQOL.displayDSNForRoll(damageRoll, "damageRoll");
 
 			workflowItemData.name = `${workflowItemData.name}: Turn Entry Damage`;
 
@@ -72,7 +68,7 @@ async function macro (args) {
 				[targetToken],
 				damageRoll,
 				{
-					flavor: `(${CONFIG.DND5E.damageTypes[damageType]})`,
+					flavor: `(${CONFIG.DND5E.damageTypes[damageType].label})`,
 					itemCardId: "new",
 					itemData: workflowItemData,
 					isCritical: false,
@@ -84,7 +80,7 @@ async function macro (args) {
 	if (args[0].tag === "OnUse" && args[0].macroPass === "preActiveEffects") {
 		const safeName = lastArg.itemData.name.replace(/\s|'|\.|’/g, "_");
 		const dataTracker = {
-			randomId: randomID(),
+			randomId: foundry.utils.randomID(),
 			targetUuids: lastArg.targetUuids,
 			startRound: game.combat.round,
 			startTurn: game.combat.turn,
@@ -92,10 +88,10 @@ async function macro (args) {
 		};
 
 		const item = await fromUuid(lastArg.itemUuid);
-		await DAE.unsetFlag(item, `${safeName}Tracker`);
-		await DAE.setFlag(item, `${safeName}Tracker`, dataTracker);
+		await DAE.unsetFlag(item.actor, `${safeName}Tracker`);
+		await DAE.setFlag(item.actor, `${safeName}Tracker`, dataTracker);
 
-		const ddbEffectFlags = lastArg.item.flags["plutonium-addon-automation"]?.effect;
+		const ddbEffectFlags = lastArg.item.flags.ddbimporter?.effect;
 
 		if (ddbEffectFlags) {
 			const sequencerFile = ddbEffectFlags.sequencerFile;
@@ -114,8 +110,8 @@ async function macro (args) {
 					});
 					return effect;
 				});
-				args[0].item.effects = duplicate(newEffects);
-				args[0].itemData.effects = duplicate(newEffects);
+				args[0].item.effects = foundry.utils.duplicate(newEffects);
+				args[0].itemData.effects = foundry.utils.duplicate(newEffects);
 			}
 			const template = await fromUuid(lastArg.templateUuid);
 			await template.update({"flags.effect": ddbEffectFlags});
@@ -128,7 +124,7 @@ async function macro (args) {
 		const targetItemTracker = DAE.getFlag(item.parent, `${safeName}Tracker`);
 		const originalTarget = targetItemTracker.targetUuids.includes(lastArg.tokenUuid);
 		const target = canvas.tokens.get(lastArg.tokenId);
-		const targetTokenTrackerFlag = DAE.getFlag(target, `${safeName}Tracker`);
+		const targetTokenTrackerFlag = DAE.getFlag(target.actor, `${safeName}Tracker`);
 		const targetedThisCombat = targetTokenTrackerFlag && targetItemTracker.randomId === targetTokenTrackerFlag.randomId;
 		const targetTokenTracker = targetedThisCombat
 			? targetTokenTrackerFlag
@@ -154,17 +150,17 @@ async function macro (args) {
 			targetTokenTracker.hasLeft = false;
 			await rollItemDamage(target, lastArg.efData.origin, targetItemTracker.spellLevel);
 		}
-		await DAE.setFlag(target, `${safeName}Tracker`, targetTokenTracker);
+		await DAE.setFlag(target.actor, `${safeName}Tracker`, targetTokenTracker);
 	} else if (args[0] === "off") {
 		const safeName = (lastArg.efData.name ?? lastArg.efData.label).replace(/\s|'|\.|’/g, "_");
 		const target = canvas.tokens.get(lastArg.tokenId);
-		const targetTokenTracker = DAE.getFlag(target, `${safeName}Tracker`);
+		const targetTokenTracker = DAE.getFlag(target.actor, `${safeName}Tracker`);
 
 		if (targetTokenTracker) {
 			targetTokenTracker.hasLeft = true;
 			targetTokenTracker.turn = game.combat.turn;
 			targetTokenTracker.round = game.combat.round;
-			await DAE.setFlag(target, `${safeName}Tracker`, targetTokenTracker);
+			await DAE.setFlag(target.actor, `${safeName}Tracker`, targetTokenTracker);
 		}
 	}
 }

@@ -140,75 +140,12 @@
 			],
 			"flags": {
 				"midi-qol": {
-					"forceCEOff": true
-				}
-			}
-		},
-		{
-			"name": "Create Bonfire",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "turn=end,label=Create Bonfire (End of Turn),damageRoll=(@cantripDice)d8,damageType=fire,saveRemove=false,saveDC=@attributes.spelldc,saveAbility=dex,saveDamage=nodamage,killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60,
-						"rounds": 10
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"save": "dex",
-							"displayTemp": true
-						}
-					},
-					"name": "Create Bonfire",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				},
-				"plutonium-addon-automation": {
-					"effect": {
-						"dice": "1d8[fire]",
-						"damageType": "fire",
-						"save": "",
-						"sequencerFile": "jb2a.flames.01.orange",
-						"sequencerScale": 2,
-						"isCantrip": true,
-						"saveOnEntry": true
-					}
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
-			},
-			"itemMacro": {
-				"file": "Generic_ddbi-aa-damage-on-entry.js"
-			},
-			"system": {
-				"save.ability": null
 			}
 		},
 		{
@@ -413,8 +350,6 @@
 						"dae": {
 							"stackable": "noneName",
 							"specialDuration": [
-								"isSkill",
-								"isCheck",
 								"isInitiative"
 							]
 						},
@@ -427,7 +362,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -622,9 +561,11 @@
 			],
 			"flags": {
 				"midiProperties": {
-					"autoFailFriendly": true
+					"autoFailFriendly": true,
+					"confirmTargets": "default"
 				},
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				}
 			}
@@ -653,12 +594,13 @@
 					"name": "Mind Blank"
 				}
 			],
-			"system": {
-				"target.type": ""
-			},
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -694,7 +636,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -757,7 +703,11 @@
 			"name": "Polymorph",
 			"source": "PHB",
 			"flags": {
+				"midi-qol": {
+					"removeAttackDamageButtons": "default"
+				},
 				"midiProperties": {
+					"confirmTargets": "default",
 					"autoFailFriendly": true
 				}
 			}
@@ -769,9 +719,9 @@
 				{
 					"changes": [
 						{
-							"key": "macro.CE",
-							"mode": "CUSTOM",
-							"value": "Stunned",
+							"key": "macro.StatusEffect",
+							"mode": "ADD",
+							"value": "stunned",
 							"priority": 20
 						},
 						{
@@ -792,19 +742,17 @@
 							"forceCEOff": true
 						}
 					},
-					"name": "Psychic Scream"
+					"name": "Psychic Scream - Stunned"
 				}
 			],
-			"system": {
-				"target.value": 10,
-				"target.units": null,
-				"target.type": "creature"
-			},
 			"flags": {
 				"midiProperties": {
-					"halfdam": true
+					"halfdam": true,
+					"saveDamage": "halfdam",
+					"confirmTargets": "default"
 				},
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				}
 			}
@@ -844,7 +792,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},

@@ -4,14 +4,7 @@
  */
 async function macro (args) {
 	// based on @ccjmk and @crymic macro for sleep.
-	// uses convinient effects
 	// Midi-qol "On Use"
-
-	async function wait (ms) {
-		return new Promise((resolve) => {
-			setTimeout(resolve, ms);
-		});
-	}
 
 	const blindHp = await args[0].damageTotal;
 	const immuneConditions = [game.i18n.localize("Blinded"), game.i18n.localize("Unconscious")];
@@ -29,7 +22,7 @@ async function macro (args) {
 
 		if (remainingBlindHp >= targetHpValue) {
 			remainingBlindHp -= targetHpValue;
-			console.log(`Color Spray Results => Target: ${findTarget.name} |	HP: ${targetHpValue} | HP Pool: ${remainingBlindHp} | Status: Blinded`);
+			console.log(`Color Spray Results => Target: ${findTarget.name} |  HP: ${targetHpValue} | HP Pool: ${remainingBlindHp} | Status: Blinded`);
 			blindTarget.push(`<div class="midi-qol-flex-container"><div>Blinded</div><div class="midi-qol-target-npc midi-qol-target-name" id="${findTarget.id}"> ${findTarget.name}</div><div><img src="${targetImg}" width="30" height="30" style="border:0px"></div></div>`);
 			const gameRound = game.combat ? game.combat.round : 0;
 			const effectData = {
@@ -41,7 +34,7 @@ async function macro (args) {
 				duration: {startRound: gameRound, startTime: game.time.worldTime},
 				flags: {dae: {specialDuration: ["turnEndSource"]}},
 				changes: [
-					{key: "macro.CE", mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM, value: game.i18n.localize("Blinded"), priority: 20},
+					game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.generateStatusEffectChange(game.i18n.localize("Blinded"), 20),
 				],
 			};
 
@@ -51,10 +44,10 @@ async function macro (args) {
 			blindTarget.push(`<div class="midi-qol-flex-container"><div>misses</div><div class="midi-qol-target-npc midi-qol-target-name" id="${findTarget.id}"> ${findTarget.name}</div><div><img src="${targetImg}" width="30" height="30" style="border:0px"></div></div>`);
 		}
 	}
-	await wait(500);
+	await game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.wait(500);
 	const blindResults = `<div><div class="midi-qol-nobox">${blindTarget.join("")}</div></div>`;
 	const chatMessage = game.messages.get(args[0].itemCardId);
-	let content = duplicate(chatMessage.content);
+	let content = foundry.utils.duplicate(chatMessage.content);
 	const searchString = /<div class="midi-qol-hits-display">[\s\S]*<div class="end-midi-qol-hits-display">/g;
 	const replaceString = `<div class="midi-qol-hits-display"><div class="end-midi-qol-hits-display">${blindResults}`;
 	content = await content.replace(searchString, replaceString);
