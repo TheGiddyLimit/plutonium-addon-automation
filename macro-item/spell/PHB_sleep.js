@@ -7,12 +7,6 @@ async function macro (args) {
 	// uses convinient effects
 	// Midi-qol "On Use"
 
-	async function wait (ms) {
-		return new Promise((resolve) => {
-			setTimeout(resolve, ms);
-		});
-	}
-
 	const sleepHp = await args[0].damageTotal;
 	const condition = "Unconscious";
 	console.log(`Sleep Spell => Available HP Pool [${sleepHp}] points`);
@@ -24,9 +18,8 @@ async function macro (args) {
 
 	for (let target of targets) {
 		const findTarget = await canvas.tokens.get(target.id);
-		const immuneType = findTarget.actor.type === "character"
-			? ["undead", "construct"].some((race) => (findTarget.actor.system.details.race || "").toLowerCase().includes(race))
-			: ["undead", "construct"].some((value) => (findTarget.actor.system.details.type.value || "").toLowerCase().includes(value));
+		const targetRaceOrType = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.getRaceOrType(findTarget.actor);
+		const immuneType = ["undead", "construct", "elf", "half-elf"].some((race) => targetRaceOrType.includes(race));
 		const immuneCI = findTarget.actor.system.traits.ci.custom.includes("Sleep");
 		const sleeping = findTarget.actor.effects.find((i) => (i.name ?? i.label) === condition);
 		const targetHpValue = findTarget.actor.system.attributes.hp.value;
@@ -36,7 +29,7 @@ async function macro (args) {
 			sleepTarget.push(`<div class="midi-qol-flex-container"><div>Resists</div><div class="midi-qol-target-npc midi-qol-target-name" id="${findTarget.id}"> ${findTarget.name}</div><div><img src="${targetImg}" width="30" height="30" style="border:0px"></div></div>`);
 		} else if (remainingSleepHp >= targetHpValue) {
 			remainingSleepHp -= targetHpValue;
-			console.log(`Sleep Results => Target: ${findTarget.name} |	HP: ${targetHpValue} | HP Pool: ${remainingSleepHp} | Status: Slept`);
+			console.log(`Sleep Results => Target: ${findTarget.name} |  HP: ${targetHpValue} | HP Pool: ${remainingSleepHp} | Status: Slept`);
 			sleepTarget.push(`<div class="midi-qol-flex-container"><div>Slept</div><div class="midi-qol-target-npc midi-qol-target-name" id="${findTarget.id}"> ${findTarget.name}</div><div><img src="${targetImg}" width="30" height="30" style="border:0px"></div></div>`);
 			const gameRound = game.combat ? game.combat.round : 0;
 			const effectData = {
@@ -48,8 +41,7 @@ async function macro (args) {
 				duration: {rounds: 10, seconds: 60, startRound: gameRound, startTime: game.time.worldTime},
 				flags: {dae: {specialDuration: ["isDamaged"]}},
 				changes: [
-					// { key: "macro.CE", mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM, value: "Prone", priority: 20 },
-					{key: "macro.CE", mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM, value: "Unconscious", priority: 20},
+					game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.generateStatusEffectChange(game.i18n.localize("Unconscious"), 20),
 				],
 			};
 
@@ -59,10 +51,10 @@ async function macro (args) {
 			sleepTarget.push(`<div class="midi-qol-flex-container"><div>misses</div><div class="midi-qol-target-npc midi-qol-target-name" id="${findTarget.id}"> ${findTarget.name}</div><div><img src="${targetImg}" width="30" height="30" style="border:0px"></div></div>`);
 		}
 	}
-	await wait(500);
+	await game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.wait(500);
 	const sleptResults = `<div><div class="midi-qol-nobox">${sleepTarget.join("")}</div></div>`;
 	const chatMessage = game.messages.get(args[0].itemCardId);
-	let content = duplicate(chatMessage.content);
+	let content = foundry.utils.duplicate(chatMessage.content);
 	const searchString = /<div class="midi-qol-hits-display">[\s\S]*<div class="end-midi-qol-hits-display">/g;
 	const replaceString = `<div class="midi-qol-hits-display"><div class="end-midi-qol-hits-display">${sleptResults}`;
 	content = await content.replace(searchString, replaceString);

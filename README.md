@@ -25,10 +25,8 @@
 
 While the module is activated in your world, each time Plutonium would import a document, it will check if any automation data is available for that document. If so, it will import the document with the additional automation data included. If not, it will import the document as if *Plutonium Addon: Automation* were not enabled (although sometimes slightly and non-destructively tweaked for better compatibility with the modules below).
 
-Some automations don't use effects directly, but rather call item macros. If you, as the GM, wish to allow players to view/edit macros on items they own, install [Item Macro](https://foundryvtt.com/packages/itemacro) and configure it to allow the _Player access_ option.
-
 > [!TIP]
-> **There's no need to import everything prematurely**, 'just in case'. As with Plutonium, all data is included in the module itself, and, if you use any [module integrations](#optional-integrations), you'll be missing out on updates from them. 
+> **There's no need to import everything prematurely**, 'just in case'. As with Plutonium, all data is included in the module itself, and, if you use any [module integrations](#optional-integrations), you'll be missing out on updates from them.
 
 ## Installation
 
@@ -47,7 +45,6 @@ Besides *Plutonium* itself, *Plutonium Addon: Automation* **requires**:
 Some specific automations require one or more additional modules:
 - [Active-Auras](https://foundryvtt.com/packages/ActiveAuras)
 - [Active Token Effects](https://foundryvtt.com/packages/ATL)
-- [Item Macro](https://foundryvtt.com/packages/itemacro)
 - [Warp Gate](https://foundryvtt.com/packages/warpgate)
 
 If you import a document which requires one of these modules, you will be prompted to install/activate it. The automation is highly unlikely to function as intended if you use it before activating the module.
@@ -61,12 +58,6 @@ You **must** configure some modules in a specific way, or the automations won't 
 
 - _**DFreds Convenient Effects** > Modify Status Effects_ — select either `Replace` (preferred) or `Add`.
 - _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects_ — select `Apply Item effects, if absent apply CE`.
-
-If you have [Item Macro](https://foundryvtt.com/packages/itemacro) activated, you also need to configure it as follows:
-
-- _**Item Macro** > Override default macro execution_ — uncheck this.
-- _**Item Macro** > Character Sheet Hook_ — uncheck this.
-- (If installed) _**[Token Action HUD](https://foundryvtt.com/packages/token-action-hud)** > Item-Macro: item macro, original item, or both_ — select `Show the original item`. (Note this is a user setting, so either ensure that each user configures this or use a module such as [Force Client Settings](https://foundryvtt.com/packages/force-client-settings) to guarantee it. Also note that this is _not_ required if you use the system-specific [Token Action HUD Core](https://foundryvtt.com/packages/token-action-hud-core) and [Token Action HUD D&D 5e](https://foundryvtt.com/packages/token-action-hud-dnd5e) modules.)
 
 ### Optional integrations
 

@@ -93,55 +93,6 @@
 			]
 		},
 		{
-			"name": "Branding Smite",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.dnd5e.DamageBonusMacro",
-							"value": "ItemMacro.Branding Smite",
-							"mode": "CUSTOM",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.brandingSmite.level",
-							"value": "@item.level",
-							"mode": "OVERRIDE",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"1Hit:rwak",
-								"1Hit:mwak"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Branding Smite"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_branding-smite.js"
-			},
-			"system": {
-				"target.type": "self",
-				"actionType": "other",
-				"damage.parts": []
-			}
-		},
-		{
 			"name": "Color Spray",
 			"source": "PHB",
 			"flags": {
@@ -189,75 +140,12 @@
 			],
 			"flags": {
 				"midi-qol": {
-					"forceCEOff": true
-				}
-			}
-		},
-		{
-			"name": "Create Bonfire",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "turn=end,label=Create Bonfire (End of Turn),damageRoll=(@cantripDice)d8,damageType=fire,saveRemove=false,saveDC=@attributes.spelldc,saveAbility=dex,saveDamage=nodamage,killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60,
-						"rounds": 10
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"save": "dex",
-							"displayTemp": true
-						}
-					},
-					"name": "Create Bonfire",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				},
-				"plutonium-addon-automation": {
-					"effect": {
-						"dice": "1d8[fire]",
-						"damageType": "fire",
-						"save": "",
-						"sequencerFile": "jb2a.flames.01.orange",
-						"sequencerScale": 2,
-						"isCantrip": true,
-						"saveOnEntry": true
-					}
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
-			},
-			"itemMacro": {
-				"file": "Generic_ddbi-aa-damage-on-entry.js"
-			},
-			"system": {
-				"save.ability": null
 			}
 		},
 		{
@@ -341,43 +229,6 @@
 			"source": "PHB",
 			"system": {
 				"damage.parts": []
-			}
-		},
-		{
-			"name": "Elemental Weapon",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "macro.itemMacro",
-							"value": "@item.level",
-							"mode": "CUSTOM",
-							"priority": 0
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Elemental Weapon"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_elemental-weapon.js"
-			},
-			"system": {
-				"scaling.mode": "none",
-				"scaling.formula": ""
 			}
 		},
 		{
@@ -499,8 +350,6 @@
 						"dae": {
 							"stackable": "noneName",
 							"specialDuration": [
-								"isSkill",
-								"isCheck",
 								"isInitiative"
 							]
 						},
@@ -513,7 +362,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -539,37 +392,6 @@
 							"key": "flags.midi-qol.advantage.ability.save.dex",
 							"mode": "CUSTOM",
 							"value": "1",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60
-					}
-				}
-			]
-		},
-		{
-			"name": "Heroism",
-			"source": "PHB",
-			"_TODO": [
-				"Does not clear temphp on spell expiration"
-			],
-			"system": {
-				"damage.parts": []
-			},
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.traits.ci.value",
-							"mode": "ADD",
-							"value": "frightened",
-							"priority": 20
-						},
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "OVERRIDE",
-							"value": "turn=start,damageRoll=@mod,damageType=temphp,label=Heroism",
 							"priority": 20
 						}
 					],
@@ -739,59 +561,13 @@
 			],
 			"flags": {
 				"midiProperties": {
-					"autoFailFriendly": true
+					"autoFailFriendly": true,
+					"confirmTargets": "default"
 				},
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				}
-			}
-		},
-		{
-			"name": "Melf's Acid Arrow",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "label=Melf's Acid Arrow (End of Turn),turn=end,damageRoll=(@spellLevel)d4[acid],damageType=acid,killAnim=true",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"rounds": 1
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"turnEnd"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Melf's Acid Arrow"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"system": {
-				"target.value": 1,
-				"target.units": null,
-				"target.type": "creature",
-				"damage.parts": [
-					[
-						"4d4",
-						"acid"
-					]
-				],
-				"formula": "2d4[acid]"
 			}
 		},
 		{
@@ -818,12 +594,13 @@
 					"name": "Mind Blank"
 				}
 			],
-			"system": {
-				"target.type": ""
-			},
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -859,7 +636,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -922,7 +703,11 @@
 			"name": "Polymorph",
 			"source": "PHB",
 			"flags": {
+				"midi-qol": {
+					"removeAttackDamageButtons": "default"
+				},
 				"midiProperties": {
+					"confirmTargets": "default",
 					"autoFailFriendly": true
 				}
 			}
@@ -934,9 +719,9 @@
 				{
 					"changes": [
 						{
-							"key": "macro.CE",
-							"mode": "CUSTOM",
-							"value": "Stunned",
+							"key": "macro.StatusEffect",
+							"mode": "ADD",
+							"value": "stunned",
 							"priority": 20
 						},
 						{
@@ -957,19 +742,17 @@
 							"forceCEOff": true
 						}
 					},
-					"name": "Psychic Scream"
+					"name": "Psychic Scream - Stunned"
 				}
 			],
-			"system": {
-				"target.value": 10,
-				"target.units": null,
-				"target.type": "creature"
-			},
 			"flags": {
 				"midiProperties": {
-					"halfdam": true
+					"halfdam": true,
+					"saveDamage": "halfdam",
+					"confirmTargets": "default"
 				},
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
 				}
 			}
@@ -1009,7 +792,11 @@
 			],
 			"flags": {
 				"midi-qol": {
+					"removeAttackDamageButtons": "default",
 					"forceCEOff": true
+				},
+				"midiProperties": {
+					"confirmTargets": "default"
 				}
 			}
 		},
@@ -1120,76 +907,6 @@
 						"midi-none"
 					]
 				]
-			}
-		},
-		{
-			"name": "Spirit Guardians",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.attributes.movement.all",
-							"mode": "CUSTOM",
-							"value": "/2",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "ADD",
-							"value": "turn=start,label=Spirit Guardians (Start of Turn),damageRoll=(@spellLevel)d8,damageType=radiant,saveRemove=false,saveDC=@attributes.spelldc,saveAbility=wis,saveDamage=halfdamage,killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "@token @spellLevel @attributes.spelldc",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "Enemy",
-							"radius": 15,
-							"ignoreSelf": true,
-							"displayTemp": true
-						}
-					},
-					"name": "Spirit Guardians",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_spirit-guardians.js"
-			},
-			"_merge": {
-				"system": true
-			},
-			"system": {
-				"target.value": null,
-				"target.units": null,
-				"target.type": "self",
-				"range.value": 15,
-				"range.units": "ft",
-				"actionType": "other",
-				"damage.parts": [],
-				"save.ability": null
 			}
 		},
 		{

@@ -3,19 +3,19 @@
  * See: `../../license/ddb-importer.md`
  */
 async function macro (args) {
-	// Midi-qol "on use"
 	const lastArg = args[args.length - 1];
 	const tokenOrActor = await fromUuid(lastArg.actorUuid);
 	const casterActor = tokenOrActor.actor ? tokenOrActor.actor : tokenOrActor;
 
 	if (lastArg.targets.length > 0) {
-		let areaSpellData = duplicate(lastArg.item);
+		let areaSpellData = foundry.utils.duplicate(lastArg.item);
 		const damageDice = 1 + lastArg.spellLevel;
-		delete (areaSpellData.effects);
-		delete (areaSpellData.id);
-		delete (areaSpellData.flags["midi-qol"].onUseMacroName);
-		delete (areaSpellData.flags["midi-qol"].onUseMacroParts);
-		delete (areaSpellData.flags.itemacro);
+		delete areaSpellData.effects;
+		delete areaSpellData.id;
+		delete areaSpellData.flags["midi-qol"].onUseMacroName;
+		delete areaSpellData.flags["midi-qol"].onUseMacroParts;
+		if (foundry.utils.hasProperty(areaSpellData, "flags.itemacro")) delete areaSpellData.flags.itemacro;
+		if (foundry.utils.hasProperty(areaSpellData, "flags.dae.macro")) delete areaSpellData.flags.dae.macro;
 		areaSpellData.name = "Ice Knife: Explosion";
 		areaSpellData.system.damage.parts = [[`${damageDice}d6[cold]`, "cold"]];
 		areaSpellData.system.actionType = "save";
@@ -23,34 +23,29 @@ async function macro (args) {
 		areaSpellData.system.scaling = {mode: "level", formula: "1d6"};
 		areaSpellData.system.preparation.mode = "atwill";
 		areaSpellData.system.target.value = 99;
+
+		foundry.utils.hasProperty(areaSpellData, "flags.midiProperties.magicdam", true);
+		foundry.utils.hasProperty(areaSpellData, "flags.midiProperties.saveDamage", "nodam");
+		foundry.utils.hasProperty(areaSpellData, "flags.midiProperties.bonusSaveDamage", "nodam");
+
 		// eslint-disable-next-line new-cap
 		const areaSpell = new CONFIG.Item.documentClass(areaSpellData, {parent: casterActor});
+		areaSpell.prepareData();
+		areaSpell.prepareFinalAttributes();
 		const target = canvas.tokens.get(lastArg.targets[0].id);
 		const aoeTargets = MidiQOL
 			.findNearby(null, target, 5, {includeIncapacitated: true})
 			.filter((possible) => {
 				const collisionRay = new Ray(target, possible);
-				const collision = canvas.walls.checkCollision(collisionRay, {mode: "any", type: "sight"});
+				const collision = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.checkCollision(collisionRay, ["sight"]);
 				if (collision) return false;
 				else return true;
 			})
 			.concat(target)
 			.map((t) => t.document.uuid);
 
-		const options = {
-			showFullCard: false,
-			createWorkflow: true,
-			targetUuids: aoeTargets,
-			configureDialog: false,
-			versatile: false,
-			consumeResource: false,
-			consumeSlot: false,
-			// workflowOptions: {
-			//   autoRollDamage: 'always'
-			// }
-		};
-
-		await MidiQOL.completeItemUse(areaSpell, {}, options);
+		const [config, options] = game.modules.get("plutonium-addon-automation").api.DdbImporter.effects.syntheticItemWorkflowOptions({targets: aoeTargets});
+		await MidiQOL.completeItemUse(areaSpell, config, options);
 	} else {
 		ui.notifications.error("Ice Knife: No target selected: unable to automate burst effect.");
 	}

@@ -47,7 +47,7 @@ export const buildTask = async (
 		changelog: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-addon-automation/master/CHANGELOG.md",
 		compatibility: {
 			minimum: "10",
-			verified: "11.315",
+			verified: "12.328",
 		},
 		url: "https://www.patreon.com/Giddy5e",
 		bugs: "https://discord.gg/nGvRCDs",
@@ -113,11 +113,6 @@ export const buildTask = async (
 					id: "warpgate",
 					type: "module",
 					reason: "Enables additional automations",
-				},
-				{
-					id: "itemacro",
-					type: "module",
-					reason: "Enables additional automations; allows editing of some automations",
 				},
 				// endregion
 
@@ -226,6 +221,7 @@ export const buildTask = async (
 						};
 
 						if (ent.flags?.itemacro) throw new Error(`Entity had both "itemMacro" and "itemacro" flags!`);
+						if (ent.flags?.dae?.macro) throw new Error(`Entity had both "itemMacro" and "dae.macro" flags!`);
 
 						isMod = true;
 					});

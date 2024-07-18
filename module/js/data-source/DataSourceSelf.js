@@ -129,21 +129,18 @@ export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
 
 		out = foundry.utils.deepClone(out);
 
-		out.flags = out.flags || {};
-		out.flags.itemacro = {
-			"macro": {
-				"_id": null,
-				"name": "-",
-				"type": "script",
-				"author": game.userId,
-				"img": "icons/svg/dice-target.svg",
-				"scope": "global",
-				"command": out.itemMacro.script,
-				"folder": null,
-				"sort": 0,
-				"ownership": {"default": 0},
-				"flags": {},
-			},
+		((out.flags ||= {}).dae ||= {}).macro = {
+			"_id": null,
+			"name": "-",
+			"type": "script",
+			"author": game.userId,
+			"img": "icons/svg/dice-target.svg",
+			"scope": "global",
+			"command": out.itemMacro.script,
+			"folder": null,
+			"sort": 0,
+			"ownership": {"default": 0},
+			"flags": {},
 		};
 
 		delete out.itemMacro;

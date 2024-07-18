@@ -4,8 +4,6 @@
  */
 async function macro (args) {
 	const lastArg = args[args.length - 1];
-	const tokenOrActor = await fromUuid(lastArg.actorUuid);
-	const targetActor = tokenOrActor.actor ? tokenOrActor.actor : tokenOrActor;
 	const gameRound = game.combat ? game.combat.round : 0;
 
 	const effectData = {
@@ -26,7 +24,7 @@ async function macro (args) {
 		flags: {dae: {specialDuration: ["turnEndSource"]}},
 	};
 
-	ChatMessage.create({content: `${targetActor.name} gains 30ft of movement until the end of their turn`});
+	ChatMessage.create({content: `${lastArg.actor.name} gains 30ft of movement until the end of their turn`});
 
-	await MidiQOL.socket().executeAsGM("createEffects", {actorUuid: targetActor.uuid, effects: [effectData]});
+	await MidiQOL.socket().executeAsGM("createEffects", {actorUuid: lastArg.actorUuid, effects: [effectData]});
 }

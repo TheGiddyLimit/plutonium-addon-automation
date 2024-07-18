@@ -209,6 +209,11 @@ class Converter {
 }
 
 class FlagConverter {
+	static _handleUnknownFlags ({outFlags, k, flags}) {
+		console.warn(`Unknown flag property "${k}"--copying as-is`);
+		outFlags[k] = flags;
+	}
+
 	static getFlags ({json, name, source, scriptHeader = null}) {
 		if (!Object.keys(json.flags || {}).length) return {};
 
@@ -253,7 +258,8 @@ class FlagConverter {
 					// endregion
 
 					// region Special handling for item macros
-					case "itemacro": {
+					case "itemacro":
+					case "dae": {
 						const filename = getMacroFilename({name, source});
 
 						const lines = flags.macro.command
@@ -288,14 +294,20 @@ class FlagConverter {
 							script,
 						};
 
+						if (k === "dae") {
+							const cpyFlags = {...flags};
+							delete cpyFlags.macro;
+							if (!Object.keys(cpyFlags).length) break;
+
+							// We do not expect "dae" flags to have any other properties
+							this._handleUnknownFlags({outFlags, k, flags: cpyFlags});
+						}
+
 						break;
 					}
 					// endregion
 
-					default: {
-						console.warn(`Unknown flag property "${k}"--copying as-is`);
-						outFlags[k] = flags;
-					}
+					default: this._handleUnknownFlags({outFlags, k, flags});
 				}
 			});
 
@@ -332,7 +344,7 @@ class EffectConverter {
 
 	static _mutPreClean (eff) {
 		// N.b. "selectedKey" is midi-qol UI QoL tracking data, and can be safely skipped
-		["_id", "icon", "label", "origin", "tint", "selectedKey"].forEach(prop => delete eff[prop]);
+		["_id", "icon", "img", "label", "origin", "tint", "selectedKey"].forEach(prop => delete eff[prop]);
 		["statuses"].filter(prop => !eff[prop].length).forEach(prop => delete eff[prop]);
 
 		// Delete these only if falsy--we only store `"true"` disabled/transfer values

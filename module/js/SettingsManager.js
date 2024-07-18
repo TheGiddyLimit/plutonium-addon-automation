@@ -26,7 +26,6 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	static _MODULE_ID__DFREDS_CONVENIENT_EFFECTS = "dfreds-convenient-effects";
 	static _MODULE_ID__MIDI_QOL = "midi-qol";
-	static _MODULE_ID__ITEM_MACRO = "itemacro";
 	static _MODULE_ID__TOKEN_ACTION_HUD = "token-action-hud";
 	static _MODULE_ID__CHRIS_PREMADES = "chris-premades";
 
@@ -45,18 +44,6 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			isGmOnly: true,
 			expectedValue: "itempri",
 			displaySettingName: "midi-qol.AutoCEEffects.Name",
-		},
-		{
-			moduleId: this._MODULE_ID__ITEM_MACRO,
-			settingKey: "defaultmacro",
-			isGmOnly: true,
-			expectedValue: false,
-		},
-		{
-			moduleId: this._MODULE_ID__ITEM_MACRO,
-			settingKey: "charsheet",
-			isGmOnly: true,
-			expectedValue: false,
 		},
 		{
 			moduleId: this._MODULE_ID__TOKEN_ACTION_HUD,

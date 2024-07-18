@@ -62,7 +62,7 @@ The `module/data/` directory is laid out as follows:
 
 ### Macros
 
-Many facets of automation must be handled with macros. These are attached using [Item Macro](https://foundryvtt.com/packages/itemacro/), which appear as an escaped string in data. To add some human-readability, macros are handled separately and merged during the module build.
+Many facets of automation must be handled with macros. These are attached using [DAE](https://foundryvtt.com/packages/dae)'s "DIME", and appear as an escaped string in data. To add some human-readability, macros are handled separately and merged during the module build.
 
 In the [`macro-item/`](./macro-item) directory is a directory for each datatype. Save your (well-formatted, commented) macro code as a Javascript file in one of these directories, structured as an async function named `macro`, with filename `<sourceJson>_<item-name-lowercase-hyphenated>.js` (e.g. `XGE_toll-the-dead.js`). **Note that the first and last lines of the file**—the ones that turn the macro into an async function—**are stripped on compilation into the module's data**.
 
