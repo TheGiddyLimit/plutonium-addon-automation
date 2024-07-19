@@ -98,5 +98,10 @@
 		"ver": "0.7.8",
 		"date": "2024-04-03",
 		"txt": "- Updated effects to match latest Plutonium version\n- Fixed rare load-order startup crash"
+	},
+	{
+		"ver": "0.7.9",
+		"date": "2024-07-19",
+		"txt": "- Switched various spells (5 total) to prefer data provided by \"Chris's Premades\"\n- Updated spells ported from D&D Beyond Importer (<https://github.com/MrPrimate/ddb-importer>)\n- Switched to DAE's \"DIME\" for item macros, and removed \"Item Macro\" dependency"
 	}
 ]
