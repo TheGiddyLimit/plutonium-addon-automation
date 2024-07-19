@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.9
+
+> 2024-07-19
+
+- Switched various spells (5 total) to prefer data provided by "Chris's Premades"
+- Updated spells ported from D&D Beyond Importer (<https://github.com/MrPrimate/ddb-importer>)
+- Switched to DAE's "DIME" for item macros, and removed "Item Macro" dependency
+
 ## 0.7.8
 
 > 2024-04-03
