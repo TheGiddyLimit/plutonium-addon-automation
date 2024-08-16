@@ -45,7 +45,6 @@ Besides *Plutonium* itself, *Plutonium Addon: Automation* **requires**:
 Some specific automations require one or more additional modules:
 - [Active-Auras](https://foundryvtt.com/packages/ActiveAuras)
 - [Active Token Effects](https://foundryvtt.com/packages/ATL)
-- [Warp Gate](https://foundryvtt.com/packages/warpgate)
 
 If you import a document which requires one of these modules, you will be prompted to install/activate it. The automation is highly unlikely to function as intended if you use it before activating the module.
 

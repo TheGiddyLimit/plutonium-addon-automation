@@ -109,11 +109,6 @@ export const buildTask = async (
 					type: "module",
 					reason: "Enables additional automations",
 				},
-				{
-					id: "warpgate",
-					type: "module",
-					reason: "Enables additional automations",
-				},
 				// endregion
 
 				// region Optional integrations
