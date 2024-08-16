@@ -66,34 +66,28 @@ export const buildTask = async (
 				{
 					id: "plutonium",
 					type: "module",
-					manifest: "https://raw.githubusercontent.com/TheGiddyLimit/plutonium-next/master/module.json",
 				},
 				*/
 				// endregion
 				{
 					id: "lib-wrapper",
 					type: "module",
-					manifest: "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
 				},
 				{
 					id: "midi-qol",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/midi-qol/raw/v10/package/module.json",
 				},
 				{
 					id: "dae",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/dae/raw/v10/package/module.json",
 				},
 				{
 					id: "times-up",
 					type: "module",
-					manifest: "https://gitlab.com/tposney/times-up/raw/v10/package/module.json",
 				},
 				{
 					id: "dfreds-convenient-effects",
 					type: "module",
-					manifest: "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
 				},
 			],
 			// See: https://github.com/foundryvtt/foundryvtt/issues/8649
