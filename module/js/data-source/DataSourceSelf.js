@@ -88,7 +88,9 @@ export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
 		out.effects = out.effects.map(eff => {
 			if (!eff.convenientEffect) return eff;
 
-			const convEffect = game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
+			const convEffect = foundry.utils.isNewerVersion(game.modules.get("dfreds-convenient-effects")?.version, "7.0.0")
+				? game.dfreds.effectInterface.findEffect({effectName: eff.convenientEffect})
+				: game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
 			if (!convEffect) return eff;
 
 			const convEffectData = convEffect.convertToActiveEffectData
