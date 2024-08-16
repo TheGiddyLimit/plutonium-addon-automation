@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.10
+
+> 2024-08-16
+
+- Fix crash when building Convenient Effects data with DFreds Convenient Effects v7.y.z
+
 ## 0.7.9
 
 > 2024-07-19
