@@ -2,7 +2,7 @@
 	<div class="py-1 ve-flex-v-center">
 		<button
 			type="button"
-			class="btn btn-default btn-xs ml-auto"
+			class="ve-btn ve-btn-default ve-btn-xs ml-auto"
 			name="btn-fix-all"
 			title="{{#if isMassError}}Incompatible setting value(s) detected! Click to fix.{{else if isMassWarning}}Sub-optimal setting value(s) detected. Click to fix.{{else}}Compatible setting values detected.{{/if}}"
 			{{disabled (not (or isMassError isMassWarning))}}
@@ -21,15 +21,15 @@
 				<div class="ve-flex w-100 mr-2">{{{name}}}</div>
 				<div  class="ve-flex-v-center no-shrink">
 					{{#if isExpected}}
-						<button type="button" class="btn btn-default btn-xs" name="btn-fix" disabled>
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" disabled>
 							<i class="fas fa-fw fa-check mr-0" title="Compatible setting value detected."></i>
 						</button>
 					{{else if isAllowed}}
-						<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Sub-optimal setting value detected. Click to fix (setting will be set to &quot;{{displayExpectedValue}}&quot;).">
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Sub-optimal setting value detected. Click to fix (setting will be set to &quot;{{displayExpectedValue}}&quot;).">
 							<i class="fas fa-fw fa-triangle-exclamation mr-0"></i>
 						</button>
 					{{else}}
-						<button type="button" class="btn btn-default btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Incompatible setting value detected! Click to fix (setting will be set to&quot;{{displayExpectedValue}}&quot;).">
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Incompatible setting value detected! Click to fix (setting will be set to&quot;{{displayExpectedValue}}&quot;).">
 							<i class="fas fa-fw fa-octagon-exclamation mr-0"></i>
 						</button>
 					{{/if}}
