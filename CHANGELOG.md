@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.11
+
+> 2024-08-18
+
+- (Compatibility update for Plutonium 1.84.x+)
+
 ## 0.7.10
 
 > 2024-08-16
