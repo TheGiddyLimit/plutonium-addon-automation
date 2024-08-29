@@ -1,41 +1,41 @@
 name: Build and Deploy
 
 on:
-   push:
-      tags:
-         - 'v[0-9]+.[0-9]+.[0-9]+'
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
-   # Allow running manually from the actions tab
-   workflow_dispatch:
+  # Allow running manually from the actions tab
+  workflow_dispatch:
 
 concurrency:
-   group: "release"
-   cancel-in-progress: true
+  group: "release"
+  cancel-in-progress: true
 
 jobs:
-   build-and-deploy:
-      runs-on: ubuntu-latest
-      steps:
-         -  uses: actions/checkout@master
-            with:
-               lfs: true
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          lfs: true
 
-         -  name: Build
-            run: |
-               node --version
-               npm --version
-               npm i
-               npm run build
+      - name: Build
+        run: |
+          node --version
+          npm --version
+          npm i
+          npm run build
 
-         -  name: Archive Release
-            run: |
-               pushd dist/plutonium-addon-automation
-               zip -r ../../plutonium-addon-automation.zip .
-               popd
+      - name: Archive Release
+        run: |
+          pushd dist/plutonium-addon-automation
+          zip -r ../../plutonium-addon-automation.zip .
+          popd
 
-         -  name: Upload Release
-            run: |
-               node script/workflows/write-version-notes-file.js ${{github.ref_name}}
-               gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes-file NOTES_FILE.md plutonium-addon-automation.zip dist/plutonium-addon-automation/module.json
-            env:
-               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release
+        run: |
+          node script/workflows/write-version-notes-file.js ${{github.ref_name}}
+          gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes-file NOTES_FILE.md plutonium-addon-automation.zip dist/plutonium-addon-automation/module.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
