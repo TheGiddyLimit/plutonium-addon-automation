@@ -120,6 +120,8 @@ export class IntegrationBase {
 		if (!Object.keys(json).length) return null;
 		// Implicitly override SRD effects if an integration has effects, as we assume they bring their own
 		if (json.effects?.length) json.ignoreSrdEffects = true;
+		// Ditto for activities
+		if (Object.keys(json.system?.activities || {}).length) json.ignoreSrdActivities = true;
 		return json;
 	}
 }
