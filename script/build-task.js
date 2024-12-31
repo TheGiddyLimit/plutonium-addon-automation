@@ -60,6 +60,16 @@ export const buildTask = async (
 		],
 
 		relationships: {
+			systems: [
+				{
+					id: "dnd5e",
+					type: "system",
+					compatibility: {
+						minimum: "2.0.0",
+						maximum: "3.999.999",
+					},
+				},
+			],
 			requires: [
 				// region Disabled, as Plutonium may go by other IDs :^)
 				/*
