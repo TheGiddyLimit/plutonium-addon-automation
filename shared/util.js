@@ -1,4 +1,1 @@
-// FIXME better sluggification
-export const getSlugged = str => str.toLowerCase().replace(/ /g, "-");
-
-export const getMacroFilename = ({name, source}) => `${source}_${getSlugged(name)}.js`;
+export const getMacroFilename = ({name, source}) => `${source}_${name.slugify({strict: true})}.js`;
