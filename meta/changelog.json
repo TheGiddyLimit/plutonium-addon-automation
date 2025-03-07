@@ -113,5 +113,10 @@
 		"ver": "0.7.11",
 		"date": "2024-08-18",
 		"txt": "- (Compatibility update for Plutonium 1.84.x+)"
+	},
+	{
+		"ver": "0.7.12",
+		"date": "2024-12-31",
+		"txt": "- (Version lock to dnd5e 3.x)"
 	}
 ]
