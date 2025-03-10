@@ -34,6 +34,6 @@
 		"express": "^4.17.3",
 		"json-source-map": "^0.6.1",
 		"plutonium-utils": "^0.1.17",
-		"rollup": "^3.17.2"
+		"rollup": "^4.35.0"
 	}
 }
