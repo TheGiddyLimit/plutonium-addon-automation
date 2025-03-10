@@ -4,12 +4,12 @@ import {ImgConverter} from "./ImgConverter.js";
 import {ActivityConverter} from "./ActivityConverter.js";
 
 export class Converter {
-	static getConverted (json, {source = null, isKeepSystem = false, isKeepImg = false, scriptHeader = null, getMacroFilename = null} = {}) {
+	static getConverted (json, {source = null, isKeepSystem = false, isKeepImg = false, scriptHeader = null, getMacroFilename = null, getHtmlEntries = null} = {}) {
 		const name = json.name;
 		source ||= this._getSource(json);
 
 		const {activities, effectIdLookup} = ActivityConverter.getActivities(json);
-		const effects = EffectConverter.getEffects({json, effectIdLookup});
+		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries});
 		const {flags, script} = FlagConverter.getFlags({json, name, source, scriptHeader, getMacroFilename});
 
 		const out = {

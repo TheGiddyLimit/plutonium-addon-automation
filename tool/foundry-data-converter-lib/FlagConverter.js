@@ -25,7 +25,7 @@ export class FlagConverter {
 					case "cf": // https://foundryvtt.com/packages/compendium-folders (?)
 					case "scene-packer": // https://foundryvtt.com/packages/scene-packer
 					case "betterRolls5e": // https://foundryvtt.com/packages/betterrolls5e/
-						break;
+						return;
 						// endregion
 
 					// region Handle these
@@ -33,27 +33,28 @@ export class FlagConverter {
 						const outSub = {};
 						ConverterUtil.copyTruthy(outSub, flags);
 						if (Object.keys(outSub).length) outFlags[k] = outSub;
-						break;
+						return;
 					}
 					case "midiProperties": {
 						const outSub = {};
 						ConverterUtil.copyTruthy(outSub, flags);
 						if (Object.keys(outSub).length) outFlags[k] = outSub;
-						break;
+						return;
 					}
 					case "enhanced-terrain-layer": {
 						const outSub = {};
 						ConverterUtil.copyTruthy(outSub, flags);
 						if (Object.keys(outSub).length) outFlags[k] = outSub;
-						break;
+						return;
 					}
 					case "dnd5e": {
-						if (!flags.riders) throw new Error(`Unhandled flag format in "${k}"!`);
-						if ((new Set(Object.keys(flags)).symmetricDifference(new Set(["riders"]))).size) throw new Error(`Unhandled flags in "${k}"!`);
-						if ((new Set(Object.keys(flags.riders)).symmetricDifference(new Set(["activity", "effect"]))).size) throw new Error(`Unhandled flags in "${k}.riders"!`);
-						if (flags.riders.activity?.length) throw new Error(`Unhandled "activity" flags in "${k}.riders"!`);
-						if (flags.riders.effect?.length) throw new Error(`Unhandled "effect" flags in "${k}.riders"!`);
-						break;
+						if (!Object.keys(flags).length) return;
+						if (!flags.riders) throw new Error(`Unhandled flag format in "${k}" in document "${json.name}"!`);
+						if ((new Set(Object.keys(flags)).symmetricDifference(new Set(["riders"]))).size) throw new Error(`Unhandled flags in "${k}" in document "${json.name}"!`);
+						if ((new Set(Object.keys(flags.riders)).symmetricDifference(new Set(["activity", "effect"]))).size) throw new Error(`Unhandled flags in "${k}.riders" in document "${json.name}"!`);
+						if (flags.riders.activity?.length) throw new Error(`Unhandled "activity" flags in "${k}.riders" in document "${json.name}"!`);
+						if (flags.riders.effect?.length) throw new Error(`Unhandled "effect" flags in "${k}.riders" in document "${json.name}"!`);
+						return;
 					}
 					// endregion
 
@@ -98,13 +99,13 @@ export class FlagConverter {
 						if (k === "dae") {
 							const cpyFlags = {...flags};
 							delete cpyFlags.macro;
-							if (!Object.keys(cpyFlags).length) break;
+							if (!Object.keys(cpyFlags).length) return;
 
 							// We do not expect "dae" flags to have any other properties
 							this._handleUnknownFlags({outFlags, k, flags: cpyFlags});
 						}
 
-						break;
+						return;
 					}
 					// endregion
 

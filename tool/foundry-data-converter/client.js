@@ -3,6 +3,20 @@ import {Converter} from "../foundry-data-converter-lib/Converter.js";
 import {getMacroFilename} from "../../shared/util.js";
 import "../shared/foundry-globals.js";
 
+const getHtmlEntries = ({doc, effect}) => {
+	if (!effect.description) return null;
+
+	const parsed = (new DOMParser()).parseFromString(effect.description, "text/html");
+
+	if (parsed.body.childNodes.length !== 1) throw new Error(`Multiple description nodes in "${doc.name}" effect description "${effect.description}"`);
+
+	const [outerNode] = parsed.body.childNodes;
+
+	if ([...outerNode.childNodes].some(ele => ele.nodeType !== Node.TEXT_NODE)) throw new Error(`Non-text description node in "${doc.name}" effect description "${effect.description}"`);
+
+	return outerNode.innerText.trim();
+};
+
 class ConverterUi {
 	static _iptFile = null;
 	static _iptText = null;
@@ -93,6 +107,7 @@ class ConverterUi {
 				isKeepImg: this._cbKeepImg.checked,
 				scriptHeader: this._iptScriptHeader.value.trim(),
 				getMacroFilename,
+				getHtmlEntries,
 			},
 		));
 		this._renderConverted();

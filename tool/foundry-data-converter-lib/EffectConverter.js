@@ -1,16 +1,16 @@
 import {ConverterUtil} from "./ConverterUtil.js";
 
 export class EffectConverter {
-	static getEffects ({json, effectIdLookup}) {
+	static getEffects ({json, effectIdLookup, getHtmlEntries}) {
 		if (!json.effects?.length) return;
 
 		return json.effects
-			.map(eff => this._getEffect({eff, effectIdLookup}))
+			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries}))
 			.filter(Boolean);
 	}
 
-	static _getEffect ({eff, effectIdLookup}) {
-		this._mutPreClean(eff);
+	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries}) {
+		this._mutPreClean({json, eff});
 
 		this._mutFoundryId({eff, effectIdLookup});
 
@@ -23,12 +23,14 @@ export class EffectConverter {
 
 		this._mutRequires(eff);
 
+		this._mutDescription({json, eff, getHtmlEntries});
+
 		this._mutPostClean(eff);
 
 		return eff;
 	}
 
-	static _mutPreClean (eff) {
+	static _mutPreClean ({json, eff}) {
 		// N.b. "selectedKey" is midi-qol UI QoL tracking data, and can be safely skipped
 		["icon", "img", "label", "origin", "tint", "selectedKey", "_stats", "sort"].forEach(prop => delete eff[prop]);
 		["statuses"].filter(prop => !eff[prop].length).forEach(prop => delete eff[prop]);
@@ -36,10 +38,13 @@ export class EffectConverter {
 		// Delete these only if falsy--we only store `"true"` disabled/transfer values
 		["disabled", "transfer"].filter(prop => !eff[prop]).forEach(prop => delete eff[prop]);
 
-		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)}; had values!`);
+		if (eff.name === json.name) delete eff.name;
+		if (!eff.description?.trim()) delete eff.description;
+
+		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)} in document "${json.name}"; had values!`);
 		delete eff.system;
 
-		if ((eff.type || "base") !== "base") throw new Error(`Unhandled effect type "${eff.type}"!`);
+		if ((eff.type || "base") !== "base") throw new Error(`Unhandled effect type "${eff.type}" in document "${json.name}"!`);
 		delete eff.type;
 	}
 
@@ -48,7 +53,7 @@ export class EffectConverter {
 	}
 
 	static _mutFoundryId ({eff, effectIdLookup}) {
-		if (effectIdLookup[eff._id]) eff.foundryId = effectIdLookup[eff._id];
+		if (effectIdLookup?.[eff._id]) eff.foundryId = effectIdLookup[eff._id];
 	}
 
 	static _mutChanges (eff) {
@@ -137,6 +142,14 @@ export class EffectConverter {
 			});
 
 		if (Object.keys(requires).length) eff.requires = requires;
+	}
+
+	static _mutDescription ({json, eff, getHtmlEntries}) {
+		if (!eff.description?.length) return;
+
+		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for effect description conversion!`);
+
+		eff.description = getHtmlEntries({doc: json, effect: eff});
 	}
 
 	static _getRequiresModuleId (flagKey) {
