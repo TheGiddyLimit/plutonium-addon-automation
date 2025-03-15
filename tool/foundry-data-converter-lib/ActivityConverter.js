@@ -3,7 +3,11 @@ import {ConverterUtil} from "./ConverterUtil.js";
 export class ActivityConverter {
 	static _ActivityConverterState = class {
 		constructor ({name}) {
-			this._nameSlug = name.slugify({strict: true});
+			this._nameSlug = name
+				.slugify({strict: true})
+				.replace(/-+/g, "-")
+				.replace(/-([a-zA-Z])/g, (...m) => `${m[1].toUpperCase()}`)
+				.slice(0, 16);
 			this._ixEffectId = 0;
 		}
 
@@ -13,11 +17,13 @@ export class ActivityConverter {
 				return this._nameSlug;
 			}
 
-			return `${this._nameSlug}-${this._ixEffectId++}`;
+			const ptId = `${this._ixEffectId++}`;
+
+			return this._nameSlug.slice(0, 16 - ptId.length) + ptId;
 		}
 	};
 
-	static getActivities (json) {
+	static getActivities ({json, foundryIdToConsumptionTarget = null}) {
 		if (!Object.keys(json.system?.activities || {}).length) return {};
 
 		const name = json.name;
@@ -27,7 +33,7 @@ export class ActivityConverter {
 		const effectIdLookup = {};
 
 		const activities = Object.values(json.system.activities)
-			.map(activity => this._getActivity({json, cvState, activity, effectIdLookup}))
+			.map(activity => this._getActivity({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}))
 			.filter(Boolean);
 
 		if (activities.length === 1) {
@@ -42,10 +48,12 @@ export class ActivityConverter {
 		};
 	}
 
-	static _getActivity ({json, cvState, activity, effectIdLookup}) {
+	static _getActivity ({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}) {
 		activity = this._getPreClean({json, activity});
 
 		this._mutEffects({cvState, activity, effectIdLookup});
+
+		this._mutConsumption({activity, foundryIdToConsumptionTarget});
 
 		this._mutPostClean(activity);
 
@@ -59,6 +67,7 @@ export class ActivityConverter {
 		if (activity.range?.units === "self") delete activity.range.units;
 
 		if (!activity.target?.template?.type) delete activity.target.template;
+		delete activity.target?.prompt;
 
 		const out = ConverterUtil.getWithoutFalsy(activity);
 
@@ -103,5 +112,32 @@ export class ActivityConverter {
 			});
 
 		return effectIdLookup;
+	}
+
+	static _mutConsumption ({activity, foundryIdToConsumptionTarget}) {
+		if (!activity.consumption?.targets?.length) return;
+
+		activity.consumption.targets
+			.forEach(consTarget => {
+				if (consTarget.type !== "itemUses") return;
+				if (!consTarget.target) return;
+
+				// Compendium.dnd-players-handbook.classes.Item.phbbrbRage000000
+				const foundryUuidParts = consTarget.target.split(".").map(it => it.trim()).filter(Boolean);
+
+				const fromLookup = foundryUuidParts.at(-1)
+					? foundryIdToConsumptionTarget[foundryUuidParts.at(-1)]
+					: null;
+				if (fromLookup) {
+					consTarget.target = fromLookup;
+					return;
+				}
+
+				// Migrate manually; placeholder values to trigger schema error
+				consTarget.target = {
+					prop: true,
+					uid: true,
+				};
+			});
 	}
 }

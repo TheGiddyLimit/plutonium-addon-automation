@@ -4,11 +4,22 @@ import {ImgConverter} from "./ImgConverter.js";
 import {ActivityConverter} from "./ActivityConverter.js";
 
 export class Converter {
-	static getConverted (json, {source = null, isKeepSystem = false, isKeepImg = false, scriptHeader = null, getMacroFilename = null, getHtmlEntries = null} = {}) {
+	static getConverted (
+		json,
+		{
+			source = null,
+			isKeepSystem = false,
+			isKeepImg = false,
+			scriptHeader = null,
+			getMacroFilename = null,
+			getHtmlEntries = null,
+			foundryIdToConsumptionTarget = null,
+		} = {},
+	) {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities(json);
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({json, foundryIdToConsumptionTarget});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries});
 		const {flags, script} = FlagConverter.getFlags({json, name, source, scriptHeader, getMacroFilename});
 
@@ -30,6 +41,8 @@ export class Converter {
 			const img = ImgConverter.getImg(json);
 			if (img) out.img = img;
 		}
+
+		out.migrationVersion = 3;
 
 		return {
 			data: out,
