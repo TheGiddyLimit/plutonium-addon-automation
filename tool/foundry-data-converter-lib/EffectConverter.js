@@ -44,8 +44,19 @@ export class EffectConverter {
 		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)} in document "${json.name}"; had values!`);
 		delete eff.system;
 
-		if ((eff.type || "base") !== "base") throw new Error(`Unhandled effect type "${eff.type}" in document "${json.name}"!`);
-		delete eff.type;
+		this._mutPreClean_type({eff});
+	}
+
+	static _mutPreClean_type ({eff}) {
+		const type = eff.type || "base";
+		if (["enchantment"].includes(type)) return;
+
+		if (["base"].includes(eff.type || "base")) {
+			delete eff.type;
+			return;
+		}
+
+		throw new Error(`Unhandled effect type "${eff.type}" in document "${json.name}"!`);
 	}
 
 	static _mutPostClean (eff) {
@@ -64,6 +75,16 @@ export class EffectConverter {
 				...ConverterUtil.getWithoutFalsy(change),
 				mode: this._getChangeMode(change.mode),
 			}));
+
+		eff.changes
+			.forEach(change => {
+				if (!change.value) return;
+				try {
+					change.value = JSON.parse(change.value);
+				} catch (ignored) {
+					// Ignore
+				}
+			});
 	}
 
 	static _FLAGS_FALSY_VALUES = new Set([

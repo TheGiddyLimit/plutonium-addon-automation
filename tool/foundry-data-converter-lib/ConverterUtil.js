@@ -14,7 +14,12 @@ export class ConverterUtil {
 
 	/* -------------------------------------------- */
 
-	static getWithoutFalsy (obj) {
+	/**
+	 * @param obj
+	 * @param {?Array<string>} _pathStack
+	 * @param {?Array<string>} pathsRetain
+	 */
+	static getWithoutFalsy (obj, {_pathStack = null, pathsRetain = null} = {}) {
 		if (obj == null) return;
 
 		const to = typeof obj;
@@ -28,10 +33,14 @@ export class ConverterUtil {
 			}
 
 			case "object": {
+				_pathStack ||= [];
+
 				if (obj instanceof Array) {
 					if (!obj.length) return undefined;
 
-					const nxt = obj.map(it => this.getWithoutFalsy(it));
+					_pathStack.push("[]");
+					const nxt = obj.map(it => this.getWithoutFalsy(it, {_pathStack, pathsRetain}));
+					_pathStack.pop();
 					if (nxt.every(it => it === undefined)) return undefined;
 
 					// Retain placeholder values if any array value was populated
@@ -61,12 +70,29 @@ export class ConverterUtil {
 
 				Object.entries(obj)
 					.forEach(([k, v]) => {
-						if (v == null) return;
+						_pathStack.push(k);
+						const path = _pathStack.join(".");
 
-						const vOut = this.getWithoutFalsy(v);
-						if (vOut === undefined) return;
+						if (pathsRetain?.includes(path)) {
+							nxt[k] = v;
+							_pathStack.pop();
+							return;
+						}
+
+						if (v == null) {
+							_pathStack.pop();
+							return;
+						}
+
+						const vOut = this.getWithoutFalsy(v, {_pathStack, pathsRetain});
+						if (vOut === undefined) {
+							_pathStack.pop();
+							return;
+						}
 
 						nxt[k] = vOut;
+
+						_pathStack.pop();
 					});
 
 				if (!Object.keys(nxt).length) return undefined;
@@ -74,64 +100,5 @@ export class ConverterUtil {
 			}
 			default: throw new Error(`Unhandled type "${to}"`);
 		}
-	}
-
-	static getWithoutFalsy_ (obj) {
-		const out = {};
-
-		Object.entries(obj)
-			.forEach(([k, v]) => {
-				if (v == null) return;
-
-				const to = typeof v;
-
-				switch (to) {
-					case "boolean":
-					case "number":
-					case "string": {
-						if (v) out[k] = v;
-						return;
-					}
-
-					case "object": {
-						if (obj instanceof Array) {
-							if (!obj.length) return;
-
-							const nxt = obj.map(it => this.getWithoutFalsy(it));
-							if (nxt.every(it => it === undefined)) return;
-
-							// Retain placeholder values if any array value was populated
-							nxt
-								.forEach((it, i) => {
-									if (it !== undefined) return;
-
-									const itPrev = obj[i];
-									const toItem = typeof itPrev;
-
-									switch (toItem) {
-										case "boolean": return nxt[i] = false;
-										case "number": return nxt[i] = 0;
-										case "string": return nxt[i] = "";
-										case "object": {
-											if (itPrev instanceof Array) return nxt[i] = [];
-											else return nxt[i] = {};
-										}
-										default: throw new Error(`Unhandled type "${toItem}"`);
-									}
-								});
-
-							return out[k] = nxt;
-						}
-
-						const nxt = this.getWithoutFalsy(v);
-						if (nxt === undefined) return;
-						return out[k] = nxt;
-					}
-					default: throw new Error(`Unhandled type "${to}"`);
-				}
-			});
-
-		if (!Object.keys(out).length) return undefined;
-		return out;
 	}
 }

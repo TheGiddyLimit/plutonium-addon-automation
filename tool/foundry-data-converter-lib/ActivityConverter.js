@@ -1,26 +1,66 @@
 import {ConverterUtil} from "./ConverterUtil.js";
+import {NameIdGenerator} from "./NameIdGenerator.js";
+
+class _ActivitiesPreProcessor {
+	static getActivities (json) {
+		const activities = foundry.utils.duplicate(Object.values(json.system.activities));
+
+		const idToCntUsed = this._getIdToCnt({activities});
+
+		if (!Object.keys(idToCntUsed).length) return activities;
+
+		const nameIdGenerator = new NameIdGenerator({name: json.name});
+
+		this._mutIds({activities, idToCntUsed, nameIdGenerator});
+
+		return activities;
+	}
+
+	static _getIdToCnt ({activities}) {
+		const idToCntUsed = {};
+
+		activities
+			.forEach(activity => {
+				activity.effects
+					?.forEach(effRef => {
+						effRef.riders?.activity
+							?.forEach(activityId => {
+								idToCntUsed[activityId] = (idToCntUsed[activityId] || 0) + 1;
+							});
+					});
+			});
+
+		return idToCntUsed;
+	}
+
+	static _mutIds ({activities, idToCntUsed, nameIdGenerator}) {
+		const idToHumanId = Object.fromEntries(
+			Object.keys(idToCntUsed)
+				.map(id => [id, nameIdGenerator.getNextId()]),
+		);
+
+		activities
+			.forEach(activity => {
+				activity.effects
+					?.forEach(effRef => {
+						if (!effRef.riders?.activity?.length) return;
+
+						effRef.riders.activity = effRef.riders.activity
+							.map(id => ({foundryId: idToHumanId[id]}));
+					});
+
+				if (idToHumanId[activity._id]) activity.foundryId = idToHumanId[activity._id];
+			});
+	}
+}
 
 export class ActivityConverter {
 	static _ActivityConverterState = class {
 		constructor ({name}) {
-			this._nameSlug = name
-				.slugify({strict: true})
-				.replace(/-+/g, "-")
-				.replace(/-([a-zA-Z])/g, (...m) => `${m[1].toUpperCase()}`)
-				.slice(0, 16);
-			this._ixEffectId = 0;
+			this._nameIdGeneratorEffects = new NameIdGenerator({name});
 		}
 
-		getNextEffectId () {
-			if (!this._ixEffectId) {
-				this._ixEffectId++;
-				return this._nameSlug;
-			}
-
-			const ptId = `${this._ixEffectId++}`;
-
-			return this._nameSlug.slice(0, 16 - ptId.length) + ptId;
-		}
+		getNextEffectId () { return this._nameIdGeneratorEffects.getNextId(); }
 	};
 
 	static getActivities ({json, foundryIdToConsumptionTarget = null}) {
@@ -32,7 +72,9 @@ export class ActivityConverter {
 		const cvState = new this._ActivityConverterState({name});
 		const effectIdLookup = {};
 
-		const activities = Object.values(json.system.activities)
+		const activitiesPreProcessedIds = _ActivitiesPreProcessor.getActivities(json);
+
+		const activities = activitiesPreProcessedIds
 			.map(activity => this._getActivity({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}))
 			.filter(Boolean);
 
@@ -51,7 +93,7 @@ export class ActivityConverter {
 	static _getActivity ({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}) {
 		activity = this._getPreClean({json, activity});
 
-		this._mutEffects({cvState, activity, effectIdLookup});
+		this._mutEffects({json, cvState, activity, effectIdLookup});
 
 		this._mutConsumption({activity, foundryIdToConsumptionTarget});
 
@@ -62,6 +104,7 @@ export class ActivityConverter {
 
 	static _getPreClean ({json, activity}) {
 		this._getPreClean_mutNonSpell({json, activity});
+		this._getPreClean_mutSummon({json, activity});
 
 		if (activity.duration?.units === "inst") delete activity.duration.units;
 		if (activity.range?.units === "self") delete activity.range.units;
@@ -69,7 +112,22 @@ export class ActivityConverter {
 		if (!activity.target?.template?.type) delete activity.target.template;
 		delete activity.target?.prompt;
 
-		const out = ConverterUtil.getWithoutFalsy(activity);
+		Object.entries(activity)
+			.forEach(([k, v]) => {
+				if (typeof v !== "object") return;
+				if (!v.override) return;
+				console.warn(`"override" found in "${k}" for activity "${JSON.stringify(activity)}"`);
+				delete v.override;
+			});
+
+		const out = ConverterUtil.getWithoutFalsy(
+			activity,
+			{
+				pathsRetain: [
+					"activation.type", // the default is "action"; 'empty string' is a specific "None"
+				],
+			},
+		);
 
 		["sort"].forEach(prop => delete out[prop]);
 
@@ -89,30 +147,87 @@ export class ActivityConverter {
 		}
 	}
 
+	static _getPreClean_mutSummon ({json, activity}) {
+		if (activity.type !== "summon") return;
+
+		delete activity?.summon?.prompt;
+
+		activity.profiles
+			?.forEach(profile => {
+				delete profile._id;
+			});
+	}
+
 	static _mutPostClean (act) {
 		["_id"].forEach(prop => delete act[prop]);
 	}
 
+	/* -------------------------------------------- */
+
 	static _mutEffects ({json, cvState, activity, effectIdLookup}) {
 		if (!activity.effects?.length) return;
 
-		activity.effects
-			.forEach(effRef => {
-				if (Object.keys(effRef).length > 1) throw new Error(`Unexpected effect reference keys in "${JSON.stringify(effRef)}" for document "${json.name}"!`);
-				if (!effRef._id) throw new Error(`Missing "_id" key in effect reference "${JSON.stringify(effRef)}" for document "${json.name}"!`);
-
-				if (effectIdLookup[effRef._id]) {
-					effRef.foundryId = effectIdLookup[effRef._id];
-					delete effRef._id;
-					return;
-				}
-
-				effectIdLookup[effRef._id] = effRef.foundryId = cvState.getNextEffectId();
-				delete effRef._id;
-			});
+		activity.effects = activity.effects.map(effRef => this._getMutEffect({json, cvState, effRef, effectIdLookup}));
 
 		return effectIdLookup;
 	}
+
+	static _getMutEffect ({json, cvState, effRef, effectIdLookup}) {
+		const effRefOut = {};
+
+		this._getMutEffect_id({json, cvState, effRef, effRefOut, effectIdLookup});
+		this._getMutEffect_riders({json, cvState, effRef, effRefOut, effectIdLookup});
+
+		if (Object.keys(effRef).length) throw new Error(`Unexpected keys in activity effect "${JSON.stringify(effRef)}" for document "${json.name}"!`);
+
+		return effRefOut;
+	}
+
+	static _getMutEffect_id ({json, cvState, effRef, effRefOut, effectIdLookup}) {
+		if (!effRef._id) throw new Error(`Missing "_id" key in effect reference "${JSON.stringify(effRef)}" for document "${json.name}"!`);
+		if (effectIdLookup[effRef._id]) {
+			effRefOut.foundryId = effectIdLookup[effRef._id];
+		} else {
+			effectIdLookup[effRef._id] = effRefOut.foundryId = cvState.getNextEffectId();
+		}
+		delete effRef._id;
+	}
+
+	static _getMutEffect_riders ({json, cvState, effRef, effRefOut, effectIdLookup}) {
+		if (effRef.riders?.activity?.length) {
+			// Activity IDs are pre-mapped, therefore just copy
+			foundry.utils.setProperty(effRefOut, "riders.activity", effRef.riders.activity);
+			delete effRef.riders.activity;
+		}
+
+		if (effRef.riders?.effect?.length) {
+			throw new Error(`Unhandled "effect" riders in "${JSON.stringify(effRef)}" for document "${json.name}"!`);
+			// delete effRef.riders.effect;
+		}
+
+		if (effRef.riders?.item?.length) {
+			throw new Error(`Unhandled "item" riders in "${JSON.stringify(effRef)}" for document "${json.name}"!`);
+			// delete effRef.riders.item;
+		}
+
+		delete effRef.riders;
+	}
+
+	/* -------------------------------------------- */
+
+	static _CONSUMPTION_RESOURCE_MAPPINGS = {
+		// Cleric
+		"phbclcChannelDiv": "Channel Divinity",
+
+		// Monk
+		"phbmnkMonksFocus": "Focus Point",
+
+		// Paladin
+		"phbpdnChannelDiv": "Channel Divinity",
+
+		// Sorcerer
+		"phbscrFontOfMagi": "Sorcery Point",
+	};
 
 	static _mutConsumption ({activity, foundryIdToConsumptionTarget}) {
 		if (!activity.consumption?.targets?.length) return;
@@ -125,8 +240,18 @@ export class ActivityConverter {
 				// Compendium.dnd-players-handbook.classes.Item.phbbrbRage000000
 				const foundryUuidParts = consTarget.target.split(".").map(it => it.trim()).filter(Boolean);
 
+				const consumesName = this._CONSUMPTION_RESOURCE_MAPPINGS[foundryUuidParts.at(-1)];
+				if (consumesName) {
+					consTarget.target = {
+						consumes: {
+							name: consumesName,
+						},
+					};
+					return;
+				}
+
 				const fromLookup = foundryUuidParts.at(-1)
-					? foundryIdToConsumptionTarget[foundryUuidParts.at(-1)]
+					? foundryIdToConsumptionTarget?.[foundryUuidParts.at(-1)]
 					: null;
 				if (fromLookup) {
 					consTarget.target = fromLookup;

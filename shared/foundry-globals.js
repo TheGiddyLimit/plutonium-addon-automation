@@ -115,10 +115,51 @@ String.prototype.slugify || Object.defineProperty(String.prototype, "slugify", {
 	value: slugify,
 });
 
+/**
+ * A cheap data duplication trick which is relatively robust.
+ * For a subset of cases the deepClone function will offer better performance.
+ * @param {Object} original   Some sort of data
+ */
+function duplicate(original) {
+	return JSON.parse(JSON.stringify(original));
+}
+
+/**
+ * A helper function which searches through an object to assign a value using a string key
+ * This string key supports the notation a.b.c which would target object[a][b][c]
+ * @param {object} object   The object to update
+ * @param {string} key      The string key
+ * @param {*} value         The value to be assigned
+ * @return {boolean}        Whether the value was changed from its previous value
+ */
+function setProperty(object, key, value) {
+	if ( !key ) return false;
+
+	// Convert the key to an object reference if it contains dot notation
+	let target = object;
+	if ( key.indexOf('.') !== -1 ) {
+		let parts = key.split('.');
+		key = parts.pop();
+		target = parts.reduce((o, i) => {
+			if ( !o.hasOwnProperty(i) ) o[i] = {};
+			return o[i];
+		}, object);
+	}
+
+	// Update the target
+	if ( !(key in target) || (target[key] !== value) ) {
+		target[key] = value;
+		return true;
+	}
+	return false;
+}
+
 globalThis.foundry = {
 	utils: {
 		getType,
 		isEmpty,
 		flattenObject,
+		duplicate,
+		setProperty,
 	},
 };
