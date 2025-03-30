@@ -2,6 +2,7 @@ import {EffectConverter} from "./EffectConverter.js";
 import {FlagConverter} from "./FlagConverter.js";
 import {ImgConverter} from "./ImgConverter.js";
 import {ActivityConverter} from "./ActivityConverter.js";
+import {SystemConverter} from "./SystemConverter.js";
 
 export class Converter {
 	static getConverted (
@@ -32,10 +33,8 @@ export class Converter {
 		};
 		if (script) out.itemMacro = {file: script.filename};
 
-		if (isKeepSystem && json.system) {
-			if (json.system.source) delete json.system.source;
-			if (Object.keys(json.system || {}).length) out.system = foundry.utils.flattenObject(json.system);
-		}
+		const system = SystemConverter.getSystem({json, isKeepSystem});
+		if (system) out.system = system;
 
 		if (isKeepImg) {
 			const img = ImgConverter.getImg(json);

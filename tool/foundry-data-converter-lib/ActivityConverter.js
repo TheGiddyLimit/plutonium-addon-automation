@@ -64,7 +64,10 @@ export class ActivityConverter {
 	};
 
 	static getActivities ({json, foundryIdToConsumptionTarget = null}) {
-		if (!Object.keys(json.system?.activities || {}).length) return {};
+		if (!Object.keys(json.system?.activities || {}).length) {
+			delete json.system.activities;
+			return {};
+		}
 
 		const name = json.name;
 		if (!name) throw new Error(`Item "${json._id}" did not have a name!`);
@@ -116,7 +119,7 @@ export class ActivityConverter {
 			.forEach(([k, v]) => {
 				if (typeof v !== "object") return;
 				if (!v.override) return;
-				console.warn(`"override" found in "${k}" for activity "${JSON.stringify(activity)}"`);
+				console.warn(`"override" found in "${k}" for activity:\n\t${JSON.stringify(activity)}`);
 				delete v.override;
 			});
 
