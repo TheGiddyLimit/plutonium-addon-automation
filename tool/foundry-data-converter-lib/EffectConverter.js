@@ -10,7 +10,7 @@ export class EffectConverter {
 	}
 
 	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries}) {
-		this._mutPreClean({json, eff});
+		eff = this._getPreClean({json, eff});
 
 		this._mutFoundryId({eff, effectIdLookup});
 
@@ -30,7 +30,7 @@ export class EffectConverter {
 		return eff;
 	}
 
-	static _mutPreClean ({json, eff}) {
+	static _getPreClean ({json, eff}) {
 		// N.b. "selectedKey" is midi-qol UI QoL tracking data, and can be safely skipped
 		["icon", "img", "label", "origin", "tint", "selectedKey", "_stats", "sort"].forEach(prop => delete eff[prop]);
 		["statuses"].filter(prop => !eff[prop].length).forEach(prop => delete eff[prop]);
@@ -44,10 +44,20 @@ export class EffectConverter {
 		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)} in document "${json.name}"; had values!`);
 		delete eff.system;
 
-		this._mutPreClean_type({eff});
+		this._getPreClean_mutType({json, eff});
+
+		return ConverterUtil.getWithoutFalsy(
+			eff,
+			{
+				pathsRetain: [
+					"changes.[].mode", // `0`, i.e. "CUSTOM", should be retained for later conversion
+					"changes.[].value", // retain the value, as we will further process changes later
+				],
+			},
+		);
 	}
 
-	static _mutPreClean_type ({eff}) {
+	static _getPreClean_mutType ({json, eff}) {
 		const type = eff.type || "base";
 		if (["enchantment"].includes(type)) return;
 
