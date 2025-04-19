@@ -63,7 +63,7 @@ export class ActivityConverter {
 		getNextEffectId () { return this._nameIdGeneratorEffects.getNextId(); }
 	};
 
-	static getActivities ({json, foundryIdToConsumptionTarget = null}) {
+	static getActivities ({json, foundryIdToConsumptionTarget = null, foundryIdToSpellUid = null}) {
 		if (!Object.keys(json.system?.activities || {}).length) {
 			delete json.system.activities;
 			return {};
@@ -78,7 +78,7 @@ export class ActivityConverter {
 		const activitiesPreProcessedIds = _ActivitiesPreProcessor.getActivities(json);
 
 		const activities = activitiesPreProcessedIds
-			.map(activity => this._getActivity({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}))
+			.map(activity => this._getActivity({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, cvState, activity, effectIdLookup}))
 			.filter(Boolean);
 
 		if (activities.length === 1) {
@@ -93,12 +93,14 @@ export class ActivityConverter {
 		};
 	}
 
-	static _getActivity ({json, foundryIdToConsumptionTarget, cvState, activity, effectIdLookup}) {
+	static _getActivity ({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, cvState, activity, effectIdLookup}) {
 		activity = this._getPreClean({json, activity});
 
 		this._mutEffects({json, cvState, activity, effectIdLookup});
 
 		this._mutConsumption({activity, foundryIdToConsumptionTarget});
+
+		this._mutSpell({activity, foundryIdToSpellUid});
 
 		this._mutPostClean(activity);
 
@@ -119,7 +121,7 @@ export class ActivityConverter {
 			.forEach(([k, v]) => {
 				if (typeof v !== "object") return;
 				if (!v.override) return;
-				console.warn(`"override" found in "${k}" for activity:\n\t${JSON.stringify(activity)}`);
+				console.warn(`"override" found in "${k}" for activity "${json.name}" -> "${activity.name || activity.type}" ("${json._id}" -> "${activity._id}"):\n${JSON.stringify(v, null, "\t")}`);
 				delete v.override;
 			});
 
@@ -267,5 +269,19 @@ export class ActivityConverter {
 					uid: true,
 				};
 			});
+	}
+
+	/* -------------------------------------------- */
+
+	static _mutSpell ({activity, foundryIdToSpellUid}) {
+		if (!activity.spell?.uuid) return;
+
+		if (!foundryIdToSpellUid?.[activity.spell.uuid]) {
+			// Migrate manually; placeholder value to trigger schema error
+			activity.spell.uuid = true;
+			return;
+		}
+
+		activity.spell.uuid = `@spell[${foundryIdToSpellUid?.[activity.spell.uuid]}]`;
 	}
 }

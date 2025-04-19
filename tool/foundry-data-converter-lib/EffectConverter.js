@@ -180,7 +180,15 @@ export class EffectConverter {
 
 		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for effect description conversion!`);
 
-		eff.description = getHtmlEntries({doc: json, effect: eff});
+		const descriptionEntries = getHtmlEntries({doc: json, effect: eff});
+		if (!descriptionEntries) return delete eff.description;
+
+		if (typeof descriptionEntries === "string") return eff.description = descriptionEntries;
+		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
+
+		delete eff.description;
+		if (!(descriptionEntries instanceof Array)) return eff.descriptionEntries = [descriptionEntries];
+		eff.descriptionEntries = descriptionEntries;
 	}
 
 	static _getRequiresModuleId (flagKey) {
