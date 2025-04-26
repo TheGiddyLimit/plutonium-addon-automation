@@ -68,7 +68,7 @@ class _SystemConverterUtils {
 
 export class SystemConverter {
 	static getSystem ({json, isKeepSystem = false}) {
-		if (!json.system) return null;
+		if (!Object.keys(json.system || {})) return null;
 
 		if (isKeepSystem) {
 			const system = this._getPreClean_isKeepSystem({json, system: json.system});
@@ -77,6 +77,7 @@ export class SystemConverter {
 		}
 
 		let system = this._getPreClean({json, system: json.system});
+		if (!system) return null;
 
 		system = _SystemConverterUtils.getRetainedFoundryProperties(system);
 
@@ -92,6 +93,7 @@ export class SystemConverter {
 
 	static _getPreClean ({json, system}) {
 		const out = ConverterUtil.getWithoutFalsy(system);
+		if (!out) return out;
 
 		["description", "source", "type"].forEach(prop => delete out[prop]);
 

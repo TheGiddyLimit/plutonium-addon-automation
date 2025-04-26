@@ -177,13 +177,21 @@ export class ActivityConverter {
 		return effectIdLookup;
 	}
 
+	static _ALLOWED_EFF_REF_KEYS = new Set([
+		"level",
+		"onSave",
+	]);
+
 	static _getMutEffect ({json, cvState, effRef, effectIdLookup}) {
 		const effRefOut = {};
 
 		this._getMutEffect_id({json, cvState, effRef, effRefOut, effectIdLookup});
 		this._getMutEffect_riders({json, cvState, effRef, effRefOut, effectIdLookup});
 
-		if (Object.keys(effRef).length) throw new Error(`Unexpected keys in activity effect "${JSON.stringify(effRef)}" for document "${json.name}"!`);
+		const keysUnknown = Object.keys(effRef)
+			.filter(k => !this._ALLOWED_EFF_REF_KEYS.has(k));
+
+		if (keysUnknown.length) throw new Error(`Unexpected keys in activity effect "${JSON.stringify(effRef)}" for document "${json.name}"!`);
 
 		return effRefOut;
 	}
