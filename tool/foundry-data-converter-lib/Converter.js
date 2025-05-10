@@ -16,12 +16,13 @@ export class Converter {
 			getHtmlEntries = null,
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellUid = null,
+			foundryIdToMonsterUid = null,
 		} = {},
 	) {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities({json, foundryIdToConsumptionTarget, foundryIdToSpellUid});
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, foundryIdToMonsterUid});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries});
 		const {flags, script} = FlagConverter.getFlags({json, name, source, scriptHeader, getMacroFilename});
 

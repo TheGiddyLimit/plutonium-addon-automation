@@ -63,9 +63,16 @@ export class ActivityConverter {
 		getNextEffectId () { return this._nameIdGeneratorEffects.getNextId(); }
 	};
 
-	static getActivities ({json, foundryIdToConsumptionTarget = null, foundryIdToSpellUid = null}) {
+	static getActivities (
+		{
+			json,
+			foundryIdToConsumptionTarget = null,
+			foundryIdToSpellUid = null,
+			foundryIdToMonsterUid = null,
+		},
+	) {
 		if (!Object.keys(json.system?.activities || {}).length) {
-			delete json.system.activities;
+			delete json.system?.activities;
 			return {};
 		}
 
@@ -78,7 +85,15 @@ export class ActivityConverter {
 		const activitiesPreProcessedIds = _ActivitiesPreProcessor.getActivities(json);
 
 		const activities = activitiesPreProcessedIds
-			.map(activity => this._getActivity({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, cvState, activity, effectIdLookup}))
+			.map(activity => this._getActivity({
+				json,
+				foundryIdToConsumptionTarget,
+				foundryIdToSpellUid,
+				foundryIdToMonsterUid,
+				cvState,
+				activity,
+				effectIdLookup,
+			}))
 			.filter(Boolean);
 
 		if (activities.length === 1) {
@@ -93,7 +108,17 @@ export class ActivityConverter {
 		};
 	}
 
-	static _getActivity ({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, cvState, activity, effectIdLookup}) {
+	static _getActivity (
+		{
+			json,
+			foundryIdToConsumptionTarget,
+			foundryIdToSpellUid,
+			foundryIdToMonsterUid,
+			cvState,
+			activity,
+			effectIdLookup,
+		},
+	) {
 		activity = this._getPreClean({json, activity});
 
 		this._mutEffects({json, cvState, activity, effectIdLookup});
@@ -102,6 +127,8 @@ export class ActivityConverter {
 
 		this._mutSpell({activity, foundryIdToSpellUid});
 
+		this._mutSummonProfiles({activity, foundryIdToMonsterUid});
+
 		this._mutPostClean(activity);
 
 		return activity;
@@ -109,6 +136,7 @@ export class ActivityConverter {
 
 	static _getPreClean ({json, activity}) {
 		this._getPreClean_mutNonSpell({json, activity});
+		this._getPreClean_mutSpell({json, activity});
 		this._getPreClean_mutSummon({json, activity});
 
 		if (activity.duration?.units === "inst") delete activity.duration.units;
@@ -150,6 +178,16 @@ export class ActivityConverter {
 		if (activity.damage?.parts?.length) {
 			activity.damage.parts.forEach(dmgPart => delete dmgPart?.scaling?.number);
 		}
+	}
+
+	static _getPreClean_mutSpell ({json, activity}) {
+		if (json.type !== "spell") return;
+
+		// Delete implicit "consumes spell slot" for spells
+		if (activity?.consumption?.spellSlot !== false) delete activity.consumption.spellSlot;
+
+		// Remove default Plutonium-generated name
+		if (activity.name === "Cast" && Object.keys(json.system.activities).length === 1) delete activity.name;
 	}
 
 	static _getPreClean_mutSummon ({json, activity}) {
@@ -291,5 +329,24 @@ export class ActivityConverter {
 		}
 
 		activity.spell.uuid = `@spell[${foundryIdToSpellUid?.[activity.spell.uuid]}]`;
+	}
+
+	/* -------------------------------------------- */
+
+	static _mutSummonProfiles ({activity, foundryIdToMonsterUid}) {
+		if (!activity.profiles?.length) return;
+
+		activity.profiles
+			.forEach(profile => {
+				if (!profile.uuid) return;
+
+				if (!foundryIdToMonsterUid?.[profile.uuid]) {
+					// Migrate manually; placeholder value to trigger schema error
+					profile.uuid = true;
+					return;
+				}
+
+				profile.uuid = `@creature[${foundryIdToMonsterUid?.[profile.uuid]}]`;
+			});
 	}
 }

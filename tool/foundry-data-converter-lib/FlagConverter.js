@@ -51,6 +51,10 @@ export class FlagConverter {
 						if (!Object.keys(flags).length) return;
 						if (!flags.riders) throw new Error(`Unhandled flag format in "${k}" in document "${json.name}"!`);
 						if ((new Set(Object.keys(flags)).symmetricDifference(new Set(["riders"]))).size) throw new Error(`Unhandled flags in "${k}" in document "${json.name}"!`);
+
+						flags.riders.activity ||= [];
+						flags.riders.effect ||= [];
+
 						if ((new Set(Object.keys(flags.riders)).symmetricDifference(new Set(["activity", "effect"]))).size) throw new Error(`Unhandled flags in "${k}.riders" in document "${json.name}"!`);
 						if (flags.riders.activity?.length) delete flags.riders.activity; // Re-populated by importer
 						if (flags.riders.effect?.length) throw new Error(`Unhandled "effect" flags in "${k}.riders" in document "${json.name}"!`);
