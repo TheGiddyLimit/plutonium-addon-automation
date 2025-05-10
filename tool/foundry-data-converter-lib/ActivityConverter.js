@@ -68,7 +68,7 @@ export class ActivityConverter {
 			json,
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellUid = null,
-			foundryIdToMonsterUid = null,
+			foundryIdToMonsterInfo = null,
 		},
 	) {
 		if (!Object.keys(json.system?.activities || {}).length) {
@@ -89,7 +89,7 @@ export class ActivityConverter {
 				json,
 				foundryIdToConsumptionTarget,
 				foundryIdToSpellUid,
-				foundryIdToMonsterUid,
+				foundryIdToMonsterInfo,
 				cvState,
 				activity,
 				effectIdLookup,
@@ -113,7 +113,7 @@ export class ActivityConverter {
 			json,
 			foundryIdToConsumptionTarget,
 			foundryIdToSpellUid,
-			foundryIdToMonsterUid,
+			foundryIdToMonsterInfo,
 			cvState,
 			activity,
 			effectIdLookup,
@@ -127,7 +127,7 @@ export class ActivityConverter {
 
 		this._mutSpell({activity, foundryIdToSpellUid});
 
-		this._mutSummonProfiles({activity, foundryIdToMonsterUid});
+		this._mutSummonProfiles({activity, foundryIdToMonsterInfo});
 
 		this._mutPostClean(activity);
 
@@ -333,20 +333,29 @@ export class ActivityConverter {
 
 	/* -------------------------------------------- */
 
-	static _mutSummonProfiles ({activity, foundryIdToMonsterUid}) {
+	static _mutSummonProfiles ({activity, foundryIdToMonsterInfo}) {
 		if (!activity.profiles?.length) return;
+
+		activity.profiles = activity.profiles
+			.filter(profile => {
+				if (!profile.uuid) return true;
+				if (foundryIdToMonsterInfo?.[profile.uuid] == null) return true;
+				return !foundryIdToMonsterInfo[profile.uuid].isIgnored;
+			});
+
+		if (!activity.profiles.length) return delete activity.profiles;
 
 		activity.profiles
 			.forEach(profile => {
 				if (!profile.uuid) return;
 
-				if (!foundryIdToMonsterUid?.[profile.uuid]) {
+				if (!foundryIdToMonsterInfo?.[profile.uuid]) {
 					// Migrate manually; placeholder value to trigger schema error
 					profile.uuid = true;
 					return;
 				}
 
-				profile.uuid = `@creature[${foundryIdToMonsterUid?.[profile.uuid]}]`;
+				profile.uuid = `@creature[${foundryIdToMonsterInfo[profile.uuid].uid}]`;
 			});
 	}
 }
