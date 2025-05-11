@@ -65,6 +65,7 @@ export class ActivityConverter {
 
 	static getActivities (
 		{
+			logger,
 			json,
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellUid = null,
@@ -86,6 +87,7 @@ export class ActivityConverter {
 
 		const activities = activitiesPreProcessedIds
 			.map(activity => this._getActivity({
+				logger,
 				json,
 				foundryIdToConsumptionTarget,
 				foundryIdToSpellUid,
@@ -110,6 +112,7 @@ export class ActivityConverter {
 
 	static _getActivity (
 		{
+			logger,
 			json,
 			foundryIdToConsumptionTarget,
 			foundryIdToSpellUid,
@@ -119,7 +122,7 @@ export class ActivityConverter {
 			effectIdLookup,
 		},
 	) {
-		activity = this._getPreClean({json, activity});
+		activity = this._getPreClean({logger, json, activity});
 
 		this._mutEffects({json, cvState, activity, effectIdLookup});
 
@@ -134,7 +137,7 @@ export class ActivityConverter {
 		return activity;
 	}
 
-	static _getPreClean ({json, activity}) {
+	static _getPreClean ({logger, json, activity}) {
 		this._getPreClean_mutNonSpell({json, activity});
 		this._getPreClean_mutSpell({json, activity});
 		this._getPreClean_mutSummon({json, activity});
@@ -149,7 +152,10 @@ export class ActivityConverter {
 			.forEach(([k, v]) => {
 				if (typeof v !== "object") return;
 				if (!v.override) return;
-				console.warn(`"override" found in "${k}" for activity "${json.name}" -> "${activity.name || activity.type}" ("${json._id}" -> "${activity._id}"):\n${JSON.stringify(v, null, "\t")}`);
+				logger.warn(
+					`"override" found in "${k}" for activity "${json.name}" -> "${activity.name || activity.type}" ("${json._id}" -> "${activity._id}"):\n${JSON.stringify(v, null, "\t")}`,
+					"activity.override",
+				);
 				delete v.override;
 			});
 

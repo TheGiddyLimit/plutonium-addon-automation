@@ -3,11 +3,13 @@ import {FlagConverter} from "./FlagConverter.js";
 import {ImgConverter} from "./ImgConverter.js";
 import {ActivityConverter} from "./ActivityConverter.js";
 import {SystemConverter} from "./SystemConverter.js";
+import {Logger} from "./Logger.js";
 
 export class Converter {
 	static getConverted (
 		json,
 		{
+			logger = null,
 			source = null,
 			isKeepSystem = false,
 			isKeepImg = false,
@@ -19,12 +21,13 @@ export class Converter {
 			foundryIdToMonsterInfo = null,
 		} = {},
 	) {
+		logger ||= new Logger();
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities({json, foundryIdToConsumptionTarget, foundryIdToSpellUid, foundryIdToMonsterInfo});
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellUid, foundryIdToMonsterInfo});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries});
-		const {flags, script} = FlagConverter.getFlags({json, name, source, scriptHeader, getMacroFilename});
+		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 
 		const out = {
 			name,

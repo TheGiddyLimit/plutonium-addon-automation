@@ -1,12 +1,12 @@
 import {ConverterUtil} from "./ConverterUtil.js";
 
 export class FlagConverter {
-	static _handleUnknownFlags ({outFlags, k, flags}) {
-		console.warn(`Unknown flag property "${k}"--copying as-is`);
+	static _handleUnknownFlags ({logger, outFlags, k, flags}) {
+		logger.warn(`Unknown flag property "${k}"--copying as-is`, "flags.unknown");
 		outFlags[k] = flags;
 	}
 
-	static getFlags ({json, name, source, scriptHeader = null, getMacroFilename = null}) {
+	static getFlags ({logger, json, name, source, scriptHeader = null, getMacroFilename = null}) {
 		if (!Object.keys(json.flags || {}).length) return {};
 
 		const outFlags = {};
@@ -106,7 +106,7 @@ export class FlagConverter {
 							if (!Object.keys(cpyFlags).length) return;
 
 							// We do not expect "dae" flags to have any other properties
-							this._handleUnknownFlags({outFlags, k, flags: cpyFlags});
+							this._handleUnknownFlags({logger, outFlags, k, flags: cpyFlags});
 						}
 
 						return;
@@ -114,7 +114,7 @@ export class FlagConverter {
 					// endregion
 
 					default:
-						this._handleUnknownFlags({outFlags, k, flags});
+						this._handleUnknownFlags({logger, outFlags, k, flags});
 				}
 			});
 
