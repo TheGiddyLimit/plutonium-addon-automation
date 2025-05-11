@@ -187,8 +187,9 @@ export class EffectConverter {
 		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
 
 		delete eff.description;
-		if (!(descriptionEntries instanceof Array)) return eff.descriptionEntries = [descriptionEntries];
-		eff.descriptionEntries = descriptionEntries;
+		const descriptionEntriesArray = !(descriptionEntries instanceof Array) ? [descriptionEntries] : descriptionEntries;
+		if (descriptionEntriesArray.length === 1 && typeof descriptionEntriesArray[0] === "string") return eff.description = descriptionEntriesArray[0];
+		eff.descriptionEntries = descriptionEntriesArray;
 	}
 
 	static _getRequiresModuleId (flagKey) {
