@@ -1,15 +1,16 @@
 import {ConverterUtil} from "./ConverterUtil.js";
+import {HtmlConverterPostProcessor} from "./HtmlConverterPostProcess.js";
 
 export class EffectConverter {
-	static getEffects ({json, effectIdLookup, getHtmlEntries}) {
+	static getEffects ({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
 		if (!json.effects?.length) return;
 
 		return json.effects
-			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries}))
+			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}))
 			.filter(Boolean);
 	}
 
-	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries}) {
+	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
 		eff = this._getPreClean({json, eff});
 
 		this._mutFoundryId({eff, effectIdLookup});
@@ -23,7 +24,7 @@ export class EffectConverter {
 
 		this._mutRequires(eff);
 
-		this._mutDescription({json, eff, getHtmlEntries});
+		this._mutDescription({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries});
 
 		this._mutPostClean(eff);
 
@@ -175,21 +176,41 @@ export class EffectConverter {
 		if (Object.keys(requires).length) eff.requires = requires;
 	}
 
-	static _mutDescription ({json, eff, getHtmlEntries}) {
+	static _mutDescription_getDescriptionEntries ({json, eff, getHtmlEntries}) {
+		const descriptionEntries = getHtmlEntries({doc: json, effect: eff});
+		if (!descriptionEntries) return null;
+
+		if (typeof descriptionEntries === "string") return descriptionEntries;
+		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
+
+		const descriptionEntriesArray = !(descriptionEntries instanceof Array) ? [descriptionEntries] : descriptionEntries;
+		if (descriptionEntriesArray.length === 1 && typeof descriptionEntriesArray[0] === "string") return descriptionEntriesArray[0];
+		return descriptionEntriesArray;
+	}
+
+	static _mutDescription ({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
 		if (!eff.description?.length) return;
 
 		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for effect description conversion!`);
 
-		const descriptionEntries = getHtmlEntries({doc: json, effect: eff});
-		if (!descriptionEntries) return delete eff.description;
+		const descriptionEntriesRaw = this._mutDescription_getDescriptionEntries({json, eff, getHtmlEntries});
+		if (!descriptionEntriesRaw) return delete eff.description;
 
-		if (typeof descriptionEntries === "string") return eff.description = descriptionEntries;
-		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
+		const descriptionEntries = HtmlConverterPostProcessor.getPostProcessed(
+			descriptionEntriesRaw,
+			{
+				foundryIdToSpellInfo,
+				foundryIdToMonsterInfo,
+				foundryIdToEmbedEntries,
+			},
+		);
 
-		delete eff.description;
-		const descriptionEntriesArray = !(descriptionEntries instanceof Array) ? [descriptionEntries] : descriptionEntries;
-		if (descriptionEntriesArray.length === 1 && typeof descriptionEntriesArray[0] === "string") return eff.description = descriptionEntriesArray[0];
-		eff.descriptionEntries = descriptionEntriesArray;
+		["description", "descriptionEntries"].forEach(prop => delete eff[prop]);
+
+		if (typeof descriptionEntries === "string") {
+			if (!descriptionEntries.includes("{@")) eff.description = descriptionEntries;
+			else eff.descriptionEntries = [descriptionEntries];
+		} else eff.descriptionEntries = descriptionEntries;
 	}
 
 	static _getRequiresModuleId (flagKey) {

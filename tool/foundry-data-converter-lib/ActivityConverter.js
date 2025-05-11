@@ -68,7 +68,7 @@ export class ActivityConverter {
 			logger,
 			json,
 			foundryIdToConsumptionTarget = null,
-			foundryIdToSpellUid = null,
+			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
 		},
 	) {
@@ -90,7 +90,7 @@ export class ActivityConverter {
 				logger,
 				json,
 				foundryIdToConsumptionTarget,
-				foundryIdToSpellUid,
+				foundryIdToSpellInfo,
 				foundryIdToMonsterInfo,
 				cvState,
 				activity,
@@ -115,7 +115,7 @@ export class ActivityConverter {
 			logger,
 			json,
 			foundryIdToConsumptionTarget,
-			foundryIdToSpellUid,
+			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			cvState,
 			activity,
@@ -128,7 +128,7 @@ export class ActivityConverter {
 
 		this._mutConsumption({activity, foundryIdToConsumptionTarget});
 
-		this._mutSpell({activity, foundryIdToSpellUid});
+		this._mutSpell({activity, foundryIdToSpellInfo});
 
 		this._mutSummonProfiles({activity, foundryIdToMonsterInfo});
 
@@ -325,16 +325,16 @@ export class ActivityConverter {
 
 	/* -------------------------------------------- */
 
-	static _mutSpell ({activity, foundryIdToSpellUid}) {
+	static _mutSpell ({activity, foundryIdToSpellInfo}) {
 		if (!activity.spell?.uuid) return;
 
-		if (!foundryIdToSpellUid?.[activity.spell.uuid]) {
+		if (!foundryIdToSpellInfo?.[activity.spell.uuid]) {
 			// Migrate manually; placeholder value to trigger schema error
 			activity.spell.uuid = true;
 			return;
 		}
 
-		activity.spell.uuid = `@spell[${foundryIdToSpellUid?.[activity.spell.uuid]}]`;
+		activity.spell.uuid = `@spell[${foundryIdToSpellInfo[activity.spell.uuid].uid}]`;
 	}
 
 	/* -------------------------------------------- */

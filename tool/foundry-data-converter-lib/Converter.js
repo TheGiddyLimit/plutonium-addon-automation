@@ -17,16 +17,17 @@ export class Converter {
 			getMacroFilename = null,
 			getHtmlEntries = null,
 			foundryIdToConsumptionTarget = null,
-			foundryIdToSpellUid = null,
+			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
+			foundryIdToEmbedEntries = null,
 		} = {},
 	) {
 		logger ||= new Logger();
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellUid, foundryIdToMonsterInfo});
-		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries});
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo});
+		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 
 		const out = {
