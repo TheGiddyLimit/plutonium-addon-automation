@@ -342,6 +342,12 @@ export class ActivityConverter {
 	static _mutSummonProfiles ({activity, foundryIdToMonsterInfo}) {
 		if (!activity.profiles?.length) return;
 
+		activity.profiles
+			.forEach(profile => {
+				if (profile.count && typeof profile.count === "string" && !isNaN(profile.count)) profile.count = Number(profile.count);
+				if (profile.count === 1) delete profile.count;
+			});
+
 		activity.profiles = activity.profiles
 			.filter(profile => {
 				if (!profile.uuid) return true;
