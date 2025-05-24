@@ -104,6 +104,10 @@ export class ActivityConverter {
 
 		delete json.system.activities;
 
+		if (!activities.some(activity => !this._isOnlyNamedConsumption({activity}))) {
+			return {};
+		}
+
 		return {
 			activities,
 			effectIdLookup,
@@ -273,6 +277,7 @@ export class ActivityConverter {
 	/* -------------------------------------------- */
 
 	static _CONSUMPTION_RESOURCE_MAPPINGS = {
+		// -- Class
 		// Cleric
 		"phbclcChannelDiv": "Channel Divinity",
 
@@ -284,6 +289,10 @@ export class ActivityConverter {
 
 		// Sorcerer
 		"phbscrFontOfMagi": "Sorcery Point",
+
+		// -- Subclass
+		// Fighter
+		"phbftrCombatSupe": "Superiority Die",
 	};
 
 	static _mutConsumption ({activity, foundryIdToConsumptionTarget}) {
@@ -369,5 +378,45 @@ export class ActivityConverter {
 
 				profile.uuid = `@creature[${foundryIdToMonsterInfo[profile.uuid].uid}]`;
 			});
+	}
+
+	/* -------------------------------------------- */
+
+	/**
+	 * If every activity is exactly of the form:
+	 * ```
+	 * {
+	 * 	"type": "...",
+	 * 	"consumption": {
+	 * 		"targets": [
+	 * 			{
+	 * 				"type": "itemUses",
+	 * 				"value": "1",
+	 * 				"target": {
+	 * 					"consumes": {
+	 * 						"name": "..."
+	 * 					}
+	 * 				}
+	 * 			}
+	 * 		]
+	 * 	}
+	 * }
+	 * ```
+	 * then they can be ignored, as we expect to set the "consumes" info on the matching
+	 *   5etools entity.
+	 */
+	static _isOnlyNamedConsumption ({activity}) {
+		const cpy = foundry.utils.duplicate(activity);
+		["name", "type"].forEach(prop => delete cpy[prop]);
+		if (Object.keys(cpy).some(k => k !== "consumption")) return false;
+		if (Object.keys(cpy.consumption).some(k => k !== "targets")) return false;
+		if (cpy.consumption.targets.length !== 1) return false;
+		const [consumption] = cpy.consumption.targets;
+		if (consumption.type !== "itemUses") return false;
+		if (isNaN(consumption.value)) return false;
+		if (Object.keys(consumption.target).some(k => k !== "consumes")) return false;
+		if (!consumption.target?.consumes?.name) return false;
+		if (Object.keys(consumption.target.consumes).some(k => k !== "name")) return false;
+		return true;
 	}
 }
