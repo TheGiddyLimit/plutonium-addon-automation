@@ -204,4 +204,23 @@ export class MiscUtil {
 		for (const k of Object.keys(obj)) cpy[k] = MiscUtil.copyFast(obj[k]);
 		return cpy;
 	}
+
+	/** Delete a prop from a nested object, then all now-empty objects backwards from that point. */
+	static deleteObjectPath (object, ...path) {
+		const stack = [object];
+
+		if (object == null) return object;
+		for (let i = 0; i < path.length - 1; ++i) {
+			object = object[path[i]];
+			stack.push(object);
+			if (object === undefined) return object;
+		}
+		const out = delete object[path.at(-1)];
+
+		for (let i = path.length - 1; i > 0; --i) {
+			if (!Object.keys(stack[i]).length) delete stack[i - 1][path[i - 1]];
+		}
+
+		return out;
+	}
 }

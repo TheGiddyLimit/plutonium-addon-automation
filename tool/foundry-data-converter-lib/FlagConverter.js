@@ -1,4 +1,5 @@
 import {ConverterUtil} from "./ConverterUtil.js";
+import {MiscUtil} from "./MiscUtil.js";
 
 export class FlagConverter {
 	static _handleUnknownFlags ({logger, outFlags, k, flags}) {
@@ -48,6 +49,9 @@ export class FlagConverter {
 						return;
 					}
 					case "dnd5e": {
+						["persistSourceMigration"]
+							.forEach(prop => MiscUtil.deleteObjectPath(flags, prop));
+
 						if (!Object.keys(flags).length) return;
 						if (!flags.riders) throw new Error(`Unhandled flag format in "${k}" in document "${json.name}"!`);
 						if ((new Set(Object.keys(flags)).symmetricDifference(new Set(["riders"]))).size) throw new Error(`Unhandled flags in "${k}" in document "${json.name}"!`);
