@@ -60,8 +60,13 @@ export class FlagConverter {
 						flags.riders.effect ||= [];
 
 						if ((new Set(Object.keys(flags.riders)).symmetricDifference(new Set(["activity", "effect"]))).size) throw new Error(`Unhandled flags in "${k}.riders" in document "${json.name}"!`);
-						if (flags.riders.activity?.length) delete flags.riders.activity; // Re-populated by importer
-						if (flags.riders.effect?.length) throw new Error(`Unhandled "effect" flags in "${k}.riders" in document "${json.name}"!`);
+
+						// These are document-root-level copies of flags found in the document's activities;
+						//   delete them, as they are duplicate information, and are instead re-populated by
+						//   the importer during import of a document.
+						if (flags.riders.activity?.length) delete flags.riders.activity;
+						if (flags.riders.effect?.length) delete flags.riders.effect;
+
 						return;
 					}
 					// endregion

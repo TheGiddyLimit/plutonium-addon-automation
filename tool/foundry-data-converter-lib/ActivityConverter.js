@@ -262,8 +262,13 @@ export class ActivityConverter {
 		}
 
 		if (effRef.riders?.effect?.length) {
-			throw new Error(`Unhandled "effect" riders in "${JSON.stringify(effRef)}" for document "${json.name}"!`);
-			// delete effRef.riders.effect;
+			const effectIdsMapped = effRef.riders.effect
+				.map(id => {
+					if (effectIdLookup[id]) return effectIdLookup[id];
+					return {foundryId: effectIdLookup[id] = cvState.getNextEffectId()};
+				});
+			foundry.utils.setProperty(effRefOut, "riders.effect", effectIdsMapped);
+			delete effRef.riders.effect;
 		}
 
 		if (effRef.riders?.item?.length) {
