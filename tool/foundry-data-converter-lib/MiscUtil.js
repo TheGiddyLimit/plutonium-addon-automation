@@ -1,3 +1,5 @@
+import {VeCt} from "./VeCt.js";
+
 /** (Copy from 5etools source) */
 export class MiscUtil {
 	/**
