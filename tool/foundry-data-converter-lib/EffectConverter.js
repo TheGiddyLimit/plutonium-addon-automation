@@ -2,7 +2,17 @@ import {ConverterUtil} from "./ConverterUtil.js";
 import {HtmlConverterPostProcessor} from "./HtmlConverterPostProcess.js";
 
 export class EffectConverter {
-	static getEffects ({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
+	static getEffects (
+		{
+			json,
+			effectIdLookup,
+			getHtmlEntries = null,
+			foundryIdToSpellInfo = null,
+			foundryIdToMonsterInfo = null,
+			foundryIdToItemInfo = null,
+			foundryIdToEmbedEntries = null,
+		},
+	) {
 		if (!json.effects?.length) return;
 
 		return json.effects
@@ -176,24 +186,12 @@ export class EffectConverter {
 		if (Object.keys(requires).length) eff.requires = requires;
 	}
 
-	static _mutDescription_getDescriptionEntries ({json, eff, getHtmlEntries}) {
-		const descriptionEntries = getHtmlEntries({doc: json, effect: eff});
-		if (!descriptionEntries) return null;
-
-		if (typeof descriptionEntries === "string") return descriptionEntries;
-		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
-
-		const descriptionEntriesArray = !(descriptionEntries instanceof Array) ? [descriptionEntries] : descriptionEntries;
-		if (descriptionEntriesArray.length === 1 && typeof descriptionEntriesArray[0] === "string") return descriptionEntriesArray[0];
-		return descriptionEntriesArray;
-	}
-
 	static _mutDescription ({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
 		if (!eff.description?.length) return;
 
 		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for effect description conversion!`);
 
-		const descriptionEntriesRaw = this._mutDescription_getDescriptionEntries({json, eff, getHtmlEntries});
+		const descriptionEntriesRaw = ConverterUtil.getRawDescriptionEntries({json, html: eff.description, getHtmlEntries});
 		if (!descriptionEntriesRaw) return delete eff.description;
 
 		const descriptionEntries = HtmlConverterPostProcessor.getPostProcessed(

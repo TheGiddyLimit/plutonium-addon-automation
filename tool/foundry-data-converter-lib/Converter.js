@@ -27,7 +27,7 @@ export class Converter {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup, subEntities: subEntitiesActivity} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo});
+		const {activities, effectIdLookup, subEntities: subEntitiesActivity} = ActivityConverter.getActivities({logger, json, getHtmlEntries, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 

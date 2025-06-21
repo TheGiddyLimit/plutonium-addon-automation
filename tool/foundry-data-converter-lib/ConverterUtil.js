@@ -101,4 +101,18 @@ export class ConverterUtil {
 			default: throw new Error(`Unhandled type "${to}"`);
 		}
 	}
+
+	/* -------------------------------------------- */
+
+	static getRawDescriptionEntries ({json, html, getHtmlEntries}) {
+		const descriptionEntries = getHtmlEntries({doc: json, html});
+		if (!descriptionEntries) return null;
+
+		if (typeof descriptionEntries === "string") return descriptionEntries;
+		if (typeof descriptionEntries !== "object") throw new Error(`Expected either "string" or "object" entries, but found "${typeof descriptionEntries}"!`);
+
+		const descriptionEntriesArray = !(descriptionEntries instanceof Array) ? [descriptionEntries] : descriptionEntries;
+		if (descriptionEntriesArray.length === 1 && typeof descriptionEntriesArray[0] === "string") return descriptionEntriesArray[0];
+		return descriptionEntriesArray;
+	}
 }

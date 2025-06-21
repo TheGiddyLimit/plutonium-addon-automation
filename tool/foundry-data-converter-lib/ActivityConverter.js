@@ -1,5 +1,6 @@
 import {ConverterUtil} from "./ConverterUtil.js";
 import {NameIdGenerator} from "./NameIdGenerator.js";
+import {HtmlConverterPostProcessor} from "./HtmlConverterPostProcess.js";
 
 class _ActivitiesPreProcessor {
 	static getActivities (json) {
@@ -74,10 +75,12 @@ export class ActivityConverter {
 		{
 			logger,
 			json,
+			getHtmlEntries = null,
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
 			foundryIdToItemInfo = null,
+			foundryIdToEmbedEntries = null,
 		},
 	) {
 		if (!Object.keys(json.system?.activities || {}).length) {
@@ -97,10 +100,12 @@ export class ActivityConverter {
 			.map(activity => this._getActivity({
 				logger,
 				json,
+				getHtmlEntries,
 				foundryIdToConsumptionTarget,
 				foundryIdToSpellInfo,
 				foundryIdToMonsterInfo,
 				foundryIdToItemInfo,
+				foundryIdToEmbedEntries,
 				cvState,
 				activity,
 				effectIdLookup,
@@ -128,10 +133,12 @@ export class ActivityConverter {
 		{
 			logger,
 			json,
+			getHtmlEntries,
 			foundryIdToConsumptionTarget,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			foundryIdToItemInfo,
+			foundryIdToEmbedEntries,
 			cvState,
 			activity,
 			effectIdLookup,
@@ -146,6 +153,8 @@ export class ActivityConverter {
 		this._mutSpell({activity, foundryIdToSpellInfo});
 
 		this._mutSummonProfiles({activity, foundryIdToMonsterInfo});
+
+		this._mutDescription({json, activity, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 
 		this._mutPostClean(activity);
 
@@ -287,7 +296,7 @@ export class ActivityConverter {
 				.map(uuid => {
 					// Migrate manually; placeholder value to trigger schema error
 					const foundryId = cvState.getNextEffectId();
-					cvState.addSubEntity("item", {foundryId, uuid});
+					cvState.addSubEntity("item", {foundryId, __uuid: uuid});
 					return {foundryId};
 				});
 			foundry.utils.setProperty(effRefOut, "riders.item", itemIdsMapped);
@@ -441,5 +450,31 @@ export class ActivityConverter {
 		if (!consumption.target?.consumes?.name) return false;
 		if (Object.keys(consumption.target.consumes).some(k => k !== "name")) return false;
 		return true;
+	}
+
+	/* -------------------------------------------- */
+
+	static _mutDescription ({json, activity, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
+		if (!activity?.description?.chatFlavor) return;
+
+		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for activity description conversion!`);
+
+		const descriptionEntriesRaw = ConverterUtil.getRawDescriptionEntries({json, html: activity.description.chatFlavor, getHtmlEntries});
+		if (!descriptionEntriesRaw) return delete activity.description.chatFlavor;
+
+		const descriptionEntries = HtmlConverterPostProcessor.getPostProcessed(
+			descriptionEntriesRaw,
+			{
+				name: json.name,
+				uuid: json._uuid,
+				foundryIdToSpellInfo,
+				foundryIdToMonsterInfo,
+				foundryIdToItemInfo,
+				foundryIdToEmbedEntries,
+			},
+		);
+
+		delete activity.description.chatFlavor;
+		activity.descriptionEntries = typeof descriptionEntries === "string" ? [descriptionEntries] : descriptionEntries;
 	}
 }
