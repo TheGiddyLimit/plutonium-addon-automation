@@ -199,6 +199,8 @@ export class EffectConverter {
 		const descriptionEntries = HtmlConverterPostProcessor.getPostProcessed(
 			descriptionEntriesRaw,
 			{
+				name: json.name,
+				uuid: json._uuid,
 				foundryIdToSpellInfo,
 				foundryIdToMonsterInfo,
 				foundryIdToEmbedEntries,

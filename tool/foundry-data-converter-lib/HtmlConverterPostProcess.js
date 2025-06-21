@@ -9,18 +9,24 @@ export class HtmlConverterPostProcessor {
 	static getPostProcessed (
 		ipt,
 		{
+			name = null,
+			uuid = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
 			foundryIdToEmbedEntries = null,
 		} = {},
 	) {
 		const iptClean = this._getPostProcessed_getCleanInput({
+			nameSelf: name,
+			uuidSelf: uuid,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			foundryIdToEmbedEntries,
 			ipt,
 		});
 		return this._getPostProcessed_getOutput({
+			nameSelf: name,
+			uuidSelf: uuid,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			iptClean,
@@ -34,6 +40,8 @@ export class HtmlConverterPostProcessor {
 
 	static _getMappedEmbedParts (
 		{
+			nameSelf,
+			uuidSelf,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			foundryIdToEmbedEntries,
@@ -57,6 +65,8 @@ export class HtmlConverterPostProcessor {
 					foundryIdToEmbedEntries,
 					uuid,
 					name,
+					nameSelf,
+					uuidSelf,
 					fullMatch: m[0],
 					isTagUnknown: true,
 				});
@@ -66,6 +76,8 @@ export class HtmlConverterPostProcessor {
 	/** Split `@Embed`s into own strings (i.e., de-inline) */
 	static _getPostProcessed_getCleanInput (
 		{
+			nameSelf,
+			uuidSelf,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
 			foundryIdToEmbedEntries,
@@ -78,6 +90,8 @@ export class HtmlConverterPostProcessor {
 			const spl = ipt.split(this._RE_EMBEDS_SPLIT);
 			if (spl.length > 1) {
 				return this._getMappedEmbedParts({
+					nameSelf,
+					uuidSelf,
 					foundryIdToSpellInfo,
 					foundryIdToMonsterInfo,
 					foundryIdToEmbedEntries,
@@ -98,6 +112,8 @@ export class HtmlConverterPostProcessor {
 						const spl = v.split(this._RE_EMBEDS_SPLIT);
 						if (spl.length <= 1) return;
 						obj[k] = this._getMappedEmbedParts({
+							nameSelf,
+							uuidSelf,
 							foundryIdToSpellInfo,
 							foundryIdToMonsterInfo,
 							foundryIdToEmbedEntries,
@@ -117,6 +133,8 @@ export class HtmlConverterPostProcessor {
 						i,
 						1,
 						...this._getMappedEmbedParts({
+							nameSelf,
+							uuidSelf,
 							foundryIdToSpellInfo,
 							foundryIdToMonsterInfo,
 							foundryIdToEmbedEntries,
@@ -147,7 +165,15 @@ export class HtmlConverterPostProcessor {
 
 	static _RE_CONTENT_LINKS = new RegExp(`@(?<type>${this._DOCUMENT_TYPES_EXTENDED.join("|")})\\[(?<target>[^#\\]]+)(?:#(?<hash>[^\\]]+))?](?:{(?<name>[^}]+)})?`, "g");
 
-	static _getPostProcessed_getOutput ({foundryIdToSpellInfo, foundryIdToMonsterInfo, iptClean}) {
+	static _getPostProcessed_getOutput (
+		{
+			nameSelf,
+			uuidSelf,
+			foundryIdToSpellInfo,
+			foundryIdToMonsterInfo,
+			iptClean,
+		},
+	) {
 		return MiscUtil.getWalker().walk(iptClean, {
 			string: str => {
 				return str
@@ -160,6 +186,8 @@ export class HtmlConverterPostProcessor {
 							foundryIdToMonsterInfo,
 							uuid: target,
 							name,
+							nameSelf,
+							uuidSelf,
 							fullMatch: m[0],
 						});
 					})
@@ -177,6 +205,8 @@ export class HtmlConverterPostProcessor {
 			foundryIdToMonsterInfo,
 			uuid,
 			name,
+			nameSelf,
+			uuidSelf,
 			fullMatch,
 			isTagUnknown = false,
 		},
@@ -185,6 +215,12 @@ export class HtmlConverterPostProcessor {
 			|| foundryIdToMonsterInfo?.[uuid];
 
 		if (!entityInfo) {
+			// Short-circuit for self-references
+			// Note that this is imperfect -- in e.g. effects which are applied to other
+			//   actors, we would ideally want to link back to the applying entity.
+			//   As we do not have stable IDs, "name" is the best we can manage.
+			if (uuid === uuidSelf) return nameSelf;
+
 			if (isTagUnknown) {
 				const out = `{@unknown ${name}}`;
 				console.warn(`Generated "@unknown" tag from "${fullMatch}" -> "${out}"`);
