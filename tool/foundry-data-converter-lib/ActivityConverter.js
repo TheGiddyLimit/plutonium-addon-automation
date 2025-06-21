@@ -58,9 +58,16 @@ export class ActivityConverter {
 	static _ActivityConverterState = class {
 		constructor ({name}) {
 			this._nameIdGeneratorEffects = new NameIdGenerator({name});
+			this._subEntities = {};
 		}
 
 		getNextEffectId () { return this._nameIdGeneratorEffects.getNextId(); }
+
+		addSubEntity (prop, subEntity) {
+			(this._subEntities[prop] ||= []).push(subEntity);
+		}
+
+		getSubEntities () { return Object.keys(this._subEntities).length ? this._subEntities : undefined; }
 	};
 
 	static getActivities (
@@ -113,6 +120,7 @@ export class ActivityConverter {
 		return {
 			activities,
 			effectIdLookup,
+			subEntities: cvState.getSubEntities(),
 		};
 	}
 
@@ -275,8 +283,15 @@ export class ActivityConverter {
 		}
 
 		if (effRef.riders?.item?.length) {
-			throw new Error(`Unhandled "item" riders in "${JSON.stringify(effRef)}" for document "${json.name}"!`);
-			// delete effRef.riders.item;
+			const itemIdsMapped = effRef.riders.item
+				.map(uuid => {
+					// Migrate manually; placeholder value to trigger schema error
+					const foundryId = cvState.getNextEffectId();
+					cvState.addSubEntity("item", {foundryId, uuid});
+					return {foundryId};
+				});
+			foundry.utils.setProperty(effRefOut, "riders.item", itemIdsMapped);
+			delete effRef.riders.item;
 		}
 
 		delete effRef.riders;

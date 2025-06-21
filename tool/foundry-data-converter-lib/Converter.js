@@ -27,7 +27,7 @@ export class Converter {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo});
+		const {activities, effectIdLookup, subEntities: subEntitiesActivity} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 
@@ -37,6 +37,16 @@ export class Converter {
 			activities,
 			effects,
 			flags,
+			subEntities: subEntitiesActivity
+				? [
+					subEntitiesActivity,
+				]
+					.reduce((accum, val) => {
+						Object.entries(val)
+							.forEach(([prop, arr]) => (accum[prop] ||= []).push(...arr));
+						return accum;
+					}, {})
+				: undefined,
 		};
 		if (script) out.itemMacro = {file: script.filename};
 
