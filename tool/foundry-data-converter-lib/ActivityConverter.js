@@ -70,6 +70,7 @@ export class ActivityConverter {
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
+			foundryIdToItemInfo = null,
 		},
 	) {
 		if (!Object.keys(json.system?.activities || {}).length) {
@@ -92,6 +93,7 @@ export class ActivityConverter {
 				foundryIdToConsumptionTarget,
 				foundryIdToSpellInfo,
 				foundryIdToMonsterInfo,
+				foundryIdToItemInfo,
 				cvState,
 				activity,
 				effectIdLookup,
@@ -121,6 +123,7 @@ export class ActivityConverter {
 			foundryIdToConsumptionTarget,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			cvState,
 			activity,
 			effectIdLookup,

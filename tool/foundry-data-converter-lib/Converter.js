@@ -19,6 +19,7 @@ export class Converter {
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
+			foundryIdToItemInfo = null,
 			foundryIdToEmbedEntries = null,
 		} = {},
 	) {
@@ -26,8 +27,8 @@ export class Converter {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo});
-		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries});
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo});
+		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 
 		const out = {

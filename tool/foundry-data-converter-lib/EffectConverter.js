@@ -2,15 +2,15 @@ import {ConverterUtil} from "./ConverterUtil.js";
 import {HtmlConverterPostProcessor} from "./HtmlConverterPostProcess.js";
 
 export class EffectConverter {
-	static getEffects ({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
+	static getEffects ({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
 		if (!json.effects?.length) return;
 
 		return json.effects
-			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}))
+			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}))
 			.filter(Boolean);
 	}
 
-	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
+	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
 		eff = this._getPreClean({json, eff});
 
 		this._mutFoundryId({eff, effectIdLookup});
@@ -24,7 +24,7 @@ export class EffectConverter {
 
 		this._mutRequires(eff);
 
-		this._mutDescription({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries});
+		this._mutDescription({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 
 		this._mutPostClean(eff);
 
@@ -188,7 +188,7 @@ export class EffectConverter {
 		return descriptionEntriesArray;
 	}
 
-	static _mutDescription ({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToEmbedEntries}) {
+	static _mutDescription ({json, eff, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
 		if (!eff.description?.length) return;
 
 		if (getHtmlEntries == null) throw new Error(`"getHtmlEntries" must be provided for effect description conversion!`);
@@ -203,6 +203,7 @@ export class EffectConverter {
 				uuid: json._uuid,
 				foundryIdToSpellInfo,
 				foundryIdToMonsterInfo,
+				foundryIdToItemInfo,
 				foundryIdToEmbedEntries,
 			},
 		);

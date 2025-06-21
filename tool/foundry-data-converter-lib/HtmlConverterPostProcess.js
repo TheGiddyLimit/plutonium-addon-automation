@@ -13,6 +13,7 @@ export class HtmlConverterPostProcessor {
 			uuid = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
+			foundryIdToItemInfo = null,
 			foundryIdToEmbedEntries = null,
 		} = {},
 	) {
@@ -21,6 +22,7 @@ export class HtmlConverterPostProcessor {
 			uuidSelf: uuid,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			foundryIdToEmbedEntries,
 			ipt,
 		});
@@ -29,6 +31,7 @@ export class HtmlConverterPostProcessor {
 			uuidSelf: uuid,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			iptClean,
 		});
 	}
@@ -44,6 +47,7 @@ export class HtmlConverterPostProcessor {
 			uuidSelf,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			foundryIdToEmbedEntries,
 			strs,
 		},
@@ -62,6 +66,7 @@ export class HtmlConverterPostProcessor {
 				return this._getUuidReplacement({
 					foundryIdToSpellInfo,
 					foundryIdToMonsterInfo,
+					foundryIdToItemInfo,
 					foundryIdToEmbedEntries,
 					uuid,
 					name,
@@ -80,6 +85,7 @@ export class HtmlConverterPostProcessor {
 			uuidSelf,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			foundryIdToEmbedEntries,
 			ipt,
 		},
@@ -94,6 +100,7 @@ export class HtmlConverterPostProcessor {
 					uuidSelf,
 					foundryIdToSpellInfo,
 					foundryIdToMonsterInfo,
+					foundryIdToItemInfo,
 					foundryIdToEmbedEntries,
 					strs: spl,
 				});
@@ -116,6 +123,7 @@ export class HtmlConverterPostProcessor {
 							uuidSelf,
 							foundryIdToSpellInfo,
 							foundryIdToMonsterInfo,
+							foundryIdToItemInfo,
 							foundryIdToEmbedEntries,
 							strs: spl,
 						});
@@ -137,6 +145,7 @@ export class HtmlConverterPostProcessor {
 							uuidSelf,
 							foundryIdToSpellInfo,
 							foundryIdToMonsterInfo,
+							foundryIdToItemInfo,
 							foundryIdToEmbedEntries,
 							strs: spl,
 						}),
@@ -171,6 +180,7 @@ export class HtmlConverterPostProcessor {
 			uuidSelf,
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			iptClean,
 		},
 	) {
@@ -184,6 +194,7 @@ export class HtmlConverterPostProcessor {
 						return this._getUuidReplacement({
 							foundryIdToSpellInfo,
 							foundryIdToMonsterInfo,
+							foundryIdToItemInfo,
 							uuid: target,
 							name,
 							nameSelf,
@@ -203,6 +214,7 @@ export class HtmlConverterPostProcessor {
 		{
 			foundryIdToSpellInfo,
 			foundryIdToMonsterInfo,
+			foundryIdToItemInfo,
 			uuid,
 			name,
 			nameSelf,
@@ -212,7 +224,8 @@ export class HtmlConverterPostProcessor {
 		},
 	) {
 		const entityInfo = foundryIdToSpellInfo?.[uuid]
-			|| foundryIdToMonsterInfo?.[uuid];
+			|| foundryIdToMonsterInfo?.[uuid]
+			|| foundryIdToItemInfo?.[uuid];
 
 		if (!entityInfo) {
 			// Short-circuit for self-references
