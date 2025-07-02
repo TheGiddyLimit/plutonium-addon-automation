@@ -475,6 +475,7 @@ export class ActivityConverter {
 		);
 
 		delete activity.description.chatFlavor;
+		if (!Object.keys(activity.description)?.length) delete activity.description;
 		activity.descriptionEntries = typeof descriptionEntries === "string" ? [descriptionEntries] : descriptionEntries;
 	}
 }
