@@ -109,26 +109,6 @@
 							]
 						}
 					}
-				},
-				{
-					"changes": [
-						{
-							"key": "ATL.brightLight",
-							"mode": "UPGRADE",
-							"value": "20",
-							"priority": 20
-						},
-						{
-							"key": "ATL.dimLight",
-							"mode": "UPGRADE",
-							"value": "40",
-							"priority": 20
-						}
-					],
-					"transfer": true,
-					"requires": {
-						"ActiveAuras": true
-					}
 				}
 			],
 			"flags": {
@@ -199,26 +179,6 @@
 		{
 			"name": "Sword of Sharpness",
 			"source": "DMG",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "ATL.dimLight",
-							"mode": "ADD",
-							"value": "+ 20"
-						},
-						{
-							"key": "ATL.brightLight",
-							"mode": "ADD",
-							"value": "+ 10"
-						}
-					],
-					"transfer": true,
-					"requires": {
-						"ATL": true
-					}
-				}
-			],
 			"flags": {
 				"midi-qol": {
 					"onUseMacroName": "[postActiveEffects]ItemMacro"

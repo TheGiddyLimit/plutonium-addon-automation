@@ -155,18 +155,6 @@
 				{
 					"changes": [
 						{
-							"key": "ATL.light.dim",
-							"mode": "UPGRADE",
-							"value": "60",
-							"priority": 20
-						},
-						{
-							"key": "ATL.light.bright",
-							"mode": "UPGRADE",
-							"value": "30",
-							"priority": 20
-						},
-						{
 							"key": "macro.itemMacro",
 							"value": "@spellLevel",
 							"mode": "CUSTOM",
@@ -207,12 +195,6 @@
 					"changes": [
 						{
 							"key": "system.attributes.senses.darkvision",
-							"mode": "UPGRADE",
-							"value": "60",
-							"priority": 20
-						},
-						{
-							"key": "ATL.dimSight",
 							"mode": "UPGRADE",
 							"value": "60",
 							"priority": 20
@@ -516,38 +498,6 @@
 			"source": "PHB",
 			"effects": [
 				{
-					"changes": [
-						{
-							"key": "ATL.light.dim",
-							"mode": "OVERRIDE",
-							"value": "40",
-							"priority": 20
-						},
-						{
-							"key": "ATL.light.bright",
-							"mode": "OVERRIDE",
-							"value": "20",
-							"priority": 20
-						},
-						{
-							"key": "ATL.light.color",
-							"mode": "OVERRIDE",
-							"value": "#ffffff",
-							"priority": 20
-						},
-						{
-							"key": "ATL.light.alpha",
-							"mode": "OVERRIDE",
-							"value": "0.25",
-							"priority": 20
-						},
-						{
-							"key": "ATL.light.animation",
-							"mode": "OVERRIDE",
-							"value": "{\"type\": \"pulse\", \"speed\": 3,\"intensity\": 1}",
-							"priority": 20
-						}
-					],
 					"flags": {
 						"dae": {
 							"stackable": "noneName"

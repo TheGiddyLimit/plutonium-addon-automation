@@ -96,7 +96,6 @@ export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
 			const convEffectData = convEffect.convertToActiveEffectData
 				// DCE < v4.0.0
 				? convEffect.convertToActiveEffectData({
-					includeAte: game.modules.get("ATL")?.active,
 					includeTokenMagic: game.modules.get("tokenmagic")?.active,
 				})
 				// DCE >= v4.0.0

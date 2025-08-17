@@ -108,11 +108,6 @@ export const buildTask = async (
 					type: "module",
 					reason: "Enables additional automations",
 				},
-				{
-					id: "ATL",
-					type: "module",
-					reason: "Enables additional automations",
-				},
 				// endregion
 
 				// region Optional integrations
