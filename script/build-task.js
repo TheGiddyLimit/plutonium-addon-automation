@@ -121,11 +121,6 @@ export const buildTask = async (
 					type: "module",
 					reason: "Provides an additional data source from which to draw automations",
 				},
-				{
-					id: "midi-srd",
-					type: "module",
-					reason: "Provides an additional data source from which to draw automations",
-				},
 				// endregion
 			],
 			conflicts: [

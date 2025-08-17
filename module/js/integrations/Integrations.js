@@ -1,6 +1,5 @@
 import {IntegrationChrisPremades} from "./ChrisPremades.js";
 import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
-import {IntegrationMidiSrd} from "./MidiSrd.js";
 import {SharedConsts} from "../../shared/SharedConsts.js";
 import {ModuleSettingConsts} from "../ModuleSettingConsts.js";
 import {Util} from "../Util.js";
@@ -11,7 +10,6 @@ import {Util} from "../Util.js";
 export class Integrations extends StartupHookMixin(class {}) {
 	static _INTEGRATIONS = [
 		new IntegrationChrisPremades(),
-		new IntegrationMidiSrd(),
 	];
 
 	static _onHookInit () { this._INTEGRATIONS.forEach(itg => itg.onHookInit()); }
