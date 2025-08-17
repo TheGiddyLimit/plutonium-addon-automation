@@ -81,47 +81,6 @@ export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
 	}
 
 	static _getPostProcessed_effects ({out}) {
-		if (!out.effects?.some(({convenientEffect}) => !!convenientEffect)) return out;
-
-		out = foundry.utils.deepClone(out);
-
-		out.effects = out.effects.map(eff => {
-			if (!eff.convenientEffect) return eff;
-
-			const convEffect = foundry.utils.isNewerVersion(game.modules.get("dfreds-convenient-effects")?.version, "7.0.0")
-				? game.dfreds.effectInterface.findEffect({effectName: eff.convenientEffect})
-				: game.dfreds.effectInterface.findEffectByName(eff.convenientEffect);
-			if (!convEffect) return eff;
-
-			const convEffectData = convEffect.convertToActiveEffectData
-				// DCE < v4.0.0
-				? convEffect.convertToActiveEffectData({
-					includeTokenMagic: game.modules.get("tokenmagic")?.active,
-				})
-				// DCE >= v4.0.0
-				: convEffect.toObject(true);
-
-			delete eff.convenientEffect;
-
-			return foundry.utils.mergeObject(
-				convEffectData,
-				{
-					// region Convert to our alternate field names, which are prioritized. This ensures the CE name/image
-					//   will be used over a name/image generated from the parent document.
-					name: convEffectData.name ?? convEffectData.label,
-					img: convEffectData.icon,
-					// endregion
-					...eff,
-
-					// Override CE's built-in IDs, as they are not valid (e.g. `"id": "Convenient Effect: Invisible"`),
-					//   which causes issues when creating temporary actors (e.g. when using Quick Insert to view a
-					//   creature).
-					// (N.b.: No longer required as of CE v4.0.0)
-					id: foundry.utils.randomID(),
-				},
-			);
-		});
-
 		return out;
 	}
 

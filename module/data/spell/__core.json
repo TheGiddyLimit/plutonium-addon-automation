@@ -289,15 +289,6 @@
 			]
 		},
 		{
-			"name": "Greater Invisibility",
-			"source": "PHB",
-			"effects": [
-				{
-					"convenientEffect": "Invisible"
-				}
-			]
-		},
-		{
 			"name": "Guidance",
 			"source": "PHB",
 			"effects": [
@@ -469,29 +460,6 @@
 			"itemMacro": {
 				"file": "Generic_ddbi-aa-damage-on-entry.js"
 			}
-		},
-		{
-			"name": "Invisibility",
-			"source": "PHB",
-			"_TODO": [
-				"Special expiration doesn't clear concentration, need midi support"
-			],
-			"effects": [
-				{
-					"convenientEffect": "Invisible",
-					"duration": {
-						"seconds": 3600
-					},
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"1Attack",
-								"1Spell"
-							]
-						}
-					}
-				}
-			]
 		},
 		{
 			"name": "Light",

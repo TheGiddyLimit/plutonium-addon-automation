@@ -37,7 +37,6 @@ You can install the module using the following manifest URL:
 ### Dependencies and incompatibilities
 
 Besides *Plutonium* itself, *Plutonium Addon: Automation* **requires**:
-- [DFred's Convenient Effects](https://foundryvtt.com/packages/dfreds-convenient-effects) (DFCE)
 - [Dynamic Active Effects](https://foundryvtt.com/packages/dae) (DAE)
 - [Midi QoL](https://foundryvtt.com/packages/midi-qol)
 - [Times Up](https://foundryvtt.com/packages/times-up)
@@ -54,7 +53,6 @@ If you import a document which requires one of these modules, you will be prompt
 
 You **must** configure some modules in a specific way, or the automations won't work. Configure the following:
 
-- _**DFreds Convenient Effects** > Modify Status Effects_ — select either `Replace` (preferred) or `Add`.
 - _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects_ — select `Apply Item effects, if absent apply CE`.
 
 ### Optional integrations

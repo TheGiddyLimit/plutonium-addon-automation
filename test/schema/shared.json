@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.7.3",
+	"version": "0.8.0",
 
 	"$defs": {
 		"schema": {
@@ -30,8 +30,7 @@
 						"plutonium",
 						"midi-qol",
 						"dae",
-						"times-up",
-						"dfreds-convenient-effects"
+						"times-up"
 					]
 				}
 			}
@@ -84,60 +83,8 @@
 			"additionalProperties": false
 		},
 
-		"convenientEffectObject": {
-			"type": "object",
-			"properties": {
-				"convenientEffect": {
-					"description": "Generally taken from names in `game.dfreds.effects.conditions`.",
-					"type": "string",
-					"examples": [
-						"Blinded",
-						"Charmed",
-						"Concentrating",
-						"Deafened",
-						"Exhaustion 1",
-						"Exhaustion 2",
-						"Exhaustion 3",
-						"Exhaustion 4",
-						"Exhaustion 5",
-						"Frightened",
-						"Grappled",
-						"Incapacitated",
-						"Invisible",
-						"Paralyzed",
-						"Petrified",
-						"Poisoned",
-						"Prone",
-						"Restrained",
-						"Stunned",
-						"Unconscious",
-
-						"Bullseye Lantern",
-						"Candle",
-						"Hooded Lantern",
-						"Lantern",
-						"Torch"
-					]
-				},
-
-				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
-
-				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"},
-
-				"disabled": {"const": true},
-				"transfer": {"const": true}
-			},
-			"required": [
-				"convenientEffect"
-			],
-			"additionalProperties": false
-		},
-
 		"effectObject": {
-			"oneOf": [
-				{"$ref": "#/$defs/foundryEffectObject"},
-				{"$ref": "#/$defs/convenientEffectObject"}
-			]
+			"$ref": "#/$defs/foundryEffectObject"
 		},
 
 		"foundryAdvancementObject": {

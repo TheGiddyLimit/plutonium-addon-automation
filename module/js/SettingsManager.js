@@ -24,27 +24,11 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static _MODULE_ID__DFREDS_CONVENIENT_EFFECTS = "dfreds-convenient-effects";
 	static _MODULE_ID__MIDI_QOL = "midi-qol";
 	static _MODULE_ID__TOKEN_ACTION_HUD = "token-action-hud";
 	static _MODULE_ID__CHRIS_PREMADES = "chris-premades";
 
 	static _SETTING_METAS = [
-		{
-			moduleId: this._MODULE_ID__DFREDS_CONVENIENT_EFFECTS,
-			settingKey: "modifyStatusEffects",
-			isGmOnly: true,
-			expectedValue: "replace",
-			allowedValues: ["replace", "add"],
-		},
-		{
-			moduleId: this._MODULE_ID__MIDI_QOL,
-			settingKey: "ConfigSettings",
-			propPath: "autoCEEffects",
-			isGmOnly: true,
-			expectedValue: "itempri",
-			displaySettingName: "midi-qol.AutoCEEffects.Name",
-		},
 		{
 			moduleId: this._MODULE_ID__TOKEN_ACTION_HUD,
 			settingKey: "itemMacroReplace",

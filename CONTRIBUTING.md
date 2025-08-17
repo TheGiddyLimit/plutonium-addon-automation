@@ -100,7 +100,6 @@ In the interests of consistency and user experience, we have some guidelines to 
 3) **Don't reinvent the wheel.**
 	- Use the required modules wherever possible; don't use a macro unless you need to.
 	- Only introduce a new module if it's compatible, stable, and actively maintained. Finding replacements when a helper module goes kaput is a lot of effort.
-	- Use [DFred's Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects) for all conditions, activated via the `statusEffect CUSTOM <condition>` effect change.
 	- Remember [Midi QoL](https://gitlab.com/tposney/midi-qol/-/blob/master/README.md#flagsmidi-qolovertime-overtime-effects) `overTime` effects exist.
 4) **KISS: keep it simple, sweetie.**
 	- Avoid using macros except when absolutely necessary, and make sure they're readable and maintainable.

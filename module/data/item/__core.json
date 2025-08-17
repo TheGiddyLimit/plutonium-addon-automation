@@ -137,27 +137,6 @@
 			"_merge": {
 				"effects": true
 			}
-		},
-		{
-			"name": "Torch",
-			"source": "PHB",
-			"system": {
-				"target.value": null,
-				"target.units": null,
-				"target.type": null,
-				"range.value": 5
-			},
-			"effects": [
-				{
-					"convenientEffect": "Torch",
-					"transfer": true
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			}
 		}
 	],
 	"magicvariant": [

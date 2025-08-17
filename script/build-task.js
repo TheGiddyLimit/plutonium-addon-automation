@@ -95,10 +95,6 @@ export const buildTask = async (
 					id: "times-up",
 					type: "module",
 				},
-				{
-					id: "dfreds-convenient-effects",
-					type: "module",
-				},
 			],
 			// See: https://github.com/foundryvtt/foundryvtt/issues/8649
 			recommends: [
