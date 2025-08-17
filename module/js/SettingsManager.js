@@ -1,6 +1,7 @@
 import {SharedConsts} from "../shared/SharedConsts.js";
 import {ModuleSettingConsts} from "./ModuleSettingConsts.js";
 import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
+import {Util} from "./Util.js";
 
 /**
  * @mixes {StartupHookMixin}
@@ -34,28 +35,10 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			settingKey: "itemMacroReplace",
 			expectedValue: "showOriginal",
 		},
+
 		// region chris-premades
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Item Configuration Access", displaySettingName: "Item Configuration Access", expectedValue: true},
-
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Effect Auras", displaySettingName: "Effect Auras", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "On Hit", displaySettingName: "On Hit", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Combat Listener", displaySettingName: "Combat Listener", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Movement Listener", displaySettingName: "Movement Listener", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Template Listener", displaySettingName: "Template Listener", expectedValue: true},
-
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Aura of Life", displaySettingName: "Aura of Life Spell Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Armor of Agathys", displaySettingName: "Armor of Agathys Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Beacon of Hope", displaySettingName: "Beacon of Hope Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Booming Blade", displaySettingName: "Booming Blade Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Compelled Duel", displaySettingName: "Compelled Duel Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Darkness", displaySettingName: "Darkness Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Death Ward", displaySettingName: "Death Ward Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Fog Cloud", displaySettingName: "Fog Cloud Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Mirror Image", displaySettingName: "Mirror Image Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Protection from Evil and Good", displaySettingName: "Protection from Evil and Good Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Sanctuary", displaySettingName: "Sanctuary Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Shadow of Moil", displaySettingName: "Shadow of Moil Automation", expectedValue: true},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "Warding Bond", displaySettingName: "Warding Bond Automation", expectedValue: true},
+		// Enable configuration, as the integration uses default values
+		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "permissionsConfigureItem", displaySettingName: "Medkit Configuration Permissions", expectedValue: 1},
 		// endregion
 	];
 
@@ -78,8 +61,12 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 				if (isGmOnly && !game.user.isGM) return null;
 				if (!game.modules.get(moduleId)?.active) return null;
 
-				const setting = game.settings.settings.get(`${moduleId}.${settingKey}`);
-				if (!setting) return null;
+				const settingId = `${moduleId}.${settingKey}`;
+				const setting = game.settings.settings.get(settingId);
+				if (!setting) {
+					console.debug(...Util.LGT, `Setting "${settingId}" not found!`);
+					return null;
+				}
 
 				let value = game.settings.get(moduleId, settingKey);
 				if (propPath) value = foundry.utils.getProperty(value, propPath);
