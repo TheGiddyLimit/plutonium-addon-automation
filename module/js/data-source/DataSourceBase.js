@@ -9,6 +9,7 @@ export class DataSourceBase {
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }

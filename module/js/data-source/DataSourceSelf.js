@@ -34,6 +34,7 @@ export class DataSourceSelf extends StartupHookMixin(DataSourceBase) {
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) {

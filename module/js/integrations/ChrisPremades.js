@@ -1,10 +1,6 @@
 import {IntegrationBase} from "./IntegrationBase.js";
-import {SharedConsts} from "../../shared/SharedConsts.js";
 import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
 import {Util} from "../Util.js";
-
-// Cheat and pretend we're not always overriding, as our patches are temporary/highly contextual
-const _LIBWRAPPER_TYPE_TEMP = "MIXED";
 
 class _ChrisPremadesNameMappings {
 	static _MAP_SPECIFIC = {
@@ -33,7 +29,7 @@ class _ChrisPremadesNameMappings {
 }
 
 /**
- * Designed for use with `chris-premades` v0.9.17
+ * Designed for use with `chris-premades` v1.3.15
  * See: https://github.com/chrisk123999/chris-premades
  *
  * @mixes {StartupHookMixin}
@@ -42,7 +38,6 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 	_moduleId = "chris-premades";
 
 	_onHookInit () {
-		libWrapper.register(SharedConsts.MODULE_ID, "Hooks.on", this._lw_Hooks_on.bind(this), _LIBWRAPPER_TYPE_TEMP);
 		this._registerFlagKeys({
 			wanted: [
 				"autoanimations",
@@ -77,44 +72,6 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		});
 	}
 
-	_hook_createHeaderButton = null;
-	_lw_Hooks_on (fn, ...args) {
-		const [hookId, fnHook] = args;
-		if (
-			hookId !== "getItemSheetHeaderButtons"
-			|| this._hook_createHeaderButton
-			|| fnHook.name !== "createHeaderButton"
-			|| !fnHook.toString().includes(this._moduleId)
-		) return fn(...args);
-		this._hook_createHeaderButton = fnHook;
-		return fn(...args);
-	}
-
-	_stubSemaphores = {};
-
-	async _pWithStubbed (nameStubbed, {returnValue, fnPatch} = {}, fn) {
-		let out;
-		// Only register/deregister on semaphore 0 to avoid libWrapper errors (a module may only patch a method once)
-		try {
-			this._stubSemaphores[nameStubbed] = this._stubSemaphores[nameStubbed] || 0;
-			if (!this._stubSemaphores[nameStubbed]++) {
-				libWrapper.register(
-					SharedConsts.MODULE_ID,
-					nameStubbed,
-					(fnOriginal, ...args) => fnPatch ? fnPatch(fnOriginal, ...args) : returnValue,
-					_LIBWRAPPER_TYPE_TEMP,
-				);
-			}
-			out = await fn();
-		} finally {
-			if (!--this._stubSemaphores[nameStubbed]) {
-				libWrapper.unregister(SharedConsts.MODULE_ID, nameStubbed, false);
-				delete this._stubSemaphores[nameStubbed];
-			}
-		}
-		return out;
-	}
-
 	_propsJsonBlocklist = new Set([
 		"monster",
 		"trap",
@@ -142,130 +99,33 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) {
 		if (
-			!this._hook_createHeaderButton
-			|| !SourceUtil.isSiteSource(ent.source)
+			!SourceUtil.isSiteSource(ent.source)
 			|| this._propsJsonBlocklist.has(propJson)
 		) return null;
+
+		// Require document type
+		if (documentType == null) return;
 
 		const jsonBlocklist = this.constructor._entsJsonBlocklist[propJson];
 		if (jsonBlocklist?.length && jsonBlocklist.some(it => fnMatch(it))) return null;
 
-		return this._pGetExpandedAddonData_pWithStubs({
-			propJson,
-			path,
-			fnMatch,
-			ent,
-			propBase,
-			base,
-			actorType,
-			isSilent,
-		});
-	}
-
-	async _pGetExpandedAddonData_pWithStubs (
-		{
-			propJson,
-			path,
-			fnMatch,
-			ent,
-			propBase,
-			base = undefined,
-			actorType,
-			isSilent = false,
-		},
-	) {
-		return this._pWithStubbed(
-			"ui.notifications.info",
-			{},
-			() => this._pWithStubbed(
-				"game.settings.get",
-				{
-					fnPatch: (fn, ...args) => {
-						const [module, key] = args;
-						if (!game.user.isGM && module === "chris-premades" && key === "Item Replacer Access") return true;
-						return fn(...args);
-					},
-				},
-				() => this._pWithStubbed(
-					"chrisPremades.helpers.dialog",
-					{
-						returnValue: CONFIG.chrisPremades.itemConfiguration[ent.name]
-							? "update"
-							: true,
-					},
-					() => this._pWithStubbed(
-						"ChatMessage.create",
-						{},
-						this._pGetExpandedAddonData_pWithStubbed
-							.bind(
-								this,
-								{
-									propJson,
-									path,
-									fnMatch,
-									ent,
-									propBase,
-									base,
-									actorType,
-									isSilent,
-								},
-							),
-					),
-				),
-			),
-		);
-	}
-
-	async _pGetExpandedAddonData_pWithStubbed (
-		{
-			propJson,
-			path,
-			fnMatch,
-			ent,
-			propBase,
-			base = undefined,
-			actorType = undefined,
-			isSilent = false,
-		},
-	) {
-		// Create a fake actor to bypass CPR's `doc.actor` check
-		const fauxActor = new (class {
-			get type () {
-				return actorType ?? (propJson.startsWith("monster") ? "npc" : "character");
-			}
-
-			_embeddedItems = null;
-
-			get firstEmbeddedItem () { return this._embeddedItems?.[0]; }
-
-			createEmbeddedDocuments (docType, embeds) {
-				if (docType !== "Item") return;
-				this._embeddedItems = embeds;
-			}
-		})();
-
-		// Override the Foundry type based on our entity type
-		const type = this._pGetExpandedAddonData_getItemType({propJson});
-
-		// Create a stubbed `Item` subclass to bypass CPR's `instanceof Item` check
+		// Create a stubbed `Item` subclass to pass to CPR's `itemUpdate`
 		const fauxName = _ChrisPremadesNameMappings.getMappedName({propJson, ent});
-		const fauxObject = this._pGetExpandedAddonData_getFauxObject({name: fauxName, propBase, base, fauxActor, type});
+		const rules = SourceUtil.isClassicSource(ent.source) ? "2014" : "2024";
+		const fauxObject = this._pGetExpandedAddonData_getFauxObject({name: fauxName, propBase, base, type: documentType, rules});
 		if (!fauxObject) return null;
 
 		const jsonEmpty = fauxObject.toObject(true);
 
-		// region Create a fake "sheet" config such that we can run the per-item onclick bind
-		const fauxConfig = {object: fauxObject};
-		const fauxButtons = [];
-		this._hook_createHeaderButton(fauxConfig, fauxButtons);
-		await fauxButtons[0].onclick(fauxConfig);
-		// endregion
+		const isUpdate = await chrisPremades.utils.itemUtils.itemUpdate(fauxObject);
+		if (!isUpdate) return null;
 
-		const jsonFilled = fauxActor.firstEmbeddedItem;
+		const jsonFilled = fauxObject.toObject(true);
 		if (!jsonFilled) return null;
 
 		if (foundry.utils.objectsEqual(jsonEmpty, jsonFilled)) return null;
@@ -275,15 +135,13 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		return this._pGetExpandedAddonData_getPostProcessed(jsonDiff);
 	}
 
-	_pGetExpandedAddonData_getItemType ({propJson}) {
-		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_SPELLS].includes(propJson)) return "spell";
-		if (UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_ITEMS].includes(propJson)) return "equipment";
-		return "feat";
-	}
-
-	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, fauxActor, type}) {
+	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, type, rules}) {
 		try {
+			const id = foundry.utils.randomID();
+
 			const docData = {
+				_id: id,
+				id,
 				name,
 				type,
 			};
@@ -295,11 +153,19 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 				docData.system = foundry.utils.deepClone(base);
 			}
 
+			// Ensure rules version is set, as CPR has different automations for 2014/2024 item sets
+			MiscUtil.set(docData, "system", "source", "rules", rules);
+
 			return new class extends Item {
-				get actor () { return fauxActor; }
+				get actor () { return null; }
 				set actor (val) { /* No-op */ }
 
 				delete () { /* No-op */ }
+
+				// Avoid going to the database layer
+				async update (data, opts) {
+					this.updateSource(data, opts);
+				}
 			}(docData);
 		} catch (e) {
 			console.error(...Util.LGT, e);
@@ -308,6 +174,16 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 
 	_pGetExpandedAddonData_getPostProcessed (fauxItemJson) {
 		fauxItemJson = foundry.utils.deepClone(fauxItemJson);
+
+		// Split out activities
+		// Note that we expect e.g. IDs to be preserved
+		// Examples:
+		//   - Animal Friendship (XPHB) -- effect should be correctly applied
+		if (Object.keys(fauxItemJson.system?.activities)?.length) {
+			fauxItemJson.activities = Object.values(fauxItemJson.system?.activities);
+		}
+		delete fauxItemJson.system?.activities;
+
 		return this._getPostProcessed({json: fauxItemJson});
 	}
 }

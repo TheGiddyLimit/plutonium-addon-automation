@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.8.0",
+	"version": "0.8.1",
 
 	"$defs": {
 		"schema": {
@@ -185,7 +185,8 @@
 						"chooseSystem": {"const": true},
 						"effects": {"const": true},
 						"flags": {"const": true},
-						"chooseFlags": {"const": true}
+						"chooseFlags": {"const": true},
+						"activities": {"const": true}
 					}
 				}
 			},

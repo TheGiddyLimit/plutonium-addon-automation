@@ -11,6 +11,7 @@ export class DataSourceIntegrations extends DataSourceBase {
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -22,6 +23,7 @@ export class DataSourceIntegrations extends DataSourceBase {
 			propBase,
 			base,
 			actorType,
+			documentType,
 			isSilent,
 		});
 	}

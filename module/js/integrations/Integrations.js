@@ -24,6 +24,7 @@ export class Integrations extends StartupHookMixin(class {}) {
 			propBase,
 			base,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -37,6 +38,7 @@ export class Integrations extends StartupHookMixin(class {}) {
 					propBase,
 					base,
 					actorType,
+					documentType,
 					isSilent,
 				});
 				if (out && game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) console.debug(...Util.LGT, `Found automation for ${ent.name} in integration: ${itg.constructor.name}`);

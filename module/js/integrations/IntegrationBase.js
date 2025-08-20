@@ -56,6 +56,7 @@ export class IntegrationBase {
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) {
@@ -68,6 +69,7 @@ export class IntegrationBase {
 			propBase,
 			base,
 			actorType,
+			documentType,
 			isSilent,
 		});
 	}
@@ -82,6 +84,7 @@ export class IntegrationBase {
 			propBase,
 			base = undefined,
 			actorType = undefined,
+			documentType = undefined,
 			isSilent = false,
 		},
 	) { throw new Error("Unimplemented!"); }
@@ -98,14 +101,14 @@ export class IntegrationBase {
 
 	_mutCleanJson ({json}) {
 		// Avoid clobbering specific data
-		["name", "img"].forEach(prop => delete json[prop]);
+		["name", "img", "id", "_id"].forEach(prop => delete json[prop]);
 		["source", "description"].forEach(prop => delete json?.system?.[prop]);
 
 		// Remove unwanted flags
 		this._unwantedFlagKeys.forEach(prop => delete json?.flags?.[prop]);
 
 		if (game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) {
-			const unknownFlags = CollectionUtil.setDiff(new Set(Object.keys(json.flags)), this._wantedFlagKeys);
+			const unknownFlags = new Set(Object.keys(json.flags)).difference(this._wantedFlagKeys);
 			if (unknownFlags.length) console.debug(...Util.LGT, `JSON contained unknown flags:\n\t${unknownFlags.join("\n\t")}\n${JSON.stringify(json, null, "\t")}`);
 		}
 
