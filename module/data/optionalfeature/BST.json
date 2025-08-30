@@ -14,8 +14,22 @@
 			"_TODO": [
 				"Assumes in-combat use for advantage on attack roll"
 			],
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": ""
+					},
+					"effects": [
+						{
+							"foundryId": "aidUsFriend"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "aidUsFriend",
 					"changes": [
 						{
 							"key": "flags.midi-qol.grants.advantage.attack.all",
@@ -32,31 +46,36 @@
 						}
 					}
 				}
-			]
-		},
-		{
-			"name": "No Escape (1+ Ferocity)",
-			"source": "BST",
-			"_TODO": [
-				"Does not modify movement"
 			],
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"specialDuration": [
-								"turnStart"
-							]
-						}
-					}
-				}
-			]
+			"migrationVersion": 3
 		},
 		{
 			"name": "Thrash (4 Ferocity)",
 			"source": "BST",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "reaction"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "thrash"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "thrash",
 					"changes": [
 						{
 							"key": "flags.midi-qol.disadvantage.attack.all",
@@ -79,7 +98,8 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

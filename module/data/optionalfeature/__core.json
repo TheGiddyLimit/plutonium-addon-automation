@@ -3,15 +3,26 @@
 		{
 			"name": "Fire Rune",
 			"source": "TCE",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": ""
+					},
+					"effects": [
+						{
+							"foundryId": "fireRune"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "fireRune",
+					"statuses": [
+						"restrained"
+					],
 					"changes": [
-						{
-							"key": "StatusEffect",
-							"mode": "CUSTOM",
-							"value": "Convenient Effect: Restrained",
-							"priority": "20"
-						},
 						{
 							"key": "flags.midi-qol.OverTime",
 							"mode": "OVERRIDE",
@@ -30,11 +41,7 @@
 					}
 				}
 			],
-			"flags": {
-				"midiProperties": {
-					"fulldam": true
-				}
-			}
+			"migrationVersion": 3
 		}
 	]
 }

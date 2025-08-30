@@ -8,17 +8,31 @@
 			"subclassShortName": "Bladesinging",
 			"subclassSource": "TCE",
 			"level": 2,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus"
+					},
+					"effects": [
+						{
+							"foundryId": "bladesong"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "bladesong",
 					"changes": [
 						{
-							"key": "data.attributes.ac.bonus",
+							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
 							"value": "+ max(1,@abilities.int.mod)",
 							"priority": "20"
 						},
 						{
-							"key": "data.attributes.movement.walk",
+							"key": "system.attributes.movement.walk",
 							"mode": "ADD",
 							"value": "+ 10",
 							"priority": "20"
@@ -45,7 +59,8 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Divine Fury",
@@ -55,13 +70,22 @@
 			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activation.type": null,
-				"target.type": "self",
-				"damage.parts": []
-			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": ""
+					},
+					"effects": [
+						{
+							"foundryId": "divineFury"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "divineFury",
 					"duration": {
 						"turns": 1
 					},
@@ -102,7 +126,8 @@
 					}
 				}
 			],
-			"isChooseFlagsRenderEntries": true
+			"isChooseFlagsRenderEntries": true,
+			"migrationVersion": 3
 		},
 		{
 			"name": "Fanatical Focus",
@@ -112,11 +137,22 @@
 			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 6,
-			"system": {
-				"target.type": "self"
-			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "fanaticalFocus"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "fanaticalFocus",
 					"duration": {
 						"seconds": 60
 					},
@@ -135,7 +171,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

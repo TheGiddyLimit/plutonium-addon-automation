@@ -12,32 +12,55 @@
 			"name": "Collapse Astronomical Body",
 			"source": "GiddySpell",
 			"img": "icons/magic/earth/orb-ringed-lava-black-orange.webp",
-			"system": {
-				"actionType": "other",
-				"damage.parts": [
-					[
-						"100d10 + 500",
-						"force"
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 100,
+								"denomination": 10,
+								"bonus": "500",
+								"types": [
+									"force"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "crushed"
+						}
 					]
-				]
-			},
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "crushed",
 					"name": "Crushed",
 					"changes": [
 						{
-							"key": "data.traits.size",
+							"key": "system.traits.size",
 							"mode": "OVERRIDE",
 							"value": "tiny"
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Create Void",
 			"source": "GiddySpell",
-			"img": "icons/magic/unholy/orb-beam-pink.webp"
+			"img": "icons/magic/unholy/orb-beam-pink.webp",
+			"migrationVersion": 3
 		}
 	]
 }

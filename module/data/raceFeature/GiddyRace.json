@@ -13,7 +13,8 @@
 			"source": "GiddyRace",
 			"raceName": "Awakened Skeleton",
 			"raceSource": "GiddyRace",
-			"img": "icons/commodities/bones/skull-hollow-brown-red.webp"
+			"img": "icons/commodities/bones/skull-hollow-brown-red.webp",
+			"migrationVersion": 3
 		}
 	]
 }

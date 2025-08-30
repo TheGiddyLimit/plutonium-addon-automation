@@ -11,24 +11,44 @@
 		{
 			"name": "Hold Helm",
 			"source": "WJMAiS",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "holdHelm"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "holdHelm",
+					"statuses": [
+						"paralyzed"
+					],
 					"changes": [
 						{
 							"key": "flags.midi-qol.OverTime",
 							"mode": 5,
 							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Helm",
 							"priority": "20"
-						},
-						{
-							"key": "StatusEffect",
-							"mode": 0,
-							"value": "Convenient Effect: Paralyzed",
-							"priority": "20"
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

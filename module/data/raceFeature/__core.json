@@ -9,7 +9,7 @@
 				{
 					"changes": [
 						{
-							"key": "data.traits.ci.value",
+							"key": "system.traits.ci.value",
 							"mode": "ADD",
 							"value": "unconscious",
 							"priority": "20"
@@ -17,7 +17,8 @@
 					],
 					"transfer": true
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

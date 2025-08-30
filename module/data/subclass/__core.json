@@ -28,7 +28,8 @@
 					},
 					"title": "Combat Superiority"
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Circle of Stars",
@@ -54,7 +55,8 @@
 					},
 					"title": "Starry Form"
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Path of the Zealot",
@@ -63,7 +65,8 @@
 			"classSource": "PHB",
 			"itemMacro": {
 				"file": "XGE_path-of-the-zealot.js"
-			}
+			},
+			"migrationVersion": 3
 		}
 	]
 }

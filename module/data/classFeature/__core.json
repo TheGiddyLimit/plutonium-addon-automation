@@ -6,93 +6,94 @@
 			"className": "Monk",
 			"classSource": "PHB",
 			"level": 18,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "emptyBody"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
-					"flags": {
-						"core": {
-							"statusId": "Empty Body"
-						},
-						"dae": {
-							"specialDuration": [
-								"shortRest"
-							]
-						}
-					},
+					"foundryId": "emptyBody",
+					"statuses": [
+						"invisible"
+					],
 					"changes": [
 						{
-							"key": "macro.CE",
-							"mode": "CUSTOM",
-							"value": "Invisible",
-							"priority": "20"
-						},
-						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "acid",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "bludgeoning",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "cold",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "fire",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "lightning",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "necrotic",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "piercing",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "poison",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "psychic",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "radiant",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "slashing",
 							"priority": "20"
 						},
 						{
-							"key": "data.traits.dr.value",
+							"key": "system.traits.dr.value",
 							"mode": "ADD",
 							"value": "thunder",
 							"priority": "20"
@@ -102,7 +103,8 @@
 						"seconds": 60
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Patient Defense",
@@ -110,8 +112,22 @@
 			"className": "Monk",
 			"classSource": "PHB",
 			"level": 2,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "patientDefense"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "patientDefense",
 					"changes": [
 						{
 							"key": "flags.midi-qol.grants.disadvantage.attack.all",
@@ -138,7 +154,8 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Rage",
@@ -146,8 +163,22 @@
 			"className": "Barbarian",
 			"classSource": "PHB",
 			"level": 1,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus"
+					},
+					"effects": [
+						{
+							"foundryId": "rage"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "rage",
 					"duration": {
 						"seconds": 60
 					},
@@ -194,18 +225,14 @@
 							"value": "1",
 							"priority": 20
 						}
-					],
-					"flags": {
-						"dae": {
-							"macroRepeat": "startEveryTurn"
-						}
-					}
+					]
 				}
 			],
 			"itemMacro": {
 				"file": "PHB_rage.js"
 			},
-			"ignoreSrdEffects": true
+			"ignoreSrdEffects": true,
+			"migrationVersion": 3
 		},
 		{
 			"name": "Reckless Attack",
@@ -213,8 +240,22 @@
 			"className": "Barbarian",
 			"classSource": "PHB",
 			"level": 2,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": ""
+					},
+					"effects": [
+						{
+							"foundryId": "recklessAttack"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "recklessAttack",
 					"duration": {
 						"turns": 1
 					},
@@ -242,7 +283,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Steady Aim",
@@ -250,8 +292,22 @@
 			"className": "Rogue",
 			"classSource": "PHB",
 			"level": 3,
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus"
+					},
+					"effects": [
+						{
+							"foundryId": "steadyAim"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "steadyAim",
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.attack.all",
@@ -269,7 +325,8 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

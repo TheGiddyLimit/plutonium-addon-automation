@@ -3,22 +3,37 @@
 		{
 			"name": "Aid",
 			"source": "PHB",
-			"system": {
-				"damage.parts": []
-			},
+			"activities": [
+				{
+					"type": "heal",
+					"activation": {
+						"type": "action"
+					},
+					"healing": {
+						"types": [
+							"healing"
+						],
+						"scaling": {
+							"mode": "whole",
+							"formula": "5"
+						},
+						"bonus": "5"
+					},
+					"effects": [
+						{
+							"foundryId": "aid"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "aid",
 					"changes": [
 						{
-							"key": "system.attributes.hp.max",
+							"key": "system.attributes.hp.tempmax",
 							"mode": "ADD",
 							"value": "+ (@item.level - 1) * 5",
-							"priority": 20
-						},
-						{
-							"key": "macro.itemMacro",
-							"mode": "CUSTOM",
-							"value": "",
 							"priority": 20
 						}
 					],
@@ -27,9 +42,7 @@
 					}
 				}
 			],
-			"itemMacro": {
-				"file": "PHB_aid.js"
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Antimagic Field",
@@ -40,7 +53,12 @@
 				"Does not prevent application of magical effects"
 			],
 			"system": {
-				"target.type": "self"
+				"activities": [
+					{
+						"type": "utility",
+						"target.template.type": "self"
+					}
+				]
 			},
 			"effects": [
 				{
@@ -68,7 +86,8 @@
 						"ActiveAuras": true
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Blur",
@@ -90,35 +109,28 @@
 						"seconds": 60
 					}
 				}
-			]
-		},
-		{
-			"name": "Color Spray",
-			"source": "PHB",
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"effects": [],
-			"itemMacro": {
-				"file": "PHB_color-spray.js"
-			},
-			"system": {
-				"damage.parts": [
-					[
-						"6d10",
-						"midi-none"
-					]
-				]
-			}
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Comprehend Languages",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "comprehendLangua"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "comprehendLangua",
 					"changes": [
 						{
 							"key": "system.traits.languages.all",
@@ -130,62 +142,12 @@
 					"flags": {
 						"dae": {
 							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
 						}
 					},
 					"name": "Comprehend Languages"
 				}
 			],
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				},
-				"midiProperties": {
-					"confirmTargets": "default"
-				}
-			}
-		},
-		{
-			"name": "Crown of Stars",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "macro.itemMacro",
-							"value": "@spellLevel",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Crown of Stars"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_crown-of-stars.js"
-			},
-			"system": {
-				"actionType": "other",
-				"damage.parts": []
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Darkvision",
@@ -204,61 +166,52 @@
 						"seconds": 28800
 					}
 				}
-			]
-		},
-		{
-			"name": "Dimension Door",
-			"source": "PHB",
-			"system": {
-				"damage.parts": []
-			}
-		},
-		{
-			"name": "Ensnaring Strike",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.onUseMacroName",
-							"value": "ItemMacro.Ensnaring Strike,postActiveEffects",
-							"mode": "CUSTOM",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Ensnaring Strike"
-				}
 			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preTargeting]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_ensnaring-strike.js"
-			},
-			"system": {
-				"actionType": "other",
-				"damage.parts": [],
-				"save.ability": null
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Frostbite",
 			"source": "XGE",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"types": [
+									"cold"
+								],
+								"number": 1,
+								"denomination": 6,
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "frostbite"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "frostbite",
 					"changes": [
 						{
 							"key": "flags.midi-qol.disadvantage.attack.mwak",
@@ -286,13 +239,28 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Guidance",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "guidance"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "guidance",
 					"changes": [
 						{
 							"key": "flags.midi-qol.optional.guidance.label",
@@ -325,29 +293,32 @@
 							"specialDuration": [
 								"isInitiative"
 							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
 						}
 					},
 					"name": "Guidance"
 				}
 			],
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				},
-				"midiProperties": {
-					"confirmTargets": "default"
-				}
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Haste",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "haste"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "haste",
 					"changes": [
 						{
 							"key": "system.attributes.ac.bonus",
@@ -372,127 +343,28 @@
 						"seconds": 60
 					}
 				}
-			]
-		},
-		{
-			"name": "Ice Knife",
-			"source": "XGE",
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_ice-knife.js"
-			},
-			"system": {
-				"target": {
-					"value": 1,
-					"type": "creature"
-				},
-				"damage.parts": [
-					[
-						"1d10",
-						"piercing"
-					]
-				],
-				"scaling.formula": ""
-			}
-		},
-		{
-			"name": "Incendiary Cloud",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.OverTime",
-							"mode": "CUSTOM",
-							"value": "label=Incendiary Cloud Turn End,turn=end, saveAbility=dex, saveDC=@attributes.spelldc, saveDamage=halfdamage, rollType=save, saveMagic=true, damageBeforeSave=false, damageRoll=(@item.level)d8, damageType=fire,killAnim=true",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "@item.level",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 60
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"save": "dex",
-							"displayTemp": true
-						}
-					},
-					"name": "Incendiary Cloud",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
 			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				},
-				"plutonium-addon-automation": {
-					"effect": {
-						"dice": "10d8[fire]",
-						"damageType": "fire",
-						"save": "",
-						"sequencerFile": "jb2a.fumes.fire.orange"
-					}
-				}
-			},
-			"itemMacro": {
-				"file": "Generic_ddbi-aa-damage-on-entry.js"
-			}
-		},
-		{
-			"name": "Light",
-			"source": "PHB",
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Light"
-				}
-			],
-			"flags": {
-				"midiProperties": {
-					"autoFailFriendly": true,
-					"confirmTargets": "default"
-				},
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				}
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Mind Blank",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "mindBlank"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "mindBlank",
 					"changes": [
 						{
 							"key": "system.traits.di.value",
@@ -501,32 +373,30 @@
 							"priority": "20"
 						}
 					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
 					"name": "Mind Blank"
 				}
 			],
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				},
-				"midiProperties": {
-					"confirmTargets": "default"
-				}
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Otiluke's Resilient Sphere",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "otilukesResilien"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "otilukesResilien",
 					"changes": [
 						{
 							"key": "system.attributes.movement.all",
@@ -541,100 +411,30 @@
 							"priority": "20"
 						}
 					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
 					"name": "Otiluke's Resilient Sphere"
 				}
 			],
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				},
-				"midiProperties": {
-					"confirmTargets": "default"
-				}
-			}
-		},
-		{
-			"name": "Otto's Irresistible Dance",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.disadvantage.ability.save.str",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.disadvantage.attack.all",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.grants.advantage.attack.all ",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": "20"
-						},
-						{
-							"key": "macro.itemMacro",
-							"value": "",
-							"mode": "CUSTOM",
-							"priority": 20
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"macroRepeat": "startEveryTurn"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Otto's Irresistible Dance"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"_merge": {
-				"system": true
-			},
-			"itemMacro": {
-				"file": "PHB_otto's-irresistible-dance.js"
-			}
-		},
-		{
-			"name": "Polymorph",
-			"source": "PHB",
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default"
-				},
-				"midiProperties": {
-					"confirmTargets": "default",
-					"autoFailFriendly": true
-				}
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Psychic Scream",
 			"source": "XGE",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "psychicScream"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "psychicScream",
 					"changes": [
 						{
 							"key": "macro.StatusEffect",
@@ -652,34 +452,30 @@
 					"duration": {
 						"rounds": 99
 					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
 					"name": "Psychic Scream - Stunned"
 				}
 			],
-			"flags": {
-				"midiProperties": {
-					"halfdam": true,
-					"saveDamage": "halfdam",
-					"confirmTargets": "default"
-				},
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				}
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Resistance",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "resistance"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "resistance",
 					"changes": [
 						{
 							"key": "flags.midi-qol.optional.resistance.label",
@@ -694,93 +490,30 @@
 							"priority": "20"
 						}
 					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"specialDuration": [
-								"isSave"
-							]
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
 					"name": "Resistance"
 				}
 			],
-			"flags": {
-				"midi-qol": {
-					"removeAttackDamageButtons": "default",
-					"forceCEOff": true
-				},
-				"midiProperties": {
-					"confirmTargets": "default"
-				}
-			}
-		},
-		{
-			"name": "Silence",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "macro.CE",
-							"mode": "CUSTOM",
-							"value": "Deafened",
-							"priority": 20
-						},
-						{
-							"key": "flags.midi-qol.fail.spell.vocal",
-							"mode": "OVERRIDE",
-							"value": "1",
-							"priority": "50"
-						},
-						{
-							"key": "system.traits.di.value",
-							"mode": "OVERRIDE",
-							"value": "thunder",
-							"priority": "50"
-						}
-					],
-					"duration": {
-						"seconds": 600
-					},
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						},
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 20,
-							"displayTemp": true
-						}
-					},
-					"name": "Silence",
-					"requires": {
-						"ActiveAuras": true
-					}
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[preActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_silence.js"
-			}
+			"migrationVersion": 3
 		},
 		{
 			"name": "Silvery Barbs",
 			"source": "SCC",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "silveryBarbs"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "silveryBarbs",
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.all",
@@ -803,35 +536,28 @@
 						}
 					}
 				}
-			]
-		},
-		{
-			"name": "Sleep",
-			"source": "PHB",
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"effects": [],
-			"itemMacro": {
-				"file": "PHB_sleep.js"
-			},
-			"system": {
-				"damage.parts": [
-					[
-						"5d8",
-						"midi-none"
-					]
-				]
-			}
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Tongues",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "tongues"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "tongues",
 					"changes": [
 						{
 							"key": "system.traits.languages.all",
@@ -844,13 +570,28 @@
 						"seconds": 3600
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "True Strike",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "trueStrike"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "trueStrike",
 					"changes": [
 						{
 							"key": "flags.midi-qol.advantage.attack.all",
@@ -868,13 +609,52 @@
 						}
 					}
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Vicious Mockery",
 			"source": "PHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 4,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						],
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "viciousMockery"
+						}
+					]
+				}
+			],
 			"effects": [
 				{
+					"foundryId": "viciousMockery",
 					"changes": [
 						{
 							"key": "flags.midi-qol.disadvantage.attack.all",
@@ -895,101 +675,8 @@
 						}
 					}
 				}
-			]
-		},
-		{
-			"name": "Witch Bolt",
-			"source": "PHB",
-			"effects": [
-				{
-					"flags": {
-						"dae": {
-							"stackable": "noneName"
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Witch Bolt"
-				}
 			],
-			"flags": {
-				"midi-qol": {
-					"onUseMacroName": "[postActiveEffects]ItemMacro",
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "PHB_witch-bolt.js"
-			}
-		},
-		{
-			"name": "Zephyr Strike",
-			"source": "XGE",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.macroToCall",
-							"mode": "CUSTOM",
-							"value": "ItemMacro.Zephyr Strike",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.damage.mwak",
-							"mode": "CUSTOM",
-							"value": "1d8[force - Additional damage on weapon attack]",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.damage.rwak",
-							"mode": "CUSTOM",
-							"value": "1d8[force - Additional damage on weapon attack]",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.count",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.label",
-							"mode": "CUSTOM",
-							"value": "Gain Zephyr Strike damage bonus?",
-							"priority": "20"
-						},
-						{
-							"key": "flags.midi-qol.optional.ZephyrStrike.criticalDamage",
-							"mode": "CUSTOM",
-							"value": "1",
-							"priority": "20"
-						}
-					],
-					"flags": {
-						"dae": {
-							"stackable": "noneName",
-							"selfTarget": true,
-							"selfTargetAlways": true
-						},
-						"midi-qol": {
-							"forceCEOff": true
-						}
-					},
-					"name": "Zephyr Strike"
-				}
-			],
-			"flags": {
-				"midi-qol": {
-					"forceCEOff": true
-				}
-			},
-			"itemMacro": {
-				"file": "XGE_zephyr-strike.js"
-			},
-			"system": {
-				"damage.parts": []
-			}
+			"migrationVersion": 3
 		}
 	]
 }

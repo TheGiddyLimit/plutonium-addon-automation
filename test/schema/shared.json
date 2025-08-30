@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.8.1",
+	"version": "0.8.2",
 
 	"$defs": {
 		"schema": {
@@ -36,8 +36,33 @@
 			}
 		},
 
+		"foundryId": {
+			"type": "string",
+			"minLength": 16,
+			"maxLength": 16,
+			"pattern": "^[A-Za-z0-9]+$"
+		},
+
+		"foundryIdShort": {
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 16,
+			"pattern": "^[A-Za-z0-9]+$"
+		},
+
 		"foundrySystemObject": {
 			"type": "object"
+		},
+
+		"foundryActivityObject": {
+			"type": "object"
+		},
+
+		"foundryActivitiesArray": {
+			"type": "array",
+			"items": {"$ref": "#/$defs/foundryActivityObject"},
+			"minLength": 1,
+			"uniqueItems": true
 		},
 
 		"foundryFlagsObject": {
@@ -51,6 +76,8 @@
 		"foundryEffectObject": {
 			"type": "object",
 			"properties": {
+				"foundryId": {"$ref": "#/$defs/foundryIdShort"},
+
 				"name": {"type": "string"},
 				"img": {"type": "string"},
 
@@ -71,6 +98,52 @@
 					},
 					"uniqueItems": true,
 					"minItems": 1
+				},
+
+				"statuses": {
+					"description": "Dumped via e.g. `copy(Object.keys(CONFIG.DND5E.conditionTypes).sort())`",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": [
+							"bleeding",
+							"blinded",
+							"burning",
+							"charmed",
+							"cursed",
+							"deafened",
+							"dehydration",
+							"diseased",
+							"exhaustion",
+							"falling",
+							"frightened",
+							"grappled",
+							"incapacitated",
+							"invisible",
+							"malnutrition",
+							"paralyzed",
+							"petrified",
+							"poisoned",
+							"prone",
+							"restrained",
+							"silenced",
+							"stunned",
+							"suffocation",
+							"surprised",
+							"transformed",
+							"unconscious",
+
+							"coverHalf",
+							"coverThreeQuarters",
+							"dead",
+							"dodging",
+							"ethereal",
+							"hiding",
+							"marked",
+							"stable",
+							"flying"
+						]
+					}
 				},
 
 				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
@@ -110,6 +183,8 @@
 				},
 
 				"system": {"$ref": "#/$defs/foundrySystemObject"},
+
+				"activities": {"$ref": "#/$defs/foundryActivitiesArray"},
 
 				"chooseSystem": {
 					"oneOf": [
@@ -176,6 +251,8 @@
 
 				"ignoreSrdActivities": {"type": "boolean"},
 				"ignoreSrdEffects": {"type": "boolean"},
+
+				"migrationVersion": {"type": "integer"},
 
 				"_merge": {
 					"type": "object",
