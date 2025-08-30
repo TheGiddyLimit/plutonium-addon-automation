@@ -8,7 +8,7 @@ const _SCHEMA_LOOKUP = {
 	"__core.json": "core.json",
 };
 
-function main () {
+async function main () {
 	const tester = new JsonTester(
 		{
 			dirSchema: "test/schema",
@@ -17,6 +17,7 @@ function main () {
 	);
 	// Use the 5etools `changelog.json` schema
 	tester.doLoadSchema("site", "changelog.json");
+	await tester.pInit();
 
 	const {errors, errorsFull} = [
 		["meta"],
@@ -37,4 +38,4 @@ function main () {
 	if (!errors.length) Um.info("JSON", `Schema test passed.`);
 }
 
-main();
+await main();
