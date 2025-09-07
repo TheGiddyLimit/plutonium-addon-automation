@@ -8,9 +8,9 @@
 					"transfer": true,
 					"changes": [
 						{
-							"key": "flags.midi-qol.DR.non-physical",
-							"mode": "CUSTOM",
-							"value": "3",
+							"key": "system.traits.dm.midi.non-magical-physical",
+							"mode": "ADD",
+							"value": "-3",
 							"priority": "20"
 						}
 					]

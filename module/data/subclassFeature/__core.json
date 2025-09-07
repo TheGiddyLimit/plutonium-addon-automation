@@ -44,7 +44,7 @@
 							"priority": "20"
 						},
 						{
-							"key": "flags.midi-qol.concentrationSaveBonus",
+							"key": "system.attributes.concentration.bonuses.save",
 							"mode": "ADD",
 							"value": "+ max(1,@abilities.int.mod)",
 							"priority": "20"
@@ -55,7 +55,7 @@
 					},
 					"flags": {
 						"dae": {
-							"selfTarget": true
+							"selfTargetAlways": true
 						}
 					}
 				}
@@ -72,20 +72,33 @@
 			"level": 3,
 			"activities": [
 				{
+					"name": "Radiant",
 					"type": "utility",
 					"activation": {
 						"type": ""
 					},
 					"effects": [
 						{
-							"foundryId": "divineFury"
+							"foundryId": "divineFuryRadian"
+						}
+					]
+				},
+				{
+					"name": "Necrotic",
+					"type": "utility",
+					"activation": {
+						"type": ""
+					},
+					"effects": [
+						{
+							"foundryId": "divineFuryNecrot"
 						}
 					]
 				}
 			],
 			"effects": [
 				{
-					"foundryId": "divineFury",
+					"foundryId": "divineFuryRadian",
 					"duration": {
 						"turns": 1
 					},
@@ -93,7 +106,7 @@
 						{
 							"key": "system.bonuses.mwak.damage",
 							"mode": "ADD",
-							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[@srd5e.items.divine-fury.flags.plutonium-addon-automation.chosenDamageType]",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[radiant]",
 							"priority": 20
 						}
 					],
@@ -101,32 +114,34 @@
 						"dae": {
 							"specialDuration": [
 								"1Hit:mwak"
-							]
-						}
-					}
-				}
-			],
-			"chooseSystem": null,
-			"isChooseSystemRenderEntries": false,
-			"chooseFlags": [
-				{
-					"name": "Necrotic Damage",
-					"flags": {
-						"plutonium-addon-automation": {
-							"chosenDamageType": "necrotic"
+							],
+							"selfTargetAlways": true
 						}
 					}
 				},
 				{
-					"name": "Radiant Damage",
+					"foundryId": "divineFuryNecrot",
+					"duration": {
+						"turns": 1
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "+ (1d6 + floor(@classes.barbarian.levels / 2))[necrotic]",
+							"priority": 20
+						}
+					],
 					"flags": {
-						"plutonium-addon-automation": {
-							"chosenDamageType": "radiant"
+						"dae": {
+							"specialDuration": [
+								"1Hit:mwak"
+							],
+							"selfTargetAlways": true
 						}
 					}
 				}
 			],
-			"isChooseFlagsRenderEntries": true,
 			"migrationVersion": 3
 		},
 		{
@@ -158,18 +173,23 @@
 					},
 					"changes": [
 						{
-							"key": "flags.midi-qol.optional.fanatical-focus.count",
+							"key": "flags.midi-qol.optional.fanatical-focus.label",
 							"mode": "CUSTOM",
-							"value": "1",
+							"value": "Fanatical Focus",
 							"priority": 20
 						},
 						{
-							"key": "flags.midi-qol.optional.fanatical-focus.save.fail",
+							"key": "flags.midi-qol.optional.fanatical-focus.save.fail.all",
 							"mode": "CUSTOM",
 							"value": "reroll",
 							"priority": 20
 						}
-					]
+					],
+					"flags": {
+						"dae": {
+							"selfTargetAlways": true
+						}
+					}
 				}
 			],
 			"migrationVersion": 3

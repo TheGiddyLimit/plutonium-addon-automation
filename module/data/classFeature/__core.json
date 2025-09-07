@@ -1,112 +1,6 @@
 {
 	"classFeature": [
 		{
-			"name": "Empty Body",
-			"source": "PHB",
-			"className": "Monk",
-			"classSource": "PHB",
-			"level": 18,
-			"activities": [
-				{
-					"type": "utility",
-					"activation": {
-						"type": "action"
-					},
-					"effects": [
-						{
-							"foundryId": "emptyBody"
-						}
-					]
-				}
-			],
-			"effects": [
-				{
-					"foundryId": "emptyBody",
-					"statuses": [
-						"invisible"
-					],
-					"changes": [
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "acid",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "bludgeoning",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "cold",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "fire",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "lightning",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "necrotic",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "piercing",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "poison",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "psychic",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "radiant",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "slashing",
-							"priority": "20"
-						},
-						{
-							"key": "system.traits.dr.value",
-							"mode": "ADD",
-							"value": "thunder",
-							"priority": "20"
-						}
-					],
-					"duration": {
-						"seconds": 60
-					}
-				}
-			],
-			"migrationVersion": 3
-		},
-		{
 			"name": "Patient Defense",
 			"source": "PHB",
 			"className": "Monk",
@@ -150,7 +44,8 @@
 							"specialDuration": [
 								"turnStartSource",
 								"shortRest"
-							]
+							],
+							"selfTargetAlways": true
 						}
 					}
 				}
@@ -225,7 +120,12 @@
 							"value": "1",
 							"priority": 20
 						}
-					]
+					],
+					"flags": {
+						"dae": {
+							"selfTargetAlways": true
+						}
+					}
 				}
 			],
 			"itemMacro": {
@@ -249,6 +149,9 @@
 					"effects": [
 						{
 							"foundryId": "recklessAttack"
+						},
+						{
+							"foundryId": "recklessDefense"
 						}
 					]
 				}
@@ -263,12 +166,18 @@
 						{
 							"key": "flags.midi-qol.advantage.attack.str",
 							"mode": "CUSTOM",
-							"value": "item.system.actionType === \"mwak\"",
+							"value": "activity.attack.type.value === \"melee\" && activity.attack.type.classification === \"weapon\"",
 							"priority": 20
 						}
-					]
+					],
+					"flags": {
+						"dae": {
+							"selfTargetAlways": true
+						}
+					}
 				},
 				{
+					"foundryId": "recklessDefense",
 					"name": "Reckless Defense",
 					"img": "icons/skills/melee/shield-damaged-broken-orange.webp",
 					"duration": {
@@ -281,7 +190,12 @@
 							"value": "1",
 							"priority": 20
 						}
-					]
+					],
+					"flags": {
+						"dae": {
+							"selfTargetAlways": true
+						}
+					}
 				}
 			],
 			"migrationVersion": 3
@@ -321,7 +235,8 @@
 							"specialDuration": [
 								"1Attack",
 								"turnEndSource"
-							]
+							],
+							"selfTargetAlways": true
 						}
 					}
 				}

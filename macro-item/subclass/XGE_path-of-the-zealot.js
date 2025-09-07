@@ -1,4 +1,6 @@
 async function macro (args) {
+	if (!args) return;
+
 	const token = await fromUuid(args[1].tokenUuid);
 	const tactor = token.actor;
 

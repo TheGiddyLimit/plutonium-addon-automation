@@ -41,8 +41,8 @@
 					"changes": [
 						{
 							"key": "flags.midi-qol.OverTime",
-							"mode": 5,
-							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spelldc,\nlabel=Hold Helm",
+							"mode": "CUSTOM",
+							"value": "turn=end,\nsaveAbility=wis,\nsaveDC=@attributes.spell.dc,\nlabel=Hold Helm",
 							"priority": "20"
 						}
 					]

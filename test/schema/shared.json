@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.8.2",
+	"version": "0.8.3",
 
 	"$defs": {
 		"schema": {
@@ -55,7 +55,13 @@
 		},
 
 		"foundryActivityObject": {
-			"type": "object"
+			"type": "object",
+			"properties": {
+				"useConditionText": {
+					"description": "Additional property used by MidiQOL",
+					"type": "string"
+				}
+			}
 		},
 
 		"foundryActivitiesArray": {
@@ -297,12 +303,14 @@
 					{"$ref": "#/$defs/foundrySideDataGenericBase"}
 				],
 				"properties": {
+					"shortName": {"type": "string"},
 					"className": {"type": "string"},
 					"classSource": {"type": "string"},
 					"advancement": {"$ref": "#/$defs/foundryAdvancementArray"}
 				},
 				"required": [
 					"name",
+					"shortName",
 					"source",
 					"className",
 					"classSource"

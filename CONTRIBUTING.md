@@ -100,7 +100,7 @@ In the interests of consistency and user experience, we have some guidelines to 
 3) **Don't reinvent the wheel.**
 	- Use the required modules wherever possible; don't use a macro unless you need to.
 	- Only introduce a new module if it's compatible, stable, and actively maintained. Finding replacements when a helper module goes kaput is a lot of effort.
-	- Remember [Midi QoL](https://gitlab.com/tposney/midi-qol/-/blob/master/README.md#flagsmidi-qolovertime-overtime-effects) `overTime` effects exist.
+	- Remember Midi QoL [overTime effects](https://gitlab.com/tposney/midi-qol/-/blob/v13/README.md#overtime-effects-pre-12428) and [ActivityOverTime](https://gitlab.com/tposney/midi-qol/-/blob/v13/README.md#overtime-activity-effects-midiqol-12428) exist.
 4) **KISS: keep it simple, sweetie.**
 	- Avoid using macros except when absolutely necessary, and make sure they're readable and maintainable.
 	- Certainly avoid referencing anything outside the item that you can't guarantee will be present.

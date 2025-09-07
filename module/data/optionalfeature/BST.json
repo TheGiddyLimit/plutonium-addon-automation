@@ -70,7 +70,8 @@
 						{
 							"foundryId": "thrash"
 						}
-					]
+					],
+					"useConditionText": "!reaction"
 				}
 			],
 			"effects": [

@@ -66,7 +66,7 @@
 						{
 							"key": "system.traits.di.custom",
 							"mode": "CUSTOM",
-							"value": "Magical Damage",
+							"value": "magical",
 							"priority": 20
 						}
 					],
@@ -80,6 +80,9 @@
 							"radius": 10,
 							"height": true,
 							"displayTemp": true
+						},
+						"dae": {
+							"selfTargetAlways": true
 						}
 					},
 					"requires": {
@@ -107,6 +110,11 @@
 					],
 					"duration": {
 						"seconds": 60
+					},
+					"flags": {
+						"dae": {
+							"selfTargetAlways": true
+						}
 					}
 				}
 			],
@@ -117,7 +125,7 @@
 			"source": "PHB",
 			"activities": [
 				{
-					"type": "save",
+					"type": "utility",
 					"activation": {
 						"type": "action"
 					},
@@ -141,29 +149,9 @@
 					],
 					"flags": {
 						"dae": {
-							"stackable": "noneName"
+							"stackable": "noneName",
+							"selfTargetAlways": true
 						}
-					},
-					"name": "Comprehend Languages"
-				}
-			],
-			"migrationVersion": 3
-		},
-		{
-			"name": "Darkvision",
-			"source": "PHB",
-			"effects": [
-				{
-					"changes": [
-						{
-							"key": "system.attributes.senses.darkvision",
-							"mode": "UPGRADE",
-							"value": "60",
-							"priority": 20
-						}
-					],
-					"duration": {
-						"seconds": 28800
 					}
 				}
 			],
@@ -303,6 +291,9 @@
 		{
 			"name": "Haste",
 			"source": "PHB",
+			"_TODO": [
+				"Missing \"Lethargy\" component"
+			],
 			"activities": [
 				{
 					"type": "utility",
@@ -410,8 +401,7 @@
 							"value": "1",
 							"priority": "20"
 						}
-					],
-					"name": "Otiluke's Resilient Sphere"
+					]
 				}
 			],
 			"migrationVersion": 3
@@ -435,17 +425,14 @@
 			"effects": [
 				{
 					"foundryId": "psychicScream",
+					"statuses": [
+						"stunned"
+					],
 					"changes": [
-						{
-							"key": "macro.StatusEffect",
-							"mode": "ADD",
-							"value": "stunned",
-							"priority": 20
-						},
 						{
 							"key": "flags.midi-qol.OverTime",
 							"mode": "OVERRIDE",
-							"value": "label=Psychic Scream Stun (End of Turn),turn=end,saveDC=@attributes.spelldc,saveAbility=int,saveMagic=true,killAnim=true",
+							"value": "label=Psychic Scream Stun (End of Turn),turn=end,saveDC=@attributes.spell.dc,saveAbility=int,saveMagic=true,killAnim=true",
 							"priority": "20"
 						}
 					],
@@ -489,8 +476,7 @@
 							"value": "+ 1d4",
 							"priority": "20"
 						}
-					],
-					"name": "Resistance"
+					]
 				}
 			],
 			"migrationVersion": 3
@@ -502,13 +488,14 @@
 				{
 					"type": "utility",
 					"activation": {
-						"type": "action"
+						"type": "reaction"
 					},
 					"effects": [
 						{
 							"foundryId": "silveryBarbs"
 						}
-					]
+					],
+					"useConditionText": "!reaction"
 				}
 			],
 			"effects": [
@@ -605,7 +592,8 @@
 							"specialDuration": [
 								"1Attack",
 								"shortRest"
-							]
+							],
+							"selfTargetAlways": true
 						}
 					}
 				}
