@@ -118,5 +118,10 @@
 		"ver": "0.7.12",
 		"date": "2024-12-31",
 		"txt": "- (Version lock to dnd5e 3.x)"
+	},
+	{
+		"ver": "0.8.0",
+		"date": "2025-09-07",
+		"txt": "- Added support for dnd5e 5.1.x (and dropped support for older versions)"
 	}
 ]
