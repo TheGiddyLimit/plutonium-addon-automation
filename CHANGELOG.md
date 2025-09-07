@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+> 2025-09-07
+
+- Added support for dnd5e 5.1.x (and dropped support for older versions)
+
 ## 0.7.12
 
 > 2024-12-31
