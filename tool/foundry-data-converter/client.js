@@ -3,16 +3,16 @@ import {Converter} from "../foundry-data-converter-lib/Converter.js";
 import {getMacroFilename} from "../../shared/util.js";
 import "../shared/foundry-globals.js";
 
-const getHtmlEntries = ({doc, effect}) => {
-	if (!effect.description) return null;
+const getHtmlEntries = ({doc, html}) => {
+	if (!html) return null;
 
-	const parsed = (new DOMParser()).parseFromString(effect.description, "text/html");
+	const parsed = (new DOMParser()).parseFromString(html, "text/html");
 
-	if (parsed.body.childNodes.length !== 1) throw new Error(`Multiple description nodes in "${doc.name}" effect description "${effect.description}"`);
+	if (parsed.body.childNodes.length !== 1) throw new Error(`Multiple description nodes in "${doc.name}" effect description "${html}"`);
 
 	const [outerNode] = parsed.body.childNodes;
 
-	if ([...outerNode.childNodes].some(ele => ele.nodeType !== Node.TEXT_NODE)) throw new Error(`Non-text description node in "${doc.name}" effect description "${effect.description}"`);
+	if ([...outerNode.childNodes].some(ele => ele.nodeType !== Node.TEXT_NODE)) throw new Error(`Non-text description node in "${doc.name}" effect description "${html}"`);
 
 	return outerNode.innerText.trim();
 };
