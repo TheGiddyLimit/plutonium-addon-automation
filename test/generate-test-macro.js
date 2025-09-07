@@ -55,7 +55,8 @@ class TestMacroGenerator {
 			})
 			.join("\n\n");
 
-		const macroText = `(async () => {
+		const macroText = `/* eslint-disable */
+(async () => {
 /**
  * Create a test actor, and import all internal automations.
  *
