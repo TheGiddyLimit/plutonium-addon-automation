@@ -49,16 +49,10 @@ If you import a document which requires one of these modules, you will be prompt
 > [!CAUTION]
 > *Plutonium Addon: Automation* is designed for the extensive automation provided by the 'Midi ecosystem' and, as such, *isn't* designed for modules such as [Whistler's Item Rolls Extended](https://foundryvtt.com/packages/wire) or [Ready Set Roll for D&D5e](https://foundryvtt.com/packages/ready-set-roll-5e). Using either of these may cause problems.
 
-### Required set-up
-
-You **must** configure some modules in a specific way, or the automations won't work. Configure the following:
-
-- _**Midi QoL** > Midi QoL config > Workflow > Apply Convenient Effects_ — select `Apply Item effects, if absent apply CE`.
-
 ### Optional integrations
 
 *Plutonium Addon: Automation* can make use of data provided by other modules to provide better automations for more documents. An integration is available for:
-- [Chris's Premades](https://foundryvtt.com/packages/chris-premades)
+- [Chris's Premades](https://foundryvtt.com/packages/chris-premades) (recommended)
 
 This integration is only active if the above module is installed and active, and can be disabled in *Plutonium Addon: Automation*'s settings.
 
