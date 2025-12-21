@@ -2,6 +2,8 @@ import {SharedConsts} from "../shared/SharedConsts.js";
 import {ModuleSettingConsts} from "./ModuleSettingConsts.js";
 import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
 
+const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+
 /**
  * @mixes {StartupHookMixin}
  */
@@ -14,18 +16,29 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static _MenuOptionalDependencyNotifications = class extends FormApplication {
-		static get defaultOptions () {
-			return foundry.utils.mergeObject(super.defaultOptions, {
-				template: `${SharedConsts.MODULE_PATH}/template/MenuOptionalDependencyNotifications.hbs`,
+	static _MenuOptionalDependencyNotifications = class extends HandlebarsApplicationMixin(ApplicationV2) {
+		constructor () {
+			super({
+				tag: "form",
+				classes: ["ve-app"],
+				window: {
+					title: `${SharedConsts.MODULE_TITLE} \u2013 ${game.i18n.localize("PLUTAA.Configure Notifications")}`,
+				},
+				form: {
+					handler: OptionalDependenciesManager._MenuOptionalDependencyNotifications.#onSubmit,
+					closeOnSubmit: true,
+				},
 			});
 		}
 
-		get title () {
-			return `${SharedConsts.MODULE_TITLE} \u2013 ${game.i18n.localize("PLUTAA.Configure Notifications")}`;
-		}
+		static PARTS = {
+			content: {
+				template: `${SharedConsts.MODULE_PATH}/template/MenuOptionalDependencyNotifications.hbs`,
+				root: true,
+			},
+		};
 
-		async getData (opts) {
+		async _prepareContext (opts) {
 			const index = await OptionalDependenciesManager._pLoadIndex();
 
 			const notifConfig = game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.OPTIONAL_DEPENDENCY_NOTIFICATION_CONFIG);
@@ -39,12 +52,12 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 				}));
 
 			return {
-				...(await super.getData(opts)),
+				...(await super._prepareContext(opts)),
 				modules,
 			};
 		}
 
-		_updateObject (evt, formData) {
+		static async #onSubmit (evt, form, formData) {
 			game.settings.set(
 				SharedConsts.MODULE_ID,
 				ModuleSettingConsts.OPTIONAL_DEPENDENCY_NOTIFICATION_CONFIG,
