@@ -3,6 +3,8 @@ import {ModuleSettingConsts} from "./ModuleSettingConsts.js";
 import {StartupHookMixin} from "./mixins/MixinStartupHooks.js";
 import {Util} from "./Util.js";
 
+const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+
 /**
  * @mixes {StartupHookMixin}
  */
@@ -88,20 +90,31 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 
 	/* -------------------------------------------- */
 
-	static _MenuSettingsPrompt = class extends FormApplication {
-		static get defaultOptions () {
-			return foundry.utils.mergeObject(super.defaultOptions, {
-				template: `${SharedConsts.MODULE_PATH}/template/MenuSettingsPrompt.hbs`,
+	static _MenuSettingsPrompt = class extends HandlebarsApplicationMixin(ApplicationV2) {
+		constructor () {
+			super({
+				tag: "form",
+				classes: ["ve-app"],
+				window: {
+					title: `${SharedConsts.MODULE_TITLE} \u2013 ${game.i18n.localize("PLUTAA.Configure Dependencies")}`,
+				},
+				form: {
+					handler: SettingsManager._MenuSettingsPrompt.#onSubmit,
+					closeOnSubmit: true,
+				},
 			});
 		}
 
-		get title () {
-			return `${SharedConsts.MODULE_TITLE} \u2013 ${game.i18n.localize("PLUTAA.Configure Dependencies")}`;
-		}
+		static PARTS = {
+			content: {
+				template: `${SharedConsts.MODULE_PATH}/template/MenuSettingsPrompt.hbs`,
+				root: true,
+			},
+		};
 
 		#lastData = null;
 
-		async getData (opts) {
+		async _prepareContext (opts) {
 			const settings = SettingsManager._getSettingsData();
 
 			const settingGroups = settings
@@ -114,7 +127,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 				);
 
 			const out = {
-				...(await super.getData(opts)),
+				...(await super._prepareContext(opts)),
 				settings,
 				settingGroups: Object.entries(settingGroups)
 					.sort(([kA], [kB]) => SortUtil.ascSortLower(kA, kB))
@@ -146,8 +159,9 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			await game.settings.set(moduleId, settingKey, value);
 		}
 
-		activateListeners ($html) {
-			super.activateListeners($html);
+		_onRender () {
+			const $html = $(this.element.firstElementChild);
+
 			$html.find(`[name="btn-fix-all"]`).on("click", this._onClick_pFixAll.bind(this));
 			$html.find(`[name="btn-fix"]`).on("click", this._onClick_pFixSetting.bind(this));
 		}
@@ -183,7 +197,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			}
 		}
 
-		_updateObject (evt, formData) { /* No-op */ }
+		static async #onSubmit (evt, form, formData) { /* No-op */ }
 	};
 
 	/* -------------------------------------------- */
