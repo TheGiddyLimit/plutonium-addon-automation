@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "shared.json",
-	"version": "0.8.3",
+	"version": "0.8.4",
 
 	"$defs": {
 		"schema": {
@@ -67,7 +67,7 @@
 		"foundryActivitiesArray": {
 			"type": "array",
 			"items": {"$ref": "#/$defs/foundryActivityObject"},
-			"minLength": 1,
+			"minItems": 1,
 			"uniqueItems": true
 		},
 
@@ -212,6 +212,8 @@
 					"uniqueItems": true
 				},
 
+				"advancement": {"$ref": "#/$defs/foundryAdvancementArray"},
+
 				"flags": {"$ref": "#/$defs/foundryFlagsObject"},
 
 				"chooseFlags": {
@@ -269,7 +271,8 @@
 						"effects": {"const": true},
 						"flags": {"const": true},
 						"chooseFlags": {"const": true},
-						"activities": {"const": true}
+						"activities": {"const": true},
+						"advancement": {"const": true}
 					}
 				}
 			},

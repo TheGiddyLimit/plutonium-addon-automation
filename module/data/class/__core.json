@@ -1,0 +1,39 @@
+{
+	"class": [
+		{
+			"name": "Bard",
+			"source": "XPHB",
+			"_TODO": [
+				"This duplicates the existing bardic inspiration advancement; this is to avoid the case where e.g. a Plutonium or base dnd5e automation expects the official \"inspiration\" identifier, and e.g. CPR expects \"bardic-inspiration\". As the two do not conflict, and generally are not modified after character creation, this is the best solution which doesn't involve heavy monkey-patching."
+			],
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "bardic-inspiration",
+						"type": "dice",
+						"scale": {
+							"1": {
+								"faces": 6
+							},
+							"5": {
+								"faces": 8
+							},
+							"10": {
+								"faces": 10
+							},
+							"15": {
+								"faces": 12
+							}
+						}
+					},
+					"title": "Inspiration Die"
+				}
+			],
+			"_merge": {
+				"advancement": true
+			},
+			"migrationVersion": 3
+		}
+	]
+}
