@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+
+> 2026-04-29
+
+- Added workaround for "Cauldron of Plentiful Resources" integration failing to link bardic inspiration die
+
 ## 0.8.1
 
 > 2025-09-17
