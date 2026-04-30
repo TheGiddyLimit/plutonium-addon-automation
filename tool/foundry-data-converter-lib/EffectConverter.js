@@ -92,14 +92,34 @@ export class EffectConverter {
 		if (effectIdLookup?.[eff._id]) eff.foundryId = effectIdLookup[eff._id];
 	}
 
+	static _DEFAULT_PRIORITIES = {
+		"CUSTOM": 7,
+		"MULTIPLY": 7,
+		"ADD": 7,
+		"SUBTRACT": 7,
+
+		"OVERRIDE": 4,
+		"DOWNGRADE": 4,
+		"UPGRADE": 4,
+	};
+
 	static _mutChanges (eff) {
 		if (!eff.changes?.length) return delete eff.changes;
 
 		eff.changes = eff.changes
-			.map(change => ({
-				...ConverterUtil.getWithoutFalsy(change),
-				mode: this._getChangeMode(change.mode),
-			}));
+			.map(change => {
+				if (change.phase === "initial") delete change.phase;
+
+				const mode = this._getChangeMode({mode: change.mode, type: change.type});
+				delete change.type;
+
+				if (change.priority != null && change.priority === this._DEFAULT_PRIORITIES[mode]) delete change.priority;
+
+				return {
+					...ConverterUtil.getWithoutFalsy(change),
+					mode,
+				};
+			});
 
 		eff.changes
 			.forEach(change => {
@@ -236,15 +256,23 @@ export class EffectConverter {
 		}
 	}
 
-	static _getChangeMode (modeRaw) {
-		switch (modeRaw) {
-			case 0: return "CUSTOM";
-			case 1: return "MULTIPLY";
-			case 2: return "ADD";
-			case 3: return "DOWNGRADE";
-			case 4: return "UPGRADE";
-			case 5: return "OVERRIDE";
-			default: return modeRaw;
+	static _getChangeMode ({mode: modeRaw = null, type: typeRaw = null}) {
+		if (modeRaw != null && typeRaw != null) throw new Error(`Only one of "mode" or "type" may be provided!`);
+
+		if (modeRaw != null) {
+			switch (modeRaw) {
+				case 0: return "CUSTOM";
+				case 1: return "MULTIPLY";
+				case 2: return "ADD";
+				case 3: return "DOWNGRADE";
+				case 4: return "UPGRADE";
+				case 5: return "OVERRIDE";
+				default: return modeRaw;
+			}
 		}
+
+		if (typeRaw) return typeRaw.toUpperCase();
+
+		throw new Error(`Unimplemented!`);
 	}
 }
