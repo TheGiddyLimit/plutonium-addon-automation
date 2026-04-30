@@ -52,6 +52,10 @@ export class EffectConverter {
 		if (eff.name === json.name) delete eff.name;
 		if (!eff.description?.trim()) delete eff.description;
 
+		// Pull out changes, to be handled later
+		if (eff.system?.changes) eff.changes = eff.system.changes;
+		delete eff.system?.changes;
+
 		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)} in document "${json.name}"; had values!`);
 		delete eff.system;
 
