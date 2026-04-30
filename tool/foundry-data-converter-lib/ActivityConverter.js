@@ -145,6 +145,7 @@ export class ActivityConverter {
 		},
 	) {
 		activity = this._getPreClean({logger, json, activity});
+		if (!activity) return null;
 
 		this._mutEffects({json, cvState, activity, effectIdLookup});
 
@@ -192,6 +193,7 @@ export class ActivityConverter {
 				],
 			},
 		);
+		if (!out) return null;
 
 		["sort"].forEach(prop => delete out[prop]);
 
