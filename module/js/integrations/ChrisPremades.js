@@ -26,6 +26,22 @@ class _ChrisPremadesNameMappings {
 		}
 		return ent.name;
 	}
+
+	/* -------------------------------------------- */
+
+	static _MAPPED_ATTRIBUTES = {
+		"@scale.zealot.warrior-of-the-gods": "@scale.path-of-the-zealot.warrior-of-the-gods",
+	};
+
+	static getMutMapAttributes (obj) {
+		return MiscUtil.getWalker().walk(obj, {string: str => {
+			Object.entries(this._MAPPED_ATTRIBUTES)
+				.forEach(([old, nu]) => {
+					str = str.replaceAll(old, nu);
+				});
+			return str;
+		}});
+	}
 }
 
 /**
@@ -183,6 +199,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			fauxItemJson.activities = Object.values(fauxItemJson.system.activities);
 		}
 		delete fauxItemJson.system?.activities;
+
+		fauxItemJson = _ChrisPremadesNameMappings.getMutMapAttributes(fauxItemJson);
 
 		return this._getPostProcessed({json: fauxItemJson});
 	}

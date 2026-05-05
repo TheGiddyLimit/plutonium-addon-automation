@@ -70,6 +70,50 @@
 				"file": "XGE_path-of-the-zealot.js"
 			},
 			"migrationVersion": 3
+		},
+		{
+			"name": "Path of the Zealot",
+			"shortName": "Zealot",
+			"source": "XPHB",
+			"className": "Barbarian",
+			"classSource": "XPHB",
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "warrior-of-the-gods",
+						"type": "dice",
+						"scale": {
+							"3": {
+								"number": 4,
+								"faces": 6
+							},
+							"5": {
+								"number": 6,
+								"faces": 8
+							},
+							"9": {
+								"number": 8,
+								"faces": 8
+							},
+							"11": {
+								"number": 8,
+								"faces": 10
+							},
+							"13": {
+								"number": 10,
+								"faces": 10
+							},
+							"17": {
+								"number": 12,
+								"faces": 12
+							}
+						}
+					},
+					"title": "Warrior of the Gods"
+				}
+			],
+			"migrationVersion": 3
 		}
 	]
 }
