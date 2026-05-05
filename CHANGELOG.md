@@ -1,10 +1,16 @@
 # Changelog
 
+## 0.8.3
+
+> 2026-05-05
+
+- Fixed "Cauldron of Plentiful Resources" integration failing to link Zealot Barbarian "Warrior of the Gods" uses
+
 ## 0.8.2
 
 > 2026-04-29
 
-- Added workaround for "Cauldron of Plentiful Resources" integration failing to link bardic inspiration die
+- Added workaround for "Cauldron of Plentiful Resources" integration failing to link Bardic Inspiration die
 
 ## 0.8.1
 
