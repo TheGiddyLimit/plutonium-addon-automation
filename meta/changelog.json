@@ -138,5 +138,10 @@
 		"ver": "0.8.3",
 		"date": "2026-05-05",
 		"txt": "- Fixed \"Cauldron of Plentiful Resources\" integration failing to link Zealot Barbarian \"Warrior of the Gods\" uses"
+	},
+	{
+		"ver": "0.8.4",
+		"date": "2026-05-11",
+		"txt": "- Fixed styling of settings modals"
 	}
 ]
