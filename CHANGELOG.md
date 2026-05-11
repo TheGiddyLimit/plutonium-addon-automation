@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.4
+
+> 2026-05-11
+
+- Fixed styling of settings modals
+- Fixed "fix setting" buttons failing to have any effect
+
+
 ## 0.8.3
 
 > 2026-05-05
