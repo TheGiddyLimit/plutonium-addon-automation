@@ -160,7 +160,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 		}
 
 		_onRender () {
-			const $html = $(this.element.firstElementChild);
+			const $html = $(this.element);
 
 			$html.find(`[name="btn-fix-all"]`).on("click", this._onClick_pFixAll.bind(this));
 			$html.find(`[name="btn-fix"]`).on("click", this._onClick_pFixSetting.bind(this));

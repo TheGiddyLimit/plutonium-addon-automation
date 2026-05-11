@@ -142,6 +142,6 @@
 	{
 		"ver": "0.8.4",
 		"date": "2026-05-11",
-		"txt": "- Fixed styling of settings modals"
+		"txt": "- Fixed styling of settings modals\n- Fixed \"fix setting\" buttons failing to have any effect\n"
 	}
 ]
