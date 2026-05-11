@@ -1,36 +1,36 @@
-<form class="ve-flex-col ve-window min-h-0 h-100 relative">
-	<div class="py-1 ve-flex-v-center">
+<form class="ve-flex-col ve-window ve-min-h-0 ve-h-100 ve-relative">
+	<div class="ve-py-1 ve-flex-v-center">
 		<button
 			type="button"
-			class="ve-btn ve-btn-default ve-btn-xs ml-auto"
+			class="ve-btn ve-btn-default ve-btn-xs ve-ml-auto"
 			name="btn-fix-all"
 			title="{{#if isMassError}}Incompatible setting value(s) detected! Click to fix.{{else if isMassWarning}}Sub-optimal setting value(s) detected. Click to fix.{{else}}Compatible setting values detected.{{/if}}"
 			{{disabled (not (or isMassError isMassWarning))}}
 		>
-			<i class="fas fa-fw {{#if isMassError}}fa-octagon-exclamation{{else if isMassWarning}}fa-triangle-exclamation{{else}}fa-check{{/if}} mr-0"></i>
+			<i class="fas fa-fw {{#if isMassError}}fa-octagon-exclamation{{else if isMassWarning}}fa-triangle-exclamation{{else}}fa-check{{/if}} ve-mr-0"></i>
 		</button>
 	</div>
 
 	{{#each settingGroups as |group ix|}}
 		{{#each group as |setting ix|}}
 			{{#if @first}}
-				<hr class="hr-1">
-				<div class="py-1 bold">{{moduleTitle}}</div>
+				<hr class="ve-hr-1">
+				<div class="ve-py-1 ve-bold">{{moduleTitle}}</div>
 			{{/if}}
-			<div class="ve-flex-v-center py-1 w-100">
-				<div class="ve-flex w-100 mr-2">{{{name}}}</div>
+			<div class="ve-flex-v-center ve-py-1 ve-w-100">
+				<div class="ve-flex ve-w-100 ve-mr-2">{{{name}}}</div>
 				<div  class="ve-flex-v-center no-shrink">
 					{{#if isExpected}}
 						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" disabled>
-							<i class="fas fa-fw fa-check mr-0" title="Compatible setting value detected."></i>
+							<i class="fas fa-fw fa-check ve-mr-0" title="Compatible setting value detected."></i>
 						</button>
 					{{else if isAllowed}}
 						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Sub-optimal setting value detected. Click to fix (setting will be set to &quot;{{displayExpectedValue}}&quot;).">
-							<i class="fas fa-fw fa-triangle-exclamation mr-0"></i>
+							<i class="fas fa-fw fa-triangle-exclamation ve-mr-0"></i>
 						</button>
 					{{else}}
 						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" name="btn-fix" data-setting-ix="{{ixSetting}}" title="Incompatible setting value detected! Click to fix (setting will be set to&quot;{{displayExpectedValue}}&quot;).">
-							<i class="fas fa-fw fa-octagon-exclamation mr-0"></i>
+							<i class="fas fa-fw fa-octagon-exclamation ve-mr-0"></i>
 						</button>
 					{{/if}}
 				</div>
