@@ -49,7 +49,16 @@ export class FlagConverter {
 						return;
 					}
 					case "dnd5e": {
-						["persistSourceMigration"]
+						[
+							"persistSourceMigration",
+
+							// Links back to parent class, etc.
+							"sourceId",
+							"advancementOrigin",
+
+							// UI information
+							"last",
+						]
 							.forEach(prop => MiscUtil.deleteObjectPath(flags, prop));
 
 						if (!Object.keys(flags).length) return;
