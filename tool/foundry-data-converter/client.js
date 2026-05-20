@@ -162,9 +162,58 @@ class ConverterUi {
 		});
 	}
 
+	static _pInit_dropHandler () {
+		document.body.addEventListener("drop", evt => {
+			const files = evt.dataTransfer?.files;
+			if (!files?.length) return;
+
+			evt.stopPropagation();
+			evt.preventDefault();
+
+			const pFiles = [...files].map((file, i) => {
+				if (!/\.json$/i.test(file.name)) return null;
+
+				return new Promise(resolve => {
+					const reader = new FileReader();
+					reader.onload = () => {
+						let json;
+						try {
+							json = JSON.parse(reader.result);
+						} catch (ignored) {
+							return resolve(null);
+						}
+
+						resolve({name: file.name, json});
+					};
+
+					reader.readAsText(files[i]);
+				});
+			});
+
+			Promise.allSettled(pFiles)
+				.then(results => {
+					const fileMetas = results
+						.filter(({status}) => status === "fulfilled")
+						.map(({value}) => value)
+						.filter(Boolean);
+
+					if (!fileMetas.length) return;
+
+					const [fileMeta] = fileMetas;
+					this._iptText.value = JSON.stringify(fileMeta.json, null, "\t");
+				});
+		});
+
+		document.body.addEventListener("dragover", evt => {
+			evt.stopPropagation();
+			evt.preventDefault();
+		});
+	}
+
 	static async pInit () {
 		this._pInit_elements();
 		await this._pInit_pState();
+		this._pInit_dropHandler();
 	}
 }
 
