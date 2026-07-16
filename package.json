@@ -6,8 +6,9 @@
 	"license": "MIT",
 	"private": true,
 	"scripts": {
-		"test:js": "eslint script module/js module/shared tool test macro-item",
-		"lint:js": "eslint script module/js module/shared tool test macro-item --fix",
+		"test:js": "eslint .",
+		"lint:js": "npm run test:js -- --fix",
+		"lint:js:single": "eslint -- ",
 		"test:data": "node test/test-json.js && node test/test-data.js",
 		"lint:data": "node test/test-data.js --fix",
 		"test": "npm run test:data && npm run test:js",
@@ -27,11 +28,13 @@
 		"version": "npm run build:changelog && git add CHANGELOG.md"
 	},
 	"devDependencies": {
-		"5etools-utils": "^0.13.6",
+		"@eslint/js": "^10.0.1",
+		"5etools-utils": "^0.16.0",
 		"adm-zip-giddy": "^0.4.12",
 		"commander": "^9.1.0",
-		"eslint": "^8.11.0",
+		"eslint": "^10.0.1",
 		"express": "^4.17.3",
+		"globals": "^17.4.0",
 		"json-source-map": "^0.6.1",
 		"plutonium-utils": "^0.1.17",
 		"rollup": "^4.35.0"

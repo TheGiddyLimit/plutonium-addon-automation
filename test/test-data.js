@@ -25,8 +25,8 @@ function cleanFolder (folder) {
 			if (!filePath.includes("__core.json")) {
 				// region clean
 				// Ensure _meta is at the top of the file
-				const tmp = {$schema: json.$schema, _meta: json._meta};
-				delete json.$schema;
+				const tmp = {"$schema": json["$schema"], _meta: json._meta};
+				delete json["$schema"];
 				delete json._meta;
 				Object.assign(tmp, json);
 				json = tmp;

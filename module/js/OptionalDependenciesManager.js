@@ -99,11 +99,13 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 	/* -------------------------------------------- */
 
 	static _onHookReady () {
-		$(document.body)
-			.on("click", `[data-paa-module-ids]`, async evt => {
-				const msgId = evt.currentTarget.closest(`[data-message-id]`).getAttribute("data-message-id");
+		e_(document.body)
+			.onn("click", async evt => {
+				if (!evt.target.matches(`[data-paa-module-ids]`)) return;
 
-				const moduleIds = evt.currentTarget.getAttribute("data-paa-module-ids").split(",");
+				const msgId = evt.target.closest(`[data-message-id]`).getAttribute("data-message-id");
+
+				const moduleIds = evt.target.getAttribute("data-paa-module-ids").split(",");
 
 				const cpySetting = foundry.utils.deepClone(
 					game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.OPTIONAL_DEPENDENCY_NOTIFICATION_CONFIG),
