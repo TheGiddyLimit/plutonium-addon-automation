@@ -160,10 +160,10 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 		}
 
 		_onRender () {
-			const eleHtml = e_(this.element);
+			const eleHtml = veE(this.element);
 
-			eleHtml.find(`[name="btn-fix-all"]`).onn("click", this._onClick_pFixAll.bind(this));
-			eleHtml.findAll(`[name="btn-fix"]`).forEach(ele => ele.onn("click", this._onClick_pFixSetting.bind(this)));
+			eleHtml.vee.find(`[name="btn-fix-all"]`).vee.onn("click", this._onClick_pFixAll.bind(this));
+			eleHtml.vee.findAll(`[name="btn-fix"]`).forEach(ele => ele.vee.onn("click", this._onClick_pFixSetting.bind(this)));
 		}
 
 		async _onClick_pFixAll () {

@@ -99,8 +99,8 @@ export class OptionalDependenciesManager extends StartupHookMixin(class {}) {
 	/* -------------------------------------------- */
 
 	static _onHookReady () {
-		e_(document.body)
-			.onn("click", async evt => {
+		veE(document.body)
+			.vee.onn("click", async evt => {
 				if (!evt.target.matches(`[data-paa-module-ids]`)) return;
 
 				const msgId = evt.target.closest(`[data-message-id]`).getAttribute("data-message-id");
