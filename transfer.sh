@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -Eeuo pipefail
 
 # A script to build the module and copy it into a Foundry data directory.
 
