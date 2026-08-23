@@ -250,6 +250,8 @@ export class ActivityConverter {
 	/* -------------------------------------------- */
 
 	static _mutEffects ({json, cvState, activity, effectIdLookup}) {
+		delete activity.appliedEffects; // Derived duplicate of `effects.[]._id`
+
 		if (!activity.effects?.length) return;
 
 		activity.effects = activity.effects.map(effRef => this._getMutEffect({json, cvState, effRef, effectIdLookup}));
@@ -267,6 +269,7 @@ export class ActivityConverter {
 
 		this._getMutEffect_id({json, cvState, effRef, effRefOut, effectIdLookup});
 		this._getMutEffect_riders({json, cvState, effRef, effRefOut, effectIdLookup});
+		this._getMutEffect_details({effRef, effRefOut});
 
 		const keysUnknown = Object.keys(effRef)
 			.filter(k => !this._ALLOWED_EFF_REF_KEYS.has(k));
@@ -318,6 +321,15 @@ export class ActivityConverter {
 		delete effRef.riders;
 	}
 
+	static _getMutEffect_details ({effRef, effRefOut}) {
+		this._ALLOWED_EFF_REF_KEYS
+			.forEach(prop => {
+				if (effRef[prop] == null) return;
+				effRefOut[prop] = effRef[prop];
+				delete effRef[prop];
+			});
+	}
+
 	/* -------------------------------------------- */
 
 	static _CONSUMPTION_RESOURCE_MAPPINGS = {
@@ -327,6 +339,7 @@ export class ActivityConverter {
 
 		// Monk
 		"phbmnkMonksFocus": "Focus Point",
+		"monks-focus": "Focus Point",
 
 		// Paladin
 		"phbpdnChannelDiv": "Channel Divinity",
