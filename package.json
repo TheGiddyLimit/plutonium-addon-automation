@@ -8,6 +8,7 @@
 	"scripts": {
 		"test:js": "eslint .",
 		"lint:js": "npm run test:js -- --fix",
+		"lint:js:fast": "lint-js-changed",
 		"lint:js:single": "eslint -- ",
 		"test:data": "node test/test-json.js && node test/test-data.js",
 		"lint:data": "node test/test-data.js --fix",
@@ -29,7 +30,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
-		"5etools-utils": "^0.16.0",
+		"5etools-utils": "^0.16.31",
 		"adm-zip-giddy": "^0.4.12",
 		"commander": "^9.1.0",
 		"eslint": "^10.0.1",
