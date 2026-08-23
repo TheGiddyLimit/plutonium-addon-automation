@@ -156,6 +156,8 @@
 
 				"duration": {"$ref": "#/$defs/foundryEffectDurationObject"},
 
+				"showIcon": {"type": "integer", "enum": [0, 2]},
+
 				"disabled": {"const": true},
 				"transfer": {"const": true}
 			},

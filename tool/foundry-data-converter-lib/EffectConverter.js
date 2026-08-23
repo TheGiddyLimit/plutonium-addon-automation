@@ -52,6 +52,8 @@ export class EffectConverter {
 		if (eff.name === json.name) delete eff.name;
 		if (!eff.description?.trim()) delete eff.description;
 
+		if (eff.showIcon === 1) delete eff.showIcon;
+
 		// Pull out changes, to be handled later
 		if (eff.system?.changes) eff.changes = eff.system.changes;
 		delete eff.system?.changes;
@@ -65,6 +67,7 @@ export class EffectConverter {
 			eff,
 			{
 				pathsRetain: [
+					"showIcon", // `0`, i.e. "Never", should be retained; default is `1` ("If Temporary")
 					"changes.[].mode", // `0`, i.e. "CUSTOM", should be retained for later conversion
 					"changes.[].value", // retain the value, as we will further process changes later
 				],
