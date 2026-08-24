@@ -29,6 +29,11 @@ class _ActivitiesPreProcessor {
 								idToCntUsed[activityId] = (idToCntUsed[activityId] || 0) + 1;
 							});
 					});
+
+				if (activity.activity?.id) {
+					const activityId = activity.activity.id;
+					idToCntUsed[activityId] = (idToCntUsed[activityId] || 0) + 1;
+				}
 			});
 
 		return idToCntUsed;
@@ -49,6 +54,10 @@ class _ActivitiesPreProcessor {
 						effRef.riders.activity = effRef.riders.activity
 							.map(id => ({foundryId: idToHumanId[id]}));
 					});
+
+				if (activity.activity?.id) {
+					activity.activity = {foundryId: idToHumanId[activity.activity.id]};
+				}
 
 				if (idToHumanId[activity._id]) activity.foundryId = idToHumanId[activity._id];
 			});
