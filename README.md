@@ -39,7 +39,6 @@ You can install the module using the following manifest URL:
 Besides *Plutonium* itself, *Plutonium Addon: Automation* **requires**:
 - [Dynamic Active Effects](https://foundryvtt.com/packages/dae) (DAE)
 - [Midi QoL](https://foundryvtt.com/packages/midi-qol)
-- [Times Up](https://foundryvtt.com/packages/times-up)
 
 Some specific automations require one or more additional modules:
 - [Active-Auras](https://foundryvtt.com/packages/ActiveAuras)

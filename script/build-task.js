@@ -91,10 +91,6 @@ export const buildTask = async (
 					id: "dae",
 					type: "module",
 				},
-				{
-					id: "times-up",
-					type: "module",
-				},
 			],
 			// See: https://github.com/foundryvtt/foundryvtt/issues/8649
 			recommends: [
