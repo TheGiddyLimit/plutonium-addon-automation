@@ -39,7 +39,7 @@ export class HtmlConverterPostProcessor {
 	/* -------------------------------------------- */
 
 	static _RE_EMBEDS_SPLIT = /\s*(@Embed\[[^\]]+](?:{[^}]+})?)\s*/gi;
-	static _RE_EMBEDS = /^@Embed\[(?<config>[^\]]+)](?:{(?<name>[^}]+)})?$/gi;
+	static _RE_EMBEDS = /^@Embed\[(?<config>[^\]]+)](?:{(?<name>[^}]+)})?$/i;
 
 	static _getMappedEmbedParts (
 		{
@@ -53,6 +53,7 @@ export class HtmlConverterPostProcessor {
 		},
 	) {
 		return strs
+			.filter(str => str.trim())
 			.map(str => {
 				const m = this._RE_EMBEDS.exec(str);
 				if (!m) return str;
