@@ -36,6 +36,11 @@ export class Converter {
 		const out = {
 			name,
 			source,
+			...(
+				json.system?.identifier
+					? {identifier: json.system?.identifier}
+					: {}
+			),
 			advancement,
 			activities,
 			effects,
