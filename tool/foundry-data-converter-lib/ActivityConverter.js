@@ -172,7 +172,7 @@ export class ActivityConverter {
 		if (activity.duration?.units === "inst") delete activity.duration.units;
 		if (activity.range?.units === "self") delete activity.range.units;
 
-		if (!activity.target?.template?.type) delete activity.target.template;
+		if (!activity.target?.template?.type) delete activity.target?.template;
 		delete activity.target?.prompt;
 
 		Object.entries(activity)
