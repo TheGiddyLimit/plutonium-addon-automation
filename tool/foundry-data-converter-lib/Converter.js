@@ -4,6 +4,7 @@ import {ImgConverter} from "./ImgConverter.js";
 import {ActivityConverter} from "./ActivityConverter.js";
 import {SystemConverter} from "./SystemConverter.js";
 import {Logger} from "./Logger.js";
+import {AdvancementConverter} from "./AdvancementConverter.js";
 
 export class Converter {
 	static getConverted (
@@ -30,10 +31,12 @@ export class Converter {
 		const {activities, effectIdLookup, subEntities: subEntitiesActivity} = ActivityConverter.getActivities({logger, json, getHtmlEntries, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
+		const advancement = AdvancementConverter.getAdvancement({json});
 
 		const out = {
 			name,
 			source,
+			advancement,
 			activities,
 			effects,
 			flags,

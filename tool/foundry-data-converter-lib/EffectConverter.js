@@ -13,11 +13,14 @@ export class EffectConverter {
 			foundryIdToEmbedEntries = null,
 		},
 	) {
-		if (!json.effects?.length) return;
+		if (!json.effects?.length) return undefined;
 
-		return json.effects
+		const out = json.effects
 			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}))
 			.filter(Boolean);
+
+		if (out.length) return out;
+		return undefined;
 	}
 
 	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
