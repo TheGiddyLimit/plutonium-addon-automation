@@ -334,8 +334,11 @@ export class ActivityConverter {
 
 	static _CONSUMPTION_RESOURCE_MAPPINGS = {
 		// -- Class
+		"bardic-inspiration": "Bardic Inspiration",
+
 		// Cleric
 		"phbclcChannelDiv": "Channel Divinity",
+		"channel-divinity": "Channel Divinity",
 
 		// Monk
 		"phbmnkMonksFocus": "Focus Point",
@@ -346,10 +349,18 @@ export class ActivityConverter {
 
 		// Sorcerer
 		"phbscrFontOfMagi": "Sorcery Point",
+		"font-of-magic": "Sorcery Point",
+		"innate-sorcery": "Innate Sorcery",
+
+		// Ranger
+		"favored-enemy": "Favored Enemy",
 
 		// -- Subclass
 		// Fighter
 		"phbftrCombatSupe": "Superiority Die",
+
+		// Rogue
+		"soul-trinkets": "Soul Trinket",
 	};
 
 	static _mutConsumption ({activity, foundryIdToConsumptionTarget}) {
