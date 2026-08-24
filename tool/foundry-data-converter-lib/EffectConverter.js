@@ -122,7 +122,7 @@ export class EffectConverter {
 				if (change.priority != null && change.priority === this._DEFAULT_PRIORITIES[mode]) delete change.priority;
 
 				return {
-					...ConverterUtil.getWithoutFalsy(change),
+					...ConverterUtil.getWithoutFalsy(change, {pathsRetain: ["value"]}),
 					mode,
 				};
 			});
