@@ -167,6 +167,7 @@ export class ActivityConverter {
 		this._getPreClean_mutSpell({json, activity});
 		this._getPreClean_mutSummon({json, activity});
 		this._getPreClean_mutTransform({json, activity});
+		this._getPreClean_mutForward({activity});
 
 		if (activity.duration?.units === "inst") delete activity.duration.units;
 		if (activity.range?.units === "self") delete activity.range.units;
@@ -241,6 +242,14 @@ export class ActivityConverter {
 			?.forEach(profile => {
 				delete profile._id;
 			});
+	}
+
+	static _getPreClean_mutForward ({activity}) {
+		if (activity.type !== "forward") return;
+		if (!activity.activity?.id) return;
+
+		activity.activity.foundryId = activity.activity.id;
+		delete activity.activity.id;
 	}
 
 	static _mutPostClean (act) {
