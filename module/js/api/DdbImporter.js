@@ -182,7 +182,6 @@ class DDBEffectHelper {
 		return 1 + Math.floor((level + 1) / 6);
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	static getConcentrationEffect (actor, _name = null) {
 		return actor?.effects.find((ef) => foundry.utils.getProperty(ef, "flags.midi-qol.isConcentration"));
 	}
