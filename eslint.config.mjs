@@ -62,7 +62,7 @@ export default [
 			],
 			"key-spacing": ["error", {"beforeColon": false, "afterColon": true}],
 			"keyword-spacing": ["error", {"before": true, "after": true}],
-			"new-cap": ["error", {"newIsCap": true, "capIsNew": false}],
+			"new-cap": ["error", {"newIsCap": true, "newIsCapExceptions": ["constructor"], "capIsNew": false}],
 			"new-parens": "error",
 			"no-array-constructor": "error",
 			"no-caller": "error",
