@@ -3,6 +3,8 @@ import {NameIdGenerator} from "./NameIdGenerator.js";
 import {HtmlConverterPostProcessor} from "./HtmlConverterPostProcess.js";
 
 class _ActivitiesPreProcessor {
+	static _RE_INLINE_ACTIVITY = /(?<prefix>\[\[(?:lookup\b|\/save\b)[^\]]*?\bactivity=)(?:(?<quote>["'])(?<idQuoted>[^"']+)\k<quote>|(?<idBare>[^\s\]]+))/gi;
+
 	static getActivities (json) {
 		const activities = foundry.utils.duplicate(Object.values(json.system.activities));
 
@@ -19,6 +21,9 @@ class _ActivitiesPreProcessor {
 
 	static _getIdToCnt ({activities}) {
 		const idToCntUsed = {};
+		const activityIds = new Set(activities.map(activity => activity._id));
+
+		const walker = MiscUtil.getWalker({isNoModification: true});
 
 		activities
 			.forEach(activity => {
@@ -34,6 +39,17 @@ class _ActivitiesPreProcessor {
 					const activityId = activity.activity.id;
 					idToCntUsed[activityId] = (idToCntUsed[activityId] || 0) + 1;
 				}
+
+				walker.walk(activity, {string: str => {
+					[...str.matchAll(this._RE_INLINE_ACTIVITY)]
+						.forEach(m => {
+							const activityId = m.groups.idQuoted || m.groups.idBare;
+
+							if (!activityIds.has(activityId)) throw new Error(`Could not find activity "${activityId}" referenced by inline tag "${m[0]}"!`);
+
+							idToCntUsed[activityId] = (idToCntUsed[activityId] || 0) + 1;
+						});
+				}});
 			});
 
 		return idToCntUsed;
@@ -60,6 +76,19 @@ class _ActivitiesPreProcessor {
 				}
 
 				if (idToHumanId[activity._id]) activity.foundryId = idToHumanId[activity._id];
+			});
+
+		const walker = MiscUtil.getWalker();
+		activities
+			.forEach((activity, ix) => {
+				activities[ix] = walker.walk(activity, {string: str => {
+					return str.replace(this._RE_INLINE_ACTIVITY, (...m) => {
+						const {prefix, quote, idQuoted, idBare} = m.at(-1);
+
+						const activityId = idQuoted || idBare;
+						return `${prefix}${quote || ""}${idToHumanId[activityId] || activityId}${quote || ""}`;
+					});
+				}});
 			});
 	}
 }
