@@ -1,5 +1,7 @@
 <form class="ve-flex-col ve-window ve-min-h-0 ve-h-100 ve-relative">
 	<div class="ve-py-1 ve-flex-v-center">
+		{{#if (not (or isMassError isMassWarning))}}<i class="ve-muted">Compatible setting values detected.</i>{{/if}}
+
 		<button
 			type="button"
 			class="ve-btn ve-btn-default ve-btn-xs ve-ml-auto"
