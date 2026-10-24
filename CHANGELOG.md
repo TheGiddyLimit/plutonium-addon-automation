@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0
+
+> 2026-10-24
+
+- Added support for v14 and dnd5e 6.x.y (and dropped support for previous versions)
+- Updated \"Cauldron of Plentiful Resources\" integration for compatibility with current prerelease
+- Fixed integrations failing to override SRD values in some cases
+- Fixed styling of "Configure Dependencies" menu
+
 ## 0.8.4
 
 > 2026-05-11
