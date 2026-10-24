@@ -30,6 +30,7 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 	static _MODULE_ID__MIDI_QOL = "midi-qol";
 	static _MODULE_ID__TOKEN_ACTION_HUD = "token-action-hud";
 	static _MODULE_ID__CHRIS_PREMADES = "chris-premades";
+	static _MODULE_ID__CAT = "cat";
 
 	static _SETTING_METAS = [
 		{
@@ -38,10 +39,9 @@ export class SettingsManager extends StartupHookMixin(class {}) {
 			expectedValue: "showOriginal",
 		},
 
-		// region chris-premades
+		// region cat
 		// Enable configuration, as the integration uses default values
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "permissionsConfigureItem", displaySettingName: "Medkit Configuration Permissions", expectedValue: 1},
-		{moduleId: this._MODULE_ID__CHRIS_PREMADES, isGmOnly: true, settingKey: "applyConditionChanges", displaySettingName: "Apply Midi-QOL Condition Effects", expectedValue: true},
+		{moduleId: this._MODULE_ID__CAT, isGmOnly: true, settingKey: "permissionsConfiguration", displaySettingName: "Medkit Configuration Permissions", expectedValue: 1},
 		// endregion
 	];
 

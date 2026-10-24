@@ -58,6 +58,7 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 			wanted: [
 				"autoanimations",
 				"babonus",
+				"cat",
 				"chris-premades",
 				"dae",
 				"enhanced-terrain-layer",

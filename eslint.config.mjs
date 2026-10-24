@@ -38,7 +38,7 @@ const FILES_NODE = [
 
 const GLOBALS_FOUNDRY_INTEGRATIONS = getEslintGlobals([
 	"AutomatedAnimations",
-	"chrisPremades",
+	"cat",
 	"ItemPiles",
 	"libWrapper",
 	"localforage",

@@ -51,7 +51,7 @@ If you import a document which requires one of these modules, you will be prompt
 ### Optional integrations
 
 *Plutonium Addon: Automation* can make use of data provided by other modules to provide better automations for more documents. An integration is available for:
-- [Chris's Premades](https://foundryvtt.com/packages/chris-premades) (recommended)
+- [Cauldron of Plentiful Resources](https://foundryvtt.com/packages/chris-premades) (CPR, recommended), using [Coven's Automation Toolkit](https://foundryvtt.com/packages/cat) (CAT)
 
 This integration is only active if the above module is installed and active, and can be disabled in *Plutonium Addon: Automation*'s settings.
 
