@@ -182,8 +182,8 @@ class DDBEffectHelper {
 		return 1 + Math.floor((level + 1) / 6);
 	}
 
-	static getConcentrationEffect (actor, _name = null) {
-		return actor?.effects.find((ef) => foundry.utils.getProperty(ef, "flags.midi-qol.isConcentration"));
+	static getConcentrationEffect (actor, name = null) {
+		return MidiQOL.getConcentrationEffect(actor, name);
 	}
 
 	/**

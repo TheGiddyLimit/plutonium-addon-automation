@@ -108,7 +108,7 @@ export class IntegrationBase {
 		this._unwantedFlagKeys.forEach(prop => delete json?.flags?.[prop]);
 
 		if (game.settings.get(SharedConsts.MODULE_ID, ModuleSettingConsts.DEV_IS_DBG)) {
-			const unknownFlags = new Set(Object.keys(json.flags)).difference(this._wantedFlagKeys);
+			const unknownFlags = Object.keys(json.flags || {}).filter(key => !this._wantedFlagKeys.has(key));
 			if (unknownFlags.length) console.debug(...Util.LGT, `JSON contained unknown flags:\n\t${unknownFlags.join("\n\t")}\n${JSON.stringify(json, null, "\t")}`);
 		}
 

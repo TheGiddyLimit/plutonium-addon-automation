@@ -2,29 +2,15 @@ import {IntegrationBase} from "./IntegrationBase.js";
 import {StartupHookMixin} from "../mixins/MixinStartupHooks.js";
 import {Util} from "../Util.js";
 
-class _ChrisPremadesNameMappings {
-	static _MAP_SPECIFIC = {
-		"classFeature": {
-			"Ki": "Ki Points",
-		},
-	};
+class _ChrisPremadesMappings {
+	static async pGetSourceType ({propJson, ent, propBase, base}) {
+		if (propBase === "system" && base?.sourceItem) return base.sourceItem;
+		if (propJson === "classFeature" && ent.className) return `class:${ent.className.slugify({strict: true})}`;
+		if (propJson !== "subclassFeature" || !ent.subclassShortName) return null;
 
-	static _MAP_GENERAL = {
-		"optionalfeature": ent => {
-			if (ent.featureType?.some(it => it === "MM")) return `Metamagic - ${ent.name}`;
-			if (ent.featureType?.some(it => it === "MV:B")) return `Maneuvers: ${ent.name}`;
-
-			return null;
-		},
-	};
-
-	static getMappedName ({propJson, ent}) {
-		if (this._MAP_SPECIFIC[propJson]?.[ent.name]) return this._MAP_SPECIFIC[propJson]?.[ent.name];
-		if (this._MAP_GENERAL[propJson]) {
-			const mapped = this._MAP_GENERAL[propJson](ent);
-			if (mapped) return mapped;
-		}
-		return ent.name;
+		const lookup = await DataUtil.class.pGetSubclassLookup(); // (Has its own caching)
+		const name = MiscUtil.get(lookup, ent.classSource, ent.className, ent.subclassSource, ent.subclassShortName, "name");
+		return name ? `subclass:${name.slugify({strict: true})}` : null;
 	}
 
 	/* -------------------------------------------- */
@@ -45,8 +31,10 @@ class _ChrisPremadesNameMappings {
 }
 
 /**
- * Designed for use with `chris-premades` v1.3.15
+ * Designed for use with `chris-premades` v2.1.3 (prerelease) and `cat` v0.1.3
  * See: https://github.com/chrisk123999/chris-premades
+ *
+ * (AKA "Cauldron of Plentiful Resources")
  *
  * @mixes {StartupHookMixin}
  */
@@ -131,28 +119,46 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 		const jsonBlocklist = this.constructor._entsJsonBlocklist[propJson];
 		if (jsonBlocklist?.length && jsonBlocklist.some(it => fnMatch(it))) return null;
 
-		// Create a stubbed `Item` subclass to pass to CPR's `itemUpdate`
-		const fauxName = _ChrisPremadesNameMappings.getMappedName({propJson, ent});
+		const sourceType = await _ChrisPremadesMappings.pGetSourceType({propJson, ent, propBase, base});
 		const rules = SourceUtil.isClassicSource(ent.source) ? "2014" : "2024";
-		const fauxObject = this._pGetExpandedAddonData_getFauxObject({name: fauxName, propBase, base, type: documentType, rules});
+		const fauxObject = this._pGetExpandedAddonData_getFauxObject({
+			name: ent.name,
+			propBase,
+			base,
+			type: documentType,
+			rules,
+			sourceType,
+		});
 		if (!fauxObject) return null;
 
 		const jsonEmpty = fauxObject.toObject(true);
 
-		const isUpdate = await chrisPremades.utils.itemUtils.itemUpdate(fauxObject);
-		if (!isUpdate) return null;
+		// Note that CAT v0.1.3 returns `undefined`, so we no longer have an easy check for "was there any update"
+		//   This is a (perhaps intended) regression from CPR v1.3.15.
+		// Rely on diff instead.
+		await cat.utils.automationUtils.updateItem(fauxObject, {skipEvent: true});
 
 		const jsonFilled = fauxObject.toObject(true);
 		if (!jsonFilled) return null;
 
-		if (foundry.utils.objectsEqual(jsonEmpty, jsonFilled)) return null;
+		if (foundry.utils.equals(jsonEmpty, jsonFilled)) return null;
 
 		const jsonDiff = foundry.utils.diffObject(jsonEmpty, jsonFilled);
 
-		return this._pGetExpandedAddonData_getPostProcessed(jsonDiff);
+		// Copy activities over wholesale, as diff is not useful
+		if (jsonFilled.system?.activities != null) MiscUtil.set(jsonDiff, "system", "activities", jsonFilled.system.activities);
+
+		return this._pGetExpandedAddonData_getPostProcessed({fauxItemJson: jsonDiff, fauxUuid: fauxObject.uuid});
 	}
 
-	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, type, rules}) {
+	/**
+	 * CAT matches by:
+	 * 	- `type`
+	 * 	- `system.identifier`
+	 * 	- `system.source.rules`
+	 * 	- its own `cat.automation.sourceType` flag (see e.g. `getAutomationByIdentifier`)
+	 */
+	_pGetExpandedAddonData_getFauxObject ({name, propBase, base = undefined, type, rules, sourceType}) {
 		try {
 			const id = foundry.utils.randomID();
 
@@ -172,6 +178,8 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 
 			// Ensure rules version is set, as CPR has different automations for 2014/2024 item sets
 			MiscUtil.set(docData, "system", "source", "rules", rules);
+			MiscUtil.set(docData, "system", "identifier", docData.system?.identifier || name.slugify({strict: true}));
+			if (sourceType) MiscUtil.set(docData, "flags", "cat", "automation", "sourceType", sourceType);
 
 			return new class extends Item {
 				get actor () { return null; }
@@ -182,26 +190,40 @@ export class IntegrationChrisPremades extends StartupHookMixin(IntegrationBase) 
 				// Avoid going to the database layer
 				async update (data, opts) {
 					this.updateSource(data, opts);
+					return this;
 				}
+
+				// CAT falls back on GM-delegation for updates if permissions are not available; ensure we stay local
+				testUserPermission () { return true; }
 			}(docData);
 		} catch (e) {
 			console.error(...Util.LGT, e);
 		}
 	}
 
-	_pGetExpandedAddonData_getPostProcessed (fauxItemJson) {
+	_pGetExpandedAddonData_getPostProcessed ({fauxItemJson, fauxUuid} = {}) {
 		fauxItemJson = foundry.utils.deepClone(fauxItemJson);
 
 		// Split out activities
 		// Note that we expect e.g. IDs to be preserved
 		// Examples:
 		//   - Animal Friendship (XPHB) -- effect should be correctly applied
-		if (Object.keys(fauxItemJson.system?.activities || {}).length) {
+		if (fauxItemJson.system?.activities != null) {
 			fauxItemJson.activities = Object.values(fauxItemJson.system.activities);
 		}
 		delete fauxItemJson.system?.activities;
 
-		fauxItemJson = _ChrisPremadesNameMappings.getMutMapAttributes(fauxItemJson);
+		// CAT may set effect origins based on our temporary `Item`.
+		//   Wipe these, such that Plutonium's importer can set them instead.
+		if (fauxUuid) {
+			(fauxItemJson.effects || [])
+				.forEach(effect => {
+					if (effect.origin === fauxUuid) effect.origin = null;
+					if (effect.system?.origin?.item === fauxUuid) delete effect.system.origin.item;
+				});
+		}
+
+		fauxItemJson = _ChrisPremadesMappings.getMutMapAttributes(fauxItemJson);
 
 		return this._getPostProcessed({json: fauxItemJson});
 	}
