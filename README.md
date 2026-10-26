@@ -40,9 +40,6 @@ Besides *Plutonium* itself, *Plutonium Addon: Automation* **requires**:
 - [Dynamic Active Effects](https://foundryvtt.com/packages/dae) (DAE)
 - [Midi QoL](https://foundryvtt.com/packages/midi-qol)
 
-Some specific automations require one or more additional modules:
-- [Active-Auras](https://foundryvtt.com/packages/ActiveAuras)
-
 If you import a document which requires one of these modules, you will be prompted to install/activate it. The automation is highly unlikely to function as intended if you use it before activating the module.
 
 > [!CAUTION]
