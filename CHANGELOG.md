@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.1
+
+> 2026-10-26
+
+- Removed references to, and recommended install ref of, ActiveAuras (no longer available in v14)
+
 ## 0.9.0
 
 > 2026-10-24
