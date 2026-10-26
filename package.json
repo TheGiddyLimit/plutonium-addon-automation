@@ -29,7 +29,7 @@
 		"version": "npm run build:changelog && git add CHANGELOG.md"
 	},
 	"devDependencies": {
-		"5etools-utils": "^0.17.2",
+		"5etools-utils": "^0.17.24",
 		"adm-zip-giddy": "^0.4.12",
 		"commander": "^9.1.0",
 		"express": "^4.17.3",
