@@ -143,10 +143,6 @@ export class EffectConverter {
 		"none",
 		// endregion
 
-		// region ActiveAuras
-		"None",
-		// endregion
-
 		// region dnd5e-helpers
 		"Ignore",
 		// endregion
@@ -247,7 +243,6 @@ export class EffectConverter {
 	static _getRequiresModuleId (flagKey) {
 		switch (flagKey) {
 			// If the key matches the module's ID
-			case "ActiveAuras":
 			case "dnd5e-helpers":
 				return flagKey;
 

@@ -74,19 +74,9 @@
 						"seconds": 3600
 					},
 					"flags": {
-						"ActiveAuras": {
-							"isAura": true,
-							"aura": "All",
-							"radius": 10,
-							"height": true,
-							"displayTemp": true
-						},
 						"dae": {
 							"selfTargetAlways": true
 						}
-					},
-					"requires": {
-						"ActiveAuras": true
 					}
 				}
 			],
