@@ -148,5 +148,10 @@
 		"ver": "0.9.0",
 		"date": "2026-10-24",
 		"txt": "- Added support for v14 and dnd5e 6.x.y (and dropped support for previous versions)\n- Updated \\\"Cauldron of Plentiful Resources\\\" integration for compatibility with current prerelease\n- Fixed integrations failing to override SRD values in some cases\n- Fixed styling of \"Configure Dependencies\" menu"
+	},
+	{
+		"ver": "0.9.1",
+		"date": "2026-10-26",
+		"txt": "- Removed references to, and recommended install ref of, ActiveAuras (no longer available in v14)"
 	}
 ]
