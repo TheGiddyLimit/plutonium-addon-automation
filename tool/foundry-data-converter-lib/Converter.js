@@ -5,6 +5,7 @@ import {ActivityConverter} from "./ActivityConverter.js";
 import {SystemConverter} from "./SystemConverter.js";
 import {Logger} from "./Logger.js";
 import {AdvancementConverter} from "./AdvancementConverter.js";
+import {NameIdGenerator} from "./NameIdGenerator.js";
 
 export class Converter {
 	static getConverted (
@@ -28,8 +29,9 @@ export class Converter {
 		const name = json.name;
 		source ||= this._getSource(json);
 
-		const {activities, effectIdLookup, subEntities: subEntitiesActivity} = ActivityConverter.getActivities({logger, json, getHtmlEntries, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
-		const effects = EffectConverter.getEffects({json, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
+		const nameIdGeneratorEffects = new NameIdGenerator({name});
+		const {activities, effectIdLookup} = ActivityConverter.getActivities({logger, json, nameIdGeneratorEffects, getHtmlEntries, foundryIdToConsumptionTarget, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
+		const effects = EffectConverter.getEffects({json, effectIdLookup, nameIdGeneratorEffects, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries});
 		const {flags, script} = FlagConverter.getFlags({logger, json, name, source, scriptHeader, getMacroFilename});
 		const advancement = AdvancementConverter.getAdvancement({json});
 
@@ -45,16 +47,6 @@ export class Converter {
 			activities,
 			effects,
 			flags,
-			subEntities: subEntitiesActivity
-				? [
-					subEntitiesActivity,
-				]
-					.reduce((accum, val) => {
-						Object.entries(val)
-							.forEach(([prop, arr]) => (accum[prop] ||= []).push(...arr));
-						return accum;
-					}, {})
-				: undefined,
 		};
 		if (script) out.itemMacro = {file: script.filename};
 

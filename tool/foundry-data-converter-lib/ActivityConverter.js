@@ -8,20 +8,30 @@ class _ActivitiesPreProcessor {
 	static getActivities (json) {
 		const activities = foundry.utils.duplicate(Object.values(json.system.activities));
 
-		const idToCntUsed = this._getIdToCnt({activities});
+		const idToCntUsed = this._getIdToCnt({effects: json.effects, activities});
 
 		if (!Object.keys(idToCntUsed).length) return activities;
 
 		const nameIdGenerator = new NameIdGenerator({name: json.name});
 
-		this._mutIds({activities, idToCntUsed, nameIdGenerator});
+		this._mutIds({activities, effects: json.effects, idToCntUsed, nameIdGenerator});
 
 		return activities;
 	}
 
-	static _getIdToCnt ({activities}) {
+	static _getIdToCnt ({effects, activities}) {
 		const idToCntUsed = {};
 		const activityIds = new Set(activities.map(activity => activity._id));
+
+		(effects || [])
+			.forEach(effect => (
+				effect.system?.rider?.activities
+					?.forEach(id => {
+						if (!activityIds.has(id)) throw new Error(`Could not find rider activity "${id}" referenced by effect "${effect.name}"!`);
+
+						idToCntUsed[id] = (idToCntUsed[id] || 0) + 1;
+					})
+			));
 
 		const walker = MiscUtil.getWalker({isNoModification: true});
 
@@ -55,11 +65,18 @@ class _ActivitiesPreProcessor {
 		return idToCntUsed;
 	}
 
-	static _mutIds ({activities, idToCntUsed, nameIdGenerator}) {
+	static _mutIds ({effects, activities, idToCntUsed, nameIdGenerator}) {
 		const idToHumanId = Object.fromEntries(
 			Object.keys(idToCntUsed)
 				.map(id => [id, nameIdGenerator.getNextId()]),
 		);
+
+		(effects || [])
+			.forEach(effect => {
+				if (!effect.system?.rider?.activities?.length) return;
+
+				effect.system.rider.activities = effect.system.rider.activities.map(id => ({foundryId: idToHumanId[id]}));
+			});
 
 		activities
 			.forEach(activity => {
@@ -95,24 +112,18 @@ class _ActivitiesPreProcessor {
 
 export class ActivityConverter {
 	static _ActivityConverterState = class {
-		constructor ({name}) {
-			this._nameIdGeneratorEffects = new NameIdGenerator({name});
-			this._subEntities = {};
+		constructor ({nameIdGeneratorEffects}) {
+			this._nameIdGeneratorEffects = nameIdGeneratorEffects;
 		}
 
 		getNextEffectId () { return this._nameIdGeneratorEffects.getNextId(); }
-
-		addSubEntity (prop, subEntity) {
-			(this._subEntities[prop] ||= []).push(subEntity);
-		}
-
-		getSubEntities () { return Object.keys(this._subEntities).length ? this._subEntities : undefined; }
 	};
 
 	static getActivities (
 		{
 			logger,
 			json,
+			nameIdGeneratorEffects,
 			getHtmlEntries = null,
 			foundryIdToConsumptionTarget = null,
 			foundryIdToSpellInfo = null,
@@ -122,6 +133,7 @@ export class ActivityConverter {
 		},
 	) {
 		if (!Object.keys(json.system?.activities || {}).length) {
+			if (json.effects?.some(effect => effect.system?.rider?.activities?.length)) throw new Error(`Item "${json.name}" has rider activity references but no activities!`);
 			delete json.system?.activities;
 			return {};
 		}
@@ -129,7 +141,7 @@ export class ActivityConverter {
 		const name = json.name;
 		if (!name) throw new Error(`Item "${json._id}" did not have a name!`);
 
-		const cvState = new this._ActivityConverterState({name});
+		const cvState = new this._ActivityConverterState({nameIdGeneratorEffects});
 		const effectIdLookup = {};
 
 		const activitiesPreProcessedIds = _ActivitiesPreProcessor.getActivities(json);
@@ -163,7 +175,6 @@ export class ActivityConverter {
 		return {
 			activities,
 			effectIdLookup,
-			subEntities: cvState.getSubEntities(),
 		};
 	}
 
@@ -185,7 +196,7 @@ export class ActivityConverter {
 		activity = this._getPreClean({logger, json, activity});
 		if (!activity) return null;
 
-		this._mutEffects({json, cvState, activity, effectIdLookup});
+		this._mutEffects({json, cvState, activity, effectIdLookup, foundryIdToItemInfo});
 
 		this._mutConsumption({activity, foundryIdToConsumptionTarget});
 
@@ -303,12 +314,12 @@ export class ActivityConverter {
 
 	/* -------------------------------------------- */
 
-	static _mutEffects ({json, cvState, activity, effectIdLookup}) {
+	static _mutEffects ({json, cvState, activity, effectIdLookup, foundryIdToItemInfo}) {
 		delete activity.appliedEffects; // Derived duplicate of `effects.[]._id`
 
 		if (!activity.effects?.length) return;
 
-		activity.effects = activity.effects.map(effRef => this._getMutEffect({json, cvState, effRef, effectIdLookup}));
+		activity.effects = activity.effects.map(effRef => this._getMutEffect({json, cvState, effRef, effectIdLookup, foundryIdToItemInfo}));
 
 		return effectIdLookup;
 	}
@@ -318,11 +329,11 @@ export class ActivityConverter {
 		"onSave",
 	]);
 
-	static _getMutEffect ({json, cvState, effRef, effectIdLookup}) {
+	static _getMutEffect ({json, cvState, effRef, effectIdLookup, foundryIdToItemInfo}) {
 		const effRefOut = {};
 
 		this._getMutEffect_id({json, cvState, effRef, effRefOut, effectIdLookup});
-		this._getMutEffect_riders({json, cvState, effRef, effRefOut, effectIdLookup});
+		this._getMutEffect_riders({cvState, effRef, effRefOut, effectIdLookup, foundryIdToItemInfo});
 		this._getMutEffect_details({effRef, effRefOut});
 
 		const keysUnknown = Object.keys(effRef)
@@ -343,7 +354,7 @@ export class ActivityConverter {
 		delete effRef._id;
 	}
 
-	static _getMutEffect_riders ({json, cvState, effRef, effRefOut, effectIdLookup}) {
+	static _getMutEffect_riders ({cvState, effRef, effRefOut, effectIdLookup, foundryIdToItemInfo}) {
 		if (effRef.riders?.activity?.length) {
 			// Activity IDs are pre-mapped, therefore just copy
 			foundry.utils.setProperty(effRefOut, "riders.activity", effRef.riders.activity);
@@ -353,8 +364,7 @@ export class ActivityConverter {
 		if (effRef.riders?.effect?.length) {
 			const effectIdsMapped = effRef.riders.effect
 				.map(id => {
-					if (effectIdLookup[id]) return effectIdLookup[id];
-					return {foundryId: effectIdLookup[id] = cvState.getNextEffectId()};
+					return {foundryId: effectIdLookup[id] ||= cvState.getNextEffectId()};
 				});
 			foundry.utils.setProperty(effRefOut, "riders.effect", effectIdsMapped);
 			delete effRef.riders.effect;
@@ -362,12 +372,7 @@ export class ActivityConverter {
 
 		if (effRef.riders?.item?.length) {
 			const itemIdsMapped = effRef.riders.item
-				.map(uuid => {
-					// Migrate manually; placeholder value to trigger schema error
-					const foundryId = cvState.getNextEffectId();
-					cvState.addSubEntity("item", {foundryId, __uuid: uuid});
-					return {foundryId};
-				});
+				.map(uuid => foundryIdToItemInfo?.[uuid] ? `@item[${foundryIdToItemInfo[uuid].uid}]` : uuid);
 			foundry.utils.setProperty(effRefOut, "riders.item", itemIdsMapped);
 			delete effRef.riders.item;
 		}

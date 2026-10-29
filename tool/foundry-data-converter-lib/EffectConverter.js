@@ -5,7 +5,8 @@ export class EffectConverter {
 	static getEffects (
 		{
 			json,
-			effectIdLookup,
+			effectIdLookup = {},
+			nameIdGeneratorEffects,
 			getHtmlEntries = null,
 			foundryIdToSpellInfo = null,
 			foundryIdToMonsterInfo = null,
@@ -15,12 +16,32 @@ export class EffectConverter {
 	) {
 		if (!json.effects?.length) return undefined;
 
+		this._mutRiderEffectIds({json, effectIdLookup, nameIdGeneratorEffects});
+
 		const out = json.effects
 			.map(eff => this._getEffect({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}))
 			.filter(Boolean);
 
 		if (out.length) return out;
 		return undefined;
+	}
+
+	static _mutRiderEffectIds ({json, effectIdLookup, nameIdGeneratorEffects}) {
+		(json.effects || [])
+			.forEach(effect => {
+				if (!effect.system?.rider?.effects?.length) return;
+
+				effect.system.rider.effects = effect.system.rider.effects
+					.map(uuid => {
+						const mId = /^\.ActiveEffect\.(?<id>[^.]+)$/.exec(uuid);
+						if (!mId) return uuid; // Preserve external UUIDs; only local IDs are remapped
+
+						const id = mId.groups.id;
+						if (!json.effects.some(it => it._id === id)) throw new Error(`Could not find rider effect "${id}" referenced by effect "${effect.name}"!`);
+
+						return {foundryId: effectIdLookup[id] ||= nameIdGeneratorEffects.getNextId()};
+					});
+			});
 	}
 
 	static _getEffect ({json, eff, effectIdLookup, getHtmlEntries, foundryIdToSpellInfo, foundryIdToMonsterInfo, foundryIdToItemInfo, foundryIdToEmbedEntries}) {
@@ -33,7 +54,13 @@ export class EffectConverter {
 		this._mutFlags(eff);
 		this._mutDuration(eff);
 
-		if (!eff.foundryId && !eff.changes?.length && !Object.keys(eff.flags || {}).length) return null;
+		if (!eff.foundryId && !eff.changes?.length && !Object.keys(eff.flags || {}).length && !eff.system?.rider) return null;
+
+		if (eff.system?.rider?.items?.length) {
+			eff.system.rider.items = eff.system.rider.items.map(uuid => foundryIdToItemInfo?.[uuid]
+				? `@item[${foundryIdToItemInfo[uuid].uid}]`
+				: uuid);
+		}
 
 		this._mutRequires(eff);
 
@@ -61,8 +88,15 @@ export class EffectConverter {
 		if (eff.system?.changes) eff.changes = eff.system.changes;
 		delete eff.system?.changes;
 
+		const rider = ConverterUtil.getWithoutFalsy(eff.system?.rider);
+		delete eff.system?.rider;
+		if (rider) {
+			if (eff.type !== "enchantment" || Object.keys(rider).some(k => !["activities", "effects", "items"].includes(k))) throw new Error(`Unhandled rider data for effect "${eff.name}" in document "${json.name}"!`);
+		}
+
 		if (Object.keys(eff.system || {}).length) throw new Error(`Could not remove "effect.system" for ${JSON.stringify(eff)} in document "${json.name}"; had values!`);
 		delete eff.system;
+		if (rider) eff.system = {rider};
 
 		this._getPreClean_mutType({json, eff});
 
